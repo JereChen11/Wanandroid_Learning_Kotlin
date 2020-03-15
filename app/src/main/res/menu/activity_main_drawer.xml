@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_complete_project"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/menu_complete_project" />
+        <item
+            android:id="@+id/nav_we_chat"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/menu_we_chart" />
+        <item
+            android:id="@+id/nav_knowledge_system"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/menu_knowledge_system" />
+    </group>
+
+    <item android:title="@string/other_cn">
+        <menu>
+            <item
+                android:id="@+id/nav_about_me"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/menu_about_me" />
+            <item
+                android:id="@+id/nav_tutorial"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/menu_tutorial" />
+        </menu>
+    </item>
+
+</menu>
