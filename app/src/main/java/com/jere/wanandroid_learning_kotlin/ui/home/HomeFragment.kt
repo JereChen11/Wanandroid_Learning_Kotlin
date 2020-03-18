@@ -146,9 +146,9 @@ class HomeFragment : Fragment() {
         }
 
         class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val titleTv: TextView = itemView.findViewById(R.id.home_article_list_item_title_tv)
-            val authorTv: TextView = itemView.findViewById(R.id.home_article_list_item_author_tv)
-            val dateTv: TextView = itemView.findViewById(R.id.home_article_list_item_shared_date_tv)
+            val titleTv: TextView = itemView.findViewById(R.id.article_list_item_title_tv)
+            val authorTv: TextView = itemView.findViewById(R.id.article_list_item_author_tv)
+            val dateTv: TextView = itemView.findViewById(R.id.article_list_item_shared_date_tv)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

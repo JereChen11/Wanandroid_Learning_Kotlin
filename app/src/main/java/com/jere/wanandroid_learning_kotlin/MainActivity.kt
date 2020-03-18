@@ -18,7 +18,7 @@ import com.google.android.material.navigation.NavigationView
 import com.jere.wanandroid_learning_kotlin.ui.complete_project.CompleteProjectFragment
 import com.jere.wanandroid_learning_kotlin.ui.home.HomeFragment
 import com.jere.wanandroid_learning_kotlin.ui.knowledge_system.KnowledgeSystemFragment
-import com.jere.wanandroid_learning_kotlin.ui.wechart.WeChartFragment
+import com.jere.wanandroid_learning_kotlin.ui.wechat.WeChatFragment
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 false,
                 "completeProject"
             )
-            R.id.we_chart_btn -> addFragment(WeChartFragment(), false, "weChart")
+            R.id.we_chart_btn -> addFragment(WeChatFragment(), false, "weChart")
             R.id.knowledge_system_btn -> addFragment(
                 KnowledgeSystemFragment(),
                 false,

@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/nav_we_chat"
-        android:name="com.jere.wanandroid_learning_kotlin.ui.wechart.WeChartFragment"
+        android:name="com.jere.wanandroid_learning_kotlin.ui.wechat.WeChatFragment"
         android:label="@string/menu_we_chart"
-        tools:layout="@layout/fragment_we_chart" />
+        tools:layout="@layout/fragment_we_chat" />
 
     <fragment
         android:id="@+id/nav_knowledge_system"

@@ -27,5 +27,13 @@ interface ApiService {
         @Query("cid") cid: Int
     ): Call<ResponseBody>
 
+    @GET("wxarticle/chapters/json")
+    fun getWeChatBloggerList(): Call<ResponseBody>
+
+    @GET("/wxarticle/list/{authorId}/{pageNumber}/json")
+    fun getWeChatArticleList(
+        @Path("authorId") authorId: Int,
+        @Path("pageNumber") pageNumber: Int
+    ): Call<ResponseBody>
 
 }
