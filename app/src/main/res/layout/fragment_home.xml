@@ -17,10 +17,70 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/homeRecyclerView"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_banner_cl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" />
+        android:layout_height="200dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/home_banner_vp2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/dark_gray"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/indicate_container_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/home_banner_vp2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <View
+                android:id="@+id/first_indicate_view"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:background="@drawable/banner_navigation_point_highlight_shape" />
+
+            <View
+                android:id="@+id/second_indicate_view"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/banner_navigation_point_gray_shape" />
+
+            <View
+                android:id="@+id/third_indicate_view"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/banner_navigation_point_gray_shape" />
+
+            <View
+                android:id="@+id/fourth_indicate_view"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/banner_navigation_point_gray_shape" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/home_article_list_recycle_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/home_banner_cl" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

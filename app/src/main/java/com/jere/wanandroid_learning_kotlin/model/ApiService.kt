@@ -12,7 +12,10 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("banner/json")
-    fun getHomeBannerList() : Call<ResponseBody>
+    fun getHomeBannerList(): Call<ResponseBody>
+
+    @GET("article/list/{pageNumber}/json")
+    fun getHomeArticleList(@Path("pageNumber") pageNumber: Int): Call<ResponseBody>
 
 
     @GET("project/tree/json")
