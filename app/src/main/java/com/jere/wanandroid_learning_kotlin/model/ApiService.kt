@@ -36,4 +36,9 @@ interface ApiService {
         @Path("pageNumber") pageNumber: Int
     ): Call<ResponseBody>
 
+    @GET("tree/json")
+    fun getKnowledgeSystemCategory(): Call<ResponseBody>
+
+    @GET("article/list/0/json?")
+    fun getKnowledgeSystemArticleList(@Query("cid") cid: Int): Call<ResponseBody>
 }
