@@ -1,12 +1,12 @@
-package com.jere.wanandroid_learning_kotlin.ui.wechat
+package com.jere.wanandroid_learning_kotlin.viewmodel.wechat
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
-import com.jere.wanandroid_learning_kotlin.model.AbstractRetrofitCallback
-import com.jere.wanandroid_learning_kotlin.model.ApiWrapper2
+import com.jere.wanandroid_learning_kotlin.model.api.AbstractRetrofitCallback
+import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
 import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatBloggerList
 import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatArticleList
 
@@ -26,7 +26,7 @@ class WeChatViewModel : ViewModel() {
         MutableLiveData()
 
     fun setWeChatBloggerListLd() {
-        ApiWrapper2.getInstance()?.getWeChatBloggerList()
+        ApiWrapper.getInstance()?.getWeChatBloggerList()
             ?.enqueue(object : AbstractRetrofitCallback() {
                 override fun getSuccessful(responseBody: String) {
                     val gson = Gson()
@@ -43,7 +43,7 @@ class WeChatViewModel : ViewModel() {
     }
 
     fun setWeChatArticleListLd(authorId: Int, pageNumber: Int) {
-        ApiWrapper2.getInstance()?.getWeChatArticleList(authorId, pageNumber)
+        ApiWrapper.getInstance()?.getWeChatArticleList(authorId, pageNumber)
             ?.enqueue(object : AbstractRetrofitCallback() {
                 override fun getSuccessful(responseBody: String) {
                     val gson = Gson()

@@ -1,11 +1,11 @@
-package com.jere.wanandroid_learning_kotlin.ui.home
+package com.jere.wanandroid_learning_kotlin.viewmodel.home
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
-import com.jere.wanandroid_learning_kotlin.model.AbstractRetrofitCallback
-import com.jere.wanandroid_learning_kotlin.model.ApiWrapper2
+import com.jere.wanandroid_learning_kotlin.model.api.AbstractRetrofitCallback
+import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
 import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeArticleListBean
 import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeBannerListBean
 
@@ -21,7 +21,7 @@ class HomeViewModel : ViewModel() {
         MutableLiveData()
 
     fun setHomeBannerList() {
-        ApiWrapper2.getInstance()?.getHomeBannerList()
+        ApiWrapper.getInstance()?.getHomeBannerList()
             ?.enqueue(object : AbstractRetrofitCallback() {
                 override fun getSuccessful(responseBody: String) {
                     val gson = Gson()
@@ -38,7 +38,7 @@ class HomeViewModel : ViewModel() {
     }
 
     fun setHomeArticleList(pageNumber: Int) {
-        ApiWrapper2.getInstance()?.getHomeArticleList(pageNumber)
+        ApiWrapper.getInstance()?.getHomeArticleList(pageNumber)
             ?.enqueue(object : AbstractRetrofitCallback() {
                 override fun getSuccessful(responseBody: String) {
                     val gson = Gson()

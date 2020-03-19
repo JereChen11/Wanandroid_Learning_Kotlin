@@ -1,4 +1,4 @@
-package com.jere.wanandroid_learning_kotlin
+package com.jere.wanandroid_learning_kotlin.view
 
 import android.os.Bundle
 import android.view.Menu
@@ -15,10 +15,11 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.jere.wanandroid_learning_kotlin.ui.complete_project.CompleteProjectFragment
-import com.jere.wanandroid_learning_kotlin.ui.home.HomeFragment
-import com.jere.wanandroid_learning_kotlin.ui.knowledge_system.KnowledgeSystemFragment
-import com.jere.wanandroid_learning_kotlin.ui.wechat.WeChatFragment
+import com.jere.wanandroid_learning_kotlin.R
+import com.jere.wanandroid_learning_kotlin.view.completeproject.CompleteProjectFragment
+import com.jere.wanandroid_learning_kotlin.view.home.HomeFragment
+import com.jere.wanandroid_learning_kotlin.view.knowledgesystem.KnowledgeSystemFragment
+import com.jere.wanandroid_learning_kotlin.view.wechat.WeChatFragment
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
@@ -62,8 +63,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_complete_project, R.id.nav_we_chat,
-                R.id.nav_knowledge_system, R.id.nav_about_me, R.id.nav_tutorial
+                R.id.nav_home,
+                R.id.nav_complete_project,
+                R.id.nav_we_chat,
+                R.id.nav_knowledge_system,
+                R.id.nav_about_me
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

@@ -1,4 +1,4 @@
-package com.jere.wanandroid_learning_kotlin.ui.wechat
+package com.jere.wanandroid_learning_kotlin.view.wechat
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,8 +14,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatArticleList
 import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatBloggerList
-import com.jere.wanandroid_learning_kotlin.ui.complete_project.ArticleDetailWebViewActivity
+import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.utils.RecyclerItemClickListener
+import com.jere.wanandroid_learning_kotlin.viewmodel.wechat.WeChatViewModel
 
 class WeChatFragment : Fragment() {
 

@@ -1,4 +1,4 @@
-package com.jere.wanandroid_learning_kotlin.model.completeproject
+package com.jere.wanandroid_learning_kotlin.model.completeprojectbeanfiles
 
 /**
  * @author jere

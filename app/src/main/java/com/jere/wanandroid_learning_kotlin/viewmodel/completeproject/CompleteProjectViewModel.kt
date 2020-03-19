@@ -1,14 +1,14 @@
-package com.jere.wanandroid_learning_kotlin.ui.complete_project
+package com.jere.wanandroid_learning_kotlin.viewmodel.completeproject
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
-import com.jere.wanandroid_learning_kotlin.model.AbstractRetrofitCallback
-import com.jere.wanandroid_learning_kotlin.model.ApiService
-import com.jere.wanandroid_learning_kotlin.model.ApiWrapper2
-import com.jere.wanandroid_learning_kotlin.model.completeproject.ProjectItemList
-import com.jere.wanandroid_learning_kotlin.model.completeproject.ProjectTreeItem
+import com.jere.wanandroid_learning_kotlin.model.api.AbstractRetrofitCallback
+import com.jere.wanandroid_learning_kotlin.model.api.ApiService
+import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
+import com.jere.wanandroid_learning_kotlin.model.completeprojectbeanfiles.ProjectItemList
+import com.jere.wanandroid_learning_kotlin.model.completeprojectbeanfiles.ProjectTreeItem
 
 class CompleteProjectViewModel : ViewModel() {
 
@@ -20,7 +20,7 @@ class CompleteProjectViewModel : ViewModel() {
     val projectItemListLd: MutableLiveData<ArrayList<ProjectItemList.DataBean.DatasBean>> = MutableLiveData()
 
     fun setProjectTreeItems() {
-        val apiService: ApiService? = ApiWrapper2.getInstance()
+        val apiService: ApiService? = ApiWrapper.getInstance()
         apiService?.getProjectTreeItems()?.enqueue(object : AbstractRetrofitCallback() {
             override fun getSuccessful(responseBody: String) {
                 val gson = Gson()
@@ -37,7 +37,7 @@ class CompleteProjectViewModel : ViewModel() {
     }
 
     fun setProjectItemList(pageNumber: Int, cid: Int) {
-        val apiService: ApiService? = ApiWrapper2.getInstance()
+        val apiService: ApiService? = ApiWrapper.getInstance()
         apiService?.getProjectItemList(pageNumber, cid)
             ?.enqueue(object : AbstractRetrofitCallback() {
                 override fun getSuccessful(responseBody: String) {

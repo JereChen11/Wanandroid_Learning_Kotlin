@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.complete_project.ArticleDetailWebViewActivity">
+    tools:context=".view.ArticleDetailWebViewActivity">
 
     <WebView
         android:id="@+id/article_detail_web_view"

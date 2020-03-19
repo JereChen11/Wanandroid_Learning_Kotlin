@@ -1,11 +1,11 @@
-package com.jere.wanandroid_learning_kotlin.ui.knowledge_system
+package com.jere.wanandroid_learning_kotlin.viewmodel.knowledgesystem
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
-import com.jere.wanandroid_learning_kotlin.model.AbstractRetrofitCallback
-import com.jere.wanandroid_learning_kotlin.model.ApiWrapper2
+import com.jere.wanandroid_learning_kotlin.model.api.AbstractRetrofitCallback
+import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
 import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemArticleListBean
 import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemCategoryBean
 
@@ -21,7 +21,7 @@ class KnowledgeSystemViewModel : ViewModel() {
         MutableLiveData()
 
     fun setKnowledgeSystemCategoryLd() {
-        ApiWrapper2.getInstance()?.getKnowledgeSystemCategory()
+        ApiWrapper.getInstance()?.getKnowledgeSystemCategory()
             ?.enqueue(object : AbstractRetrofitCallback() {
                 override fun getSuccessful(responseBody: String) {
                     val gson = Gson()
@@ -38,7 +38,7 @@ class KnowledgeSystemViewModel : ViewModel() {
     }
 
     fun setKnowledgeSystemArticleListLd(cid: Int) {
-        ApiWrapper2.getInstance()?.getKnowledgeSystemArticleList(cid)
+        ApiWrapper.getInstance()?.getKnowledgeSystemArticleList(cid)
             ?.enqueue(object : AbstractRetrofitCallback() {
                 override fun getSuccessful(responseBody: String) {
                     val gson = Gson()

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.knowledge_system.KnowledgeSystemArticleListActivity">
+    tools:context=".view.knowledgesystem.KnowledgeSystemArticleListActivity">
 
     <TextView
         android:id="@+id/knowledge_system_article_list_title_tv"

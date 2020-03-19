@@ -1,4 +1,4 @@
-package com.jere.wanandroid_learning_kotlin.ui.complete_project
+package com.jere.wanandroid_learning_kotlin.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -1,11 +1,11 @@
-package com.jere.wanandroid_learning_kotlin.model
+package com.jere.wanandroid_learning_kotlin.model.api
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-object ApiWrapper2 {
+object ApiWrapper {
 
     private var instance: ApiService? = null
 

@@ -1,4 +1,4 @@
-package com.jere.wanandroid_learning_kotlin.ui.complete_project
+package com.jere.wanandroid_learning_kotlin.view.completeproject
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,8 +13,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jere.wanandroid_learning_kotlin.R
-import com.jere.wanandroid_learning_kotlin.model.completeproject.ProjectItemList
+import com.jere.wanandroid_learning_kotlin.model.completeprojectbeanfiles.ProjectItemList
 import com.jere.wanandroid_learning_kotlin.utils.RecyclerItemClickListener
+import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
+import com.jere.wanandroid_learning_kotlin.viewmodel.completeproject.CompleteProjectViewModel
 import java.lang.ref.WeakReference
 
 class ProjectItemListActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.jere.wanandroid_learning_kotlin.ui.home
+package com.jere.wanandroid_learning_kotlin.view.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,8 +16,9 @@ import com.bumptech.glide.Glide
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeArticleListBean
 import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeBannerListBean
-import com.jere.wanandroid_learning_kotlin.ui.complete_project.ArticleDetailWebViewActivity
+import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.utils.RecyclerItemClickListener
+import com.jere.wanandroid_learning_kotlin.viewmodel.home.HomeViewModel
 import java.lang.ref.WeakReference
 
 

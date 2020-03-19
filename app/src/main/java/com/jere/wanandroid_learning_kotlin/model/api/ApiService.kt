@@ -1,4 +1,4 @@
-package com.jere.wanandroid_learning_kotlin.model
+package com.jere.wanandroid_learning_kotlin.model.api
 
 import okhttp3.ResponseBody
 import retrofit2.Call

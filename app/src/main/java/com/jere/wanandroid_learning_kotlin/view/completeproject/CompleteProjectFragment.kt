@@ -1,4 +1,4 @@
-package com.jere.wanandroid_learning_kotlin.ui.complete_project
+package com.jere.wanandroid_learning_kotlin.view.completeproject
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,8 +13,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jere.wanandroid_learning_kotlin.R
-import com.jere.wanandroid_learning_kotlin.model.completeproject.ProjectTreeItem
+import com.jere.wanandroid_learning_kotlin.model.completeprojectbeanfiles.ProjectTreeItem
 import com.jere.wanandroid_learning_kotlin.utils.RecyclerItemClickListener
+import com.jere.wanandroid_learning_kotlin.viewmodel.completeproject.CompleteProjectViewModel
 
 class CompleteProjectFragment : Fragment() {
 

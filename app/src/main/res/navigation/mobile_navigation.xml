@@ -7,37 +7,31 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.jere.wanandroid_learning_kotlin.ui.home.HomeFragment"
+        android:name="com.jere.wanandroid_learning_kotlin.view.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_complete_project"
-        android:name="com.jere.wanandroid_learning_kotlin.ui.complete_project.CompleteProjectFragment"
+        android:name="com.jere.wanandroid_learning_kotlin.view.completeproject.CompleteProjectFragment"
         android:label="@string/menu_complete_project"
         tools:layout="@layout/fragment_complete_project" />
 
     <fragment
         android:id="@+id/nav_we_chat"
-        android:name="com.jere.wanandroid_learning_kotlin.ui.wechat.WeChatFragment"
+        android:name="com.jere.wanandroid_learning_kotlin.view.wechat.WeChatFragment"
         android:label="@string/menu_we_chart"
         tools:layout="@layout/fragment_we_chat" />
 
     <fragment
         android:id="@+id/nav_knowledge_system"
-        android:name="com.jere.wanandroid_learning_kotlin.ui.knowledge_system.KnowledgeSystemFragment"
+        android:name="com.jere.wanandroid_learning_kotlin.view.knowledgesystem.KnowledgeSystemFragment"
         android:label="@string/menu_knowledge_system"
         tools:layout="@layout/fragment_knowledge_system" />
 
     <fragment
         android:id="@+id/nav_about_me"
-        android:name="com.jere.wanandroid_learning_kotlin.ui.aboutme.AboutMeFragment"
+        android:name="com.jere.wanandroid_learning_kotlin.view.aboutme.AboutMeFragment"
         android:label="@string/menu_about_me"
         tools:layout="@layout/fragment_about_me" />
-
-    <fragment
-        android:id="@+id/nav_tutorial"
-        android:name="com.jere.wanandroid_learning_kotlin.ui.send.TutorialFragment"
-        android:label="@string/menu_tutorial"
-        tools:layout="@layout/fragment_tutorial" />
 </navigation>

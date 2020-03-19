@@ -1,4 +1,4 @@
-package com.jere.wanandroid_learning_kotlin.ui.knowledge_system
+package com.jere.wanandroid_learning_kotlin.view.knowledgesystem
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,8 +12,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemArticleListBean
-import com.jere.wanandroid_learning_kotlin.ui.complete_project.ArticleDetailWebViewActivity
+import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.utils.RecyclerItemClickListener
+import com.jere.wanandroid_learning_kotlin.viewmodel.knowledgesystem.KnowledgeSystemViewModel
 
 class KnowledgeSystemArticleListActivity : AppCompatActivity() {
     private lateinit var knowledgeSystemVm: KnowledgeSystemViewModel

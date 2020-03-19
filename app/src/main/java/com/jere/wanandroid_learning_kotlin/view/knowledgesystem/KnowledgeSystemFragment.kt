@@ -1,4 +1,4 @@
-package com.jere.wanandroid_learning_kotlin.ui.knowledge_system
+package com.jere.wanandroid_learning_kotlin.view.knowledgesystem
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemCategoryBean
+import com.jere.wanandroid_learning_kotlin.viewmodel.knowledgesystem.KnowledgeSystemViewModel
 
 class KnowledgeSystemFragment : Fragment() {
 

@@ -28,10 +28,6 @@
                 android:id="@+id/nav_about_me"
                 android:icon="@drawable/ic_menu_share"
                 android:title="@string/menu_about_me" />
-            <item
-                android:id="@+id/nav_tutorial"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_tutorial" />
         </menu>
     </item>
 

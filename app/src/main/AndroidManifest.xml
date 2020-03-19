@@ -11,11 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ui.knowledge_system.KnowledgeSystemArticleListActivity"></activity>
-        <activity android:name=".ui.complete_project.ArticleDetailWebViewActivity" />
-        <activity android:name=".ui.complete_project.ProjectItemListActivity" />
+        <activity android:name=".view.knowledgesystem.KnowledgeSystemArticleListActivity"></activity>
+        <activity android:name=".view.ArticleDetailWebViewActivity" />
+        <activity android:name=".view.completeproject.ProjectItemListActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
