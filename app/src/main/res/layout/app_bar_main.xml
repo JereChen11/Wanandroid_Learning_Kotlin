@@ -34,33 +34,41 @@
         android:layout_gravity="bottom"
         android:weightSum="4">
 
-        <Button
-            android:id="@+id/home_btn"
+        <com.jere.wanandroid_learning_kotlin.utils.HomeBottomBarItemCustomView
+            android:id="@+id/home_bottom_bar_home_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/menu_home" />
+            android:gravity="center"
+            app:contentTv="@string/menu_home"
+            app:iconReference="@drawable/home_icon" />
 
-        <Button
-            android:id="@+id/complete_project_btn"
+        <com.jere.wanandroid_learning_kotlin.utils.HomeBottomBarItemCustomView
+            android:id="@+id/home_bottom_bar_complete_project_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/menu_complete_project" />
+            android:gravity="center"
+            app:contentTv="@string/menu_complete_project"
+            app:iconReference="@drawable/complete_project_icon" />
 
-        <Button
-            android:id="@+id/we_chart_btn"
+        <com.jere.wanandroid_learning_kotlin.utils.HomeBottomBarItemCustomView
+            android:id="@+id/home_bottom_bar_we_chart_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/menu_we_chart" />
+            android:gravity="center"
+            app:contentTv="@string/menu_we_chart"
+            app:iconReference="@drawable/we_chat_icon" />
 
-        <Button
-            android:id="@+id/knowledge_system_btn"
+        <com.jere.wanandroid_learning_kotlin.utils.HomeBottomBarItemCustomView
+            android:id="@+id/home_bottom_bar_knowledge_system_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/menu_knowledge_system" />
+            android:gravity="center"
+            app:contentTv="@string/menu_knowledge_system"
+            app:iconReference="@drawable/knowledge_system_icon" />
 
     </LinearLayout>
 
