@@ -188,6 +188,17 @@ class HomeFragment : Fragment() {
             val data: HomeBannerListBean.DataBean = homeBannerList[position]
             weakReference.get()
                 ?.let { Glide.with(it).load(data.imagePath).into(holder.bannerItemIv) }
+
+            val articleDetailUrl: String? = data.url
+            holder.bannerItemIv.setOnClickListener {
+                val intent =
+                    Intent(weakReference.get()?.activity, ArticleDetailWebViewActivity::class.java)
+                intent.putExtra(
+                    ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
+                    articleDetailUrl
+                )
+                weakReference.get()?.startActivity(intent)
+            }
         }
     }
 
