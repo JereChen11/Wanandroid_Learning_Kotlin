@@ -11,7 +11,7 @@ import android.widget.ExpandableListView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemCategoryBean
 import com.jere.wanandroid_learning_kotlin.viewmodel.knowledgesystem.KnowledgeSystemViewModel
@@ -27,8 +27,7 @@ class KnowledgeSystemFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        knowledgeSystemVm =
-            ViewModelProviders.of(this).get(KnowledgeSystemViewModel::class.java)
+        knowledgeSystemVm = ViewModelProvider(this)[KnowledgeSystemViewModel::class.java]
         return inflater.inflate(R.layout.fragment_knowledge_system, container, false)
     }
 

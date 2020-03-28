@@ -1,24 +1,18 @@
 package com.jere.wanandroid_learning_kotlin.viewmodel.wechat
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.jere.wanandroid_learning_kotlin.model.api.AbstractRetrofitCallback
 import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
-import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatBloggerList
 import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatArticleList
+import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatBloggerList
 
 class WeChatViewModel : ViewModel() {
     companion object {
         const val TAG = "WeChatViewModel"
     }
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is weChart Fragment"
-    }
-    val text: LiveData<String> = _text
 
     val weChatBloggerListLd: MutableLiveData<ArrayList<WeChatBloggerList.DataBean>> =
         MutableLiveData()

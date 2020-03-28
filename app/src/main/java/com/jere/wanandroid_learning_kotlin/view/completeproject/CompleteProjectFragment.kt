@@ -9,7 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jere.wanandroid_learning_kotlin.R
@@ -27,9 +27,8 @@ class CompleteProjectFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        completeProjectVm = ViewModelProviders.of(this).get(CompleteProjectViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_complete_project, container, false)
-        return root
+        completeProjectVm = ViewModelProvider(this)[CompleteProjectViewModel::class.java]
+        return inflater.inflate(R.layout.fragment_complete_project, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

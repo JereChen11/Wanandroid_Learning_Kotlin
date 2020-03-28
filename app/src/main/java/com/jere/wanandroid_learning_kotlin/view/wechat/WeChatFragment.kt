@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatArticleList
 import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatBloggerList
-import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.utils.RecyclerItemClickListener
+import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.viewmodel.wechat.WeChatViewModel
 
 class WeChatFragment : Fragment() {
@@ -29,7 +29,7 @@ class WeChatFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        weChatVm = ViewModelProviders.of(this).get(WeChatViewModel::class.java)
+        weChatVm = ViewModelProvider(this)[WeChatViewModel::class.java]
         return inflater.inflate(R.layout.fragment_we_chat, container, false)
     }
 

@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jere.wanandroid_learning_kotlin.R
@@ -35,8 +35,7 @@ class ProjectItemListActivity : AppCompatActivity() {
         val projectItemListRecyclerView: RecyclerView =
             findViewById(R.id.project_item_list_recycler_view)
 
-        val completeProjectVm: CompleteProjectViewModel =
-            ViewModelProviders.of(this).get(CompleteProjectViewModel::class.java)
+        val completeProjectVm: CompleteProjectViewModel = ViewModelProvider(this)[CompleteProjectViewModel::class.java]
         completeProjectVm.projectItemListLd.observe(this, Observer {
             mProjectItemListDatas = it
             projectItemListRecyclerView.adapter = MyAdapter(this, it)

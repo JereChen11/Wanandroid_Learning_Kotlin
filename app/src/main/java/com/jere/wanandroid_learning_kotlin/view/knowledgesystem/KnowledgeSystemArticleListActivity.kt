@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemArticleListBean
-import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.utils.RecyclerItemClickListener
+import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.viewmodel.knowledgesystem.KnowledgeSystemViewModel
 
 class KnowledgeSystemArticleListActivity : AppCompatActivity() {
@@ -25,8 +25,7 @@ class KnowledgeSystemArticleListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_knowledge_system_article_list)
 
-        knowledgeSystemVm =
-            ViewModelProviders.of(this).get(KnowledgeSystemViewModel::class.java)
+        knowledgeSystemVm = ViewModelProvider(this)[KnowledgeSystemViewModel::class.java]
 
         val titleNameTv: TextView = findViewById(R.id.knowledge_system_article_list_title_tv)
         val articleListRecyclerView: RecyclerView =
