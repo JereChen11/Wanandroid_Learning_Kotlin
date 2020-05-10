@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/article_list_item_container_cl"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white_smoke">
 
     <TextView
@@ -10,14 +11,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -45,11 +46,21 @@
         app:layout_constraintStart_toEndOf="@id/article_list_item_author_tv"
         app:layout_constraintTop_toTopOf="@id/article_list_item_author_tv" />
 
+    <ImageView
+        android:id="@+id/collection_icon_iv"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/vector_drawable_unstar"
+        app:layout_constraintBottom_toBottomOf="@id/article_list_item_shared_date_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/article_list_item_shared_date_tv" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/black"
         android:layout_marginTop="5dp"
+        android:background="@color/black"
         app:layout_constraintTop_toBottomOf="@id/article_list_item_author_tv" />
 
 

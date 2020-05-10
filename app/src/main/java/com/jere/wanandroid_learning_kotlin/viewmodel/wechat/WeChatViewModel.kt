@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.jere.wanandroid_learning_kotlin.model.api.AbstractRetrofitCallback
 import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
+import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeArticleListBean
 import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatArticleList
 import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatBloggerList
 
@@ -16,7 +17,7 @@ class WeChatViewModel : ViewModel() {
 
     val weChatBloggerListLd: MutableLiveData<ArrayList<WeChatBloggerList.DataBean>> =
         MutableLiveData()
-    val weChatArticleListLd: MutableLiveData<ArrayList<WeChatArticleList.DataBean.DatasBean>> =
+    val weChatArticleListLd: MutableLiveData<ArrayList<HomeArticleListBean.DataBean.DatasBean>> =
         MutableLiveData()
 
     fun setWeChatBloggerListLd() {
@@ -41,8 +42,8 @@ class WeChatViewModel : ViewModel() {
             ?.enqueue(object : AbstractRetrofitCallback() {
                 override fun getSuccessful(responseBody: String) {
                     val gson = Gson()
-                    val weChatArticleList: WeChatArticleList =
-                        gson.fromJson(responseBody, WeChatArticleList::class.java)
+                    val weChatArticleList: HomeArticleListBean =
+                        gson.fromJson(responseBody, HomeArticleListBean::class.java)
                     weChatArticleListLd.postValue(weChatArticleList.data?.datas)
                 }
 
