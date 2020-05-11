@@ -4,4 +4,10 @@
         <attr name="contentTv" format="string"/>
         <attr name="iconReference" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="MeListItemCustomView">
+        <attr name="meListItemTitleText" format="string" />
+        <attr name="meListIconReference" format="reference" />
+    </declare-styleable>
+
 </resources>

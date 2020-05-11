@@ -1,5 +1,6 @@
 package com.jere.wanandroid_learning_kotlin.view.completeproject
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,22 +15,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.completeprojectbeanfiles.ProjectItemList
+import com.jere.wanandroid_learning_kotlin.utils.BaseActivity
 import com.jere.wanandroid_learning_kotlin.utils.RecyclerItemClickListener
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.viewmodel.completeproject.CompleteProjectViewModel
 import java.lang.ref.WeakReference
 
-class ProjectItemListActivity : AppCompatActivity() {
+class ProjectItemListActivity : BaseActivity() {
     companion object {
         const val PROJECT_TREE_ITEM_ID_KEY = "PROJECT_TREE_ITEM_ID"
     }
 
     private var mProjectItemListDatas: ArrayList<ProjectItemList.DataBean.DatasBean> = ArrayList()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_project_item_list)
+    override fun bindLayout(): Int {
+        return R.layout.activity_project_item_list
+    }
 
+    override fun initView(view: View?) {
         val cid = intent.getIntExtra(PROJECT_TREE_ITEM_ID_KEY, 0)
 
         val projectItemListRecyclerView: RecyclerView =
@@ -64,6 +67,9 @@ class ProjectItemListActivity : AppCompatActivity() {
                     }
                 })
         )
+    }
+
+    override fun doBusiness(mContext: Context?) {
     }
 
     class MyAdapter(

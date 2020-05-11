@@ -11,6 +11,10 @@
     <string name="menu_complete_project">完整项目</string>
     <string name="menu_we_chart">微信公众号</string>
     <string name="menu_knowledge_system">知识体系</string>
+    <string name="menu_me">我的</string>
     <string name="menu_about_me">关于我</string>
     <string name="other_cn">其它</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

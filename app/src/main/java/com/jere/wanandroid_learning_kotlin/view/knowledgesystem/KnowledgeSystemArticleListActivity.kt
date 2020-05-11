@@ -1,5 +1,6 @@
 package com.jere.wanandroid_learning_kotlin.view.knowledgesystem
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -10,11 +11,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeArticleListBean
+import com.jere.wanandroid_learning_kotlin.utils.BaseActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
 import com.jere.wanandroid_learning_kotlin.viewmodel.knowledgesystem.KnowledgeSystemViewModel
 
-class KnowledgeSystemArticleListActivity : AppCompatActivity() {
+class KnowledgeSystemArticleListActivity : BaseActivity() {
     private lateinit var knowledgeSystemVm: KnowledgeSystemViewModel
     private var mKnowledgeSystemArticleListData: ArrayList<HomeArticleListBean.DataBean.DatasBean> =
         ArrayList()
@@ -22,7 +24,13 @@ class KnowledgeSystemArticleListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_knowledge_system_article_list)
+    }
 
+    override fun bindLayout(): Int {
+        return R.layout.activity_knowledge_system_article_list
+    }
+
+    override fun initView(view: View?) {
         knowledgeSystemVm = ViewModelProvider(this)[KnowledgeSystemViewModel::class.java]
 
         val titleNameTv: TextView = findViewById(R.id.knowledge_system_article_list_title_tv)
@@ -59,7 +67,9 @@ class KnowledgeSystemArticleListActivity : AppCompatActivity() {
         })
 
         knowledgeSystemVm.setKnowledgeSystemArticleListLd(cid)
+    }
 
+    override fun doBusiness(mContext: Context?) {
     }
 
 }
