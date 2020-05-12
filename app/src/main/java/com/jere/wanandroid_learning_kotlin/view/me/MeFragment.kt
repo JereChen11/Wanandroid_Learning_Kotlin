@@ -1,5 +1,6 @@
 package com.jere.wanandroid_learning_kotlin.view.me
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.jere.wanandroid_learning_kotlin.R
+import com.jere.wanandroid_learning_kotlin.utils.Settings
+import com.jere.wanandroid_learning_kotlin.view.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_me.*
 
 class MeFragment : Fragment(), View.OnClickListener {
@@ -26,6 +29,12 @@ class MeFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (Settings.getIsLogin()) {
+            loginInOutItem.setTitleText("Logout")
+        } else {
+            loginInOutItem.setTitleText("Login")
+        }
+
         favoriteItem.setOnClickListener(this)
         loginInOutItem.setOnClickListener(this)
     }
@@ -36,7 +45,7 @@ class MeFragment : Fragment(), View.OnClickListener {
 
             }
             R.id.loginInOutItem -> {
-
+                startActivity(Intent(activity, LoginActivity::class.java))
             }
         }
     }

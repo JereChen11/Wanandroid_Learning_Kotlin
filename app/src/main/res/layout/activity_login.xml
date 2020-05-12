@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.login.LoginActivity">
+
+    <TextView
+        android:id="@+id/logInOrRegisterTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/login_cn"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/userNameEt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@null"
+        android:hint="@string/user_name_cn"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/logInOrRegisterTv"
+        app:layout_constraintTop_toBottomOf="@id/logInOrRegisterTv" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="3dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/userNameEt"
+        app:layout_constraintStart_toStartOf="@id/userNameEt"
+        app:layout_constraintTop_toBottomOf="@id/userNameEt" />
+
+    <EditText
+        android:id="@+id/passwordEt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:background="@null"
+        android:hint="@string/password_cn"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@id/passwordEyeIv"
+        app:layout_constraintStart_toStartOf="@id/userNameEt"
+        app:layout_constraintTop_toBottomOf="@id/userNameEt" />
+
+    <ImageView
+        android:id="@+id/passwordEyeIv"
+        android:layout_width="25dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/vector_drawable_eyeoff"
+        app:layout_constraintBottom_toBottomOf="@id/passwordEt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/passwordEt" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="3dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/userNameEt"
+        app:layout_constraintStart_toStartOf="@id/userNameEt"
+        app:layout_constraintTop_toBottomOf="@id/passwordEt" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rePasswordContainerCl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/passwordEt"
+        app:layout_constraintTop_toBottomOf="@id/passwordEt">
+
+        <EditText
+            android:id="@+id/rePasswordEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/repassword_cn"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/repasswordEyeIv"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:src="@drawable/vector_drawable_eyeoff"
+            app:layout_constraintBottom_toBottomOf="@id/rePasswordEt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rePasswordEt" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rePasswordEt" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/goRegisterTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
+        android:layout_weight="1"
+        android:text="@string/register_cn"
+        android:textColor="@color/gray"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rePasswordContainerCl" />
+
+    <Button
+        android:id="@+id/loginOrRegisterBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/login_register_btn_bg_style"
+        android:text="@string/login_cn"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/userNameEt"
+        app:layout_constraintStart_toStartOf="@id/userNameEt"
+        app:layout_constraintTop_toBottomOf="@id/rePasswordContainerCl" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

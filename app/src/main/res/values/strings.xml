@@ -15,6 +15,12 @@
     <string name="menu_about_me">关于我</string>
     <string name="other_cn">其它</string>
 
+    <string name="user_name_cn">用户名</string>
+    <string name="login_cn">登入</string>
+    <string name="register_cn">注册</string>
+    <string name="password_cn">密码</string>
+    <string name="repassword_cn">验证密码</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

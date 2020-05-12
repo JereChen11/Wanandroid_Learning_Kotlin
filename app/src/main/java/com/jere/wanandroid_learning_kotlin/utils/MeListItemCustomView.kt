@@ -32,4 +32,9 @@ class MeListItemCustomView(context: Context?, attrs: AttributeSet?) :
         typedArray.recycle()
     }
 
+    fun setTitleText(newTitle: String) {
+        meListItemTitleTv.text = newTitle
+        invalidate()
+    }
+
 }
