@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="User Name"
+            android:text="@string/user_name_cn"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@id/portraitIv"
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/divideLineView"
             app:meListIconReference="@drawable/vector_drawable_star"
-            app:meListItemTitleText="Favorites" />
+            app:meListItemTitleText="@string/my_favorite_cn" />
 
         <com.jere.wanandroid_learning_kotlin.utils.MeListItemCustomView
             android:id="@+id/loginInOutItem"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/favoriteItem"
             app:meListIconReference="@drawable/vector_drawable_setting"
-            app:meListItemTitleText="Login" />
+            app:meListItemTitleText="@string/login_cn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

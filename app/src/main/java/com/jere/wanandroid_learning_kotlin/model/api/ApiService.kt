@@ -1,10 +1,9 @@
 package com.jere.wanandroid_learning_kotlin.model.api
 
+import okhttp3.Response
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * @author jere
@@ -41,4 +40,10 @@ interface ApiService {
 
     @GET("article/list/0/json?")
     fun getKnowledgeSystemArticleList(@Query("cid") cid: Int): Call<ResponseBody>
+
+    @POST("user/login")
+    fun login(@QueryMap paramsMap: @JvmSuppressWildcards Map<String, Any>): Call<ResponseBody>
+
+    @POST("user/register")
+    fun register(@QueryMap paramsMap: @JvmSuppressWildcards Map<String, Any>): Call<ResponseBody>
 }

@@ -29,14 +29,23 @@ class MeFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (Settings.getIsLogin()) {
-            loginInOutItem.setTitleText("Logout")
-        } else {
-            loginInOutItem.setTitleText("Login")
-        }
+        initLoginOutBtn()
 
         favoriteItem.setOnClickListener(this)
         loginInOutItem.setOnClickListener(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initLoginOutBtn()
+    }
+
+    private fun initLoginOutBtn() {
+        if (Settings.getIsLogin()) {
+            loginInOutItem.setTitleText(getString(R.string.logout_cn))
+        } else {
+            loginInOutItem.setTitleText(getString(R.string.login_cn))
+        }
     }
 
     override fun onClick(v: View?) {
@@ -45,7 +54,12 @@ class MeFragment : Fragment(), View.OnClickListener {
 
             }
             R.id.loginInOutItem -> {
-                startActivity(Intent(activity, LoginActivity::class.java))
+                if (Settings.getIsLogin()) {
+                    loginInOutItem.setTitleText(getString(R.string.logout_cn))
+                    Settings.setIsLogin(false)
+                } else {
+                    startActivity(Intent(activity, LoginActivity::class.java))
+                }
             }
         }
     }
