@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.utils.Settings
 import com.jere.wanandroid_learning_kotlin.view.login.LoginActivity
+import com.jere.wanandroid_learning_kotlin.view.mycollection.MyCollectionActivity
 import kotlinx.android.synthetic.main.fragment_me.*
 
 class MeFragment : Fragment(), View.OnClickListener {
@@ -51,7 +52,7 @@ class MeFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.favoriteItem -> {
-
+                startActivity(Intent(activity, MyCollectionActivity::class.java))
             }
             R.id.loginInOutItem -> {
                 if (Settings.getIsLogin()) {

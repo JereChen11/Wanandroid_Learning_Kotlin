@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.jere.wanandroid_learning_kotlin.R
+import com.jere.wanandroid_learning_kotlin.model.CollectionRepository
 import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeArticleListBean
 
 class ArticleListAdapter(
@@ -80,11 +81,29 @@ class ArticleListAdapter(
         }
         holder.collectionIconIv.setOnClickListener {
             if (data.isCollect) {
-                holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
-                data.isCollect = false
+                CollectionRepository.unCollectArticle(
+                    data.id,
+                    object : CollectionRepository.CollectOrUnCollectListener {
+                        override fun isSuccessful(isSuccess: Boolean) {
+                            if (isSuccess) {
+                                holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
+                                data.isCollect = false
+                            }
+                        }
+                    }
+                )
             } else {
-                holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_star)
-                data.isCollect = true
+                CollectionRepository.collectArticle(
+                    data.id,
+                    object : CollectionRepository.CollectOrUnCollectListener {
+                        override fun isSuccessful(isSuccess: Boolean) {
+                            if (isSuccess) {
+                                holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_star)
+                                data.isCollect = true
+                            }
+                        }
+
+                    })
             }
         }
     }

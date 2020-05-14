@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 
 object Settings {
 
-    const val SETTINGS_SP_KEY: String = "SETTINGS_SP"
-    const val IS_LOGIN_KEY = "IS_LOGIN"
+    private const val SETTINGS_SP_KEY: String = "SETTINGS_SP"
+    private const val IS_LOGIN_KEY = "IS_LOGIN"
 
     private fun getSp() : SharedPreferences {
         return MyApp.instance.applicationContext.getSharedPreferences(SETTINGS_SP_KEY, Context.MODE_PRIVATE)

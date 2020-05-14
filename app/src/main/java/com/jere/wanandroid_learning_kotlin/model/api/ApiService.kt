@@ -1,6 +1,5 @@
 package com.jere.wanandroid_learning_kotlin.model.api
 
-import okhttp3.Response
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -46,4 +45,27 @@ interface ApiService {
 
     @POST("user/register")
     fun register(@QueryMap paramsMap: @JvmSuppressWildcards Map<String, Any>): Call<ResponseBody>
+
+    /**
+     * 获取收藏的文章列表
+     * @return
+     */
+    @GET("/lg/collect/list/{pageId}/json")
+    fun getCollectionArticleList(@Path("pageId") pageId: Int): Call<ResponseBody>
+
+    /**
+     * 收藏文章
+     * @param id
+     * @return
+     */
+    @POST("/lg/collect/{id}/json")
+    fun collectArticle(@Path("id") id: Int): Call<ResponseBody>
+
+    /**
+     * 取消文章收藏
+     * @param id
+     * @return
+     */
+    @POST("/lg/uncollect_originId/{id}/json")
+    fun unCollectArticle(@Path("id") id: Int): Call<ResponseBody>
 }

@@ -1,5 +1,6 @@
 package com.jere.wanandroid_learning_kotlin.model.api
 
+import com.jere.wanandroid_learning_kotlin.utils.Settings
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -13,20 +14,27 @@ object ApiWrapper {
     private const val BASE_URL: String = "https://www.wanandroid.com/"
 
     fun getInstance(): ApiService? {
-        if (instance == null) {
-            val okHttpClient = OkHttpClient.Builder()
+        var okHttpClient: OkHttpClient = if (!Settings.getIsLogin()) {
+            OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(15, TimeUnit.SECONDS)
+                .addInterceptor(ReceivedCookiesInterceptor())
                 .build()
-
-            val retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
+        } else {
+            OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .addInterceptor(AddCookiesInterceptor())
                 .build()
-            instance = retrofit.create(ApiService::class.java)
         }
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+        instance = retrofit.create(ApiService::class.java)
         return instance
     }
 }

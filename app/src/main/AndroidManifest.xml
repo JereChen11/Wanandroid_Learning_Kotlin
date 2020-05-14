@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".view.mycollection.MyCollectionActivity"></activity>
         <activity android:name=".view.login.LoginActivity" />
         <activity android:name=".view.knowledgesystem.KnowledgeSystemArticleListActivity" />
         <activity android:name=".view.ArticleDetailWebViewActivity" />
