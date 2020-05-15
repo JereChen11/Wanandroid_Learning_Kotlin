@@ -52,7 +52,11 @@ class MeFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.favoriteItem -> {
-                startActivity(Intent(activity, MyCollectionActivity::class.java))
+                if (Settings.getIsLogin()) {
+                    startActivity(Intent(activity, MyCollectionActivity::class.java))
+                } else {
+                    startActivity(Intent(activity, LoginActivity::class.java))
+                }
             }
             R.id.loginInOutItem -> {
                 if (Settings.getIsLogin()) {

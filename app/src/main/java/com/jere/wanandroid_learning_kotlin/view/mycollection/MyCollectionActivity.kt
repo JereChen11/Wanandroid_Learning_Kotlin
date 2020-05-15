@@ -16,38 +16,37 @@ import kotlinx.android.synthetic.main.activity_my_collection.*
 
 class MyCollectionActivity : BaseActivity() {
     private lateinit var myCollectionVm: MyCollectionViewModel
-    private lateinit var collectionArticleList: ArrayList<HomeArticleListBean.DataBean.DatasBean>
+    private var collectionArticleList: ArrayList<HomeArticleListBean.DataBean.DatasBean> = ArrayList()
 
     override fun bindLayout(): Int {
         return R.layout.activity_my_collection
     }
 
     override fun initView(view: View?) {
+
         myCollectionVm = ViewModelProvider(this)[MyCollectionViewModel::class.java]
         myCollectionVm.collectionArticleListLd.observe(this, Observer {
-            collectionArticleList = it.data?.datas!!
-            var articleListAdapter: ArticleListAdapter? =
-                it.data?.datas?.let { it1 ->
-                    ArticleListAdapter(it1, object : AdapterItemClickListener {
-                        override fun onPositionClicked(v: View?, position: Int) {
-                            val link: String? = collectionArticleList[position].link
+            collectionArticleList = it
+            val articleListAdapter: ArticleListAdapter? =
+                ArticleListAdapter(it, object : AdapterItemClickListener {
+                    override fun onPositionClicked(v: View?, position: Int) {
+                        val link: String? = collectionArticleList[position].link
 
-                            val intent = Intent(
-                                this@MyCollectionActivity,
-                                ArticleDetailWebViewActivity::class.java
-                            )
-                            intent.putExtra(
-                                ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
-                                link
-                            )
-                            startActivity(intent)
-                        }
+                        val intent = Intent(
+                            this@MyCollectionActivity,
+                            ArticleDetailWebViewActivity::class.java
+                        )
+                        intent.putExtra(
+                            ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
+                            link
+                        )
+                        startActivity(intent)
+                    }
 
-                        override fun onLongClicked(v: View?, position: Int) {
-                        }
+                    override fun onLongClicked(v: View?, position: Int) {
+                    }
 
-                    })
-                }
+                })
 
             myCollectionRcy.adapter = articleListAdapter
         })
