@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.jere.wanandroid_learning_kotlin.model.api.AbstractRetrofitCallback
 import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
-import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeArticleListBean
+import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
 import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeBannerListBean
 
 class HomeViewModel : ViewModel() {
@@ -17,7 +17,7 @@ class HomeViewModel : ViewModel() {
 
     val homeBannerListLd: MutableLiveData<ArrayList<HomeBannerListBean.DataBean>> =
         MutableLiveData()
-    val homeArticleListLd: MutableLiveData<ArrayList<HomeArticleListBean.DataBean.DatasBean>> =
+    val articleListLd: MutableLiveData<ArrayList<ArticleListBean.DataBean.DatasBean>> =
         MutableLiveData()
 
     fun setHomeBannerList() {
@@ -42,9 +42,9 @@ class HomeViewModel : ViewModel() {
             ?.enqueue(object : AbstractRetrofitCallback() {
                 override fun getSuccessful(responseBody: String) {
                     val gson = Gson()
-                    val homeArticleListBean: HomeArticleListBean =
-                        gson.fromJson(responseBody, HomeArticleListBean::class.java)
-                    homeArticleListLd.postValue(homeArticleListBean.data?.datas)
+                    val articleListBean: ArticleListBean =
+                        gson.fromJson(responseBody, ArticleListBean::class.java)
+                    articleListLd.postValue(articleListBean.data?.datas)
                 }
 
                 override fun getFailed(failedMsg: String) {

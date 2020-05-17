@@ -9,10 +9,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.CollectionRepository
-import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeArticleListBean
+import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
 
 class ArticleListAdapter(
-    homeArticleList: ArrayList<HomeArticleListBean.DataBean.DatasBean>,
+    articleList: ArrayList<ArticleListBean.DataBean.DatasBean>,
     adapter: AdapterItemClickListener
 ) :
     RecyclerView.Adapter<ArticleListAdapter.MyViewHolder>() {
@@ -22,11 +22,11 @@ class ArticleListAdapter(
         fun onLongClicked(v: View?, position: Int)
     }
 
-    private var homeArticleList: ArrayList<HomeArticleListBean.DataBean.DatasBean> = ArrayList()
+    private var articleList: ArrayList<ArticleListBean.DataBean.DatasBean> = ArrayList()
     private val adapterItemClickListener: AdapterItemClickListener
 
     init {
-        this.homeArticleList = homeArticleList
+        this.articleList = articleList
         this.adapterItemClickListener = adapter
     }
 
@@ -66,11 +66,11 @@ class ArticleListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return homeArticleList.size
+        return articleList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val data: HomeArticleListBean.DataBean.DatasBean = homeArticleList[position]
+        val data: ArticleListBean.DataBean.DatasBean = articleList[position]
         holder.titleTv.text = data.title
         holder.authorTv.text = data.author
         holder.dateTv.text = data.niceShareDate

@@ -6,8 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.jere.wanandroid_learning_kotlin.model.api.AbstractRetrofitCallback
 import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
-import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeArticleListBean
-import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemArticleListBean
+import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
 import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemCategoryBean
 
 class KnowledgeSystemViewModel : ViewModel() {
@@ -18,7 +17,7 @@ class KnowledgeSystemViewModel : ViewModel() {
 
     val knowledgeSystemCategoryLd: MutableLiveData<ArrayList<KnowledgeSystemCategoryBean.DataBean>> =
         MutableLiveData()
-    val knowledgeSystemArticleListLd: MutableLiveData<ArrayList<HomeArticleListBean.DataBean.DatasBean>> =
+    val knowledgeSystemArticleListLd: MutableLiveData<ArrayList<ArticleListBean.DataBean.DatasBean>> =
         MutableLiveData()
 
     fun setKnowledgeSystemCategoryLd() {
@@ -43,9 +42,9 @@ class KnowledgeSystemViewModel : ViewModel() {
             ?.enqueue(object : AbstractRetrofitCallback() {
                 override fun getSuccessful(responseBody: String) {
                     val gson = Gson()
-                    val homeArticleListBean: HomeArticleListBean =
-                        gson.fromJson(responseBody, HomeArticleListBean::class.java)
-                    knowledgeSystemArticleListLd.postValue(homeArticleListBean.data?.datas)
+                    val articleListBean: ArticleListBean =
+                        gson.fromJson(responseBody, ArticleListBean::class.java)
+                    knowledgeSystemArticleListLd.postValue(articleListBean.data?.datas)
                 }
 
                 override fun getFailed(failedMsg: String) {

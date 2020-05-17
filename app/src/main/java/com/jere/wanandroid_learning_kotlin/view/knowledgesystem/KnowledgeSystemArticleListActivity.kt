@@ -5,12 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.jere.wanandroid_learning_kotlin.R
-import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeArticleListBean
+import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
 import com.jere.wanandroid_learning_kotlin.utils.BaseActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
@@ -18,7 +17,7 @@ import com.jere.wanandroid_learning_kotlin.viewmodel.knowledgesystem.KnowledgeSy
 
 class KnowledgeSystemArticleListActivity : BaseActivity() {
     private lateinit var knowledgeSystemVm: KnowledgeSystemViewModel
-    private var mKnowledgeSystemArticleListData: ArrayList<HomeArticleListBean.DataBean.DatasBean> =
+    private var mKnowledgeSystemArticleListData: ArrayList<ArticleListBean.DataBean.DatasBean> =
         ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {

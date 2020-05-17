@@ -6,7 +6,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.jere.wanandroid_learning_kotlin.R
-import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeArticleListBean
+import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
 import com.jere.wanandroid_learning_kotlin.utils.BaseActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_my_collection.*
 
 class MyCollectionActivity : BaseActivity() {
     private lateinit var myCollectionVm: MyCollectionViewModel
-    private var collectionArticleList: ArrayList<HomeArticleListBean.DataBean.DatasBean> = ArrayList()
+    private var collectionArticleList: ArrayList<ArticleListBean.DataBean.DatasBean> = ArrayList()
 
     override fun bindLayout(): Int {
         return R.layout.activity_my_collection

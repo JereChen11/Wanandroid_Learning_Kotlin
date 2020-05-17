@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.jere.wanandroid_learning_kotlin.R
-import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeArticleListBean
+import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
 import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeBannerListBean
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
-    private var mHomeArticleListData: ArrayList<HomeArticleListBean.DataBean.DatasBean> =
+    private var mArticleListData: ArrayList<ArticleListBean.DataBean.DatasBean> =
         ArrayList()
     private var mHomeBannerListData: ArrayList<HomeBannerListBean.DataBean> = ArrayList()
     private lateinit var mHomeBannerVp: ViewPager2
@@ -118,8 +118,8 @@ class HomeFragment : Fragment() {
         val homeArticleListRecyclerView: RecyclerView =
             view.findViewById(R.id.home_article_list_recycle_view)
 
-        homeViewModel.homeArticleListLd.observe(viewLifecycleOwner, Observer {
-            mHomeArticleListData = it
+        homeViewModel.articleListLd.observe(viewLifecycleOwner, Observer {
+            mArticleListData = it
             val adapter = ArticleListAdapter(it, object : AdapterItemClickListener {
                 override fun onPositionClicked(v: View?, position: Int) {
                     val link: String? = it[position].link

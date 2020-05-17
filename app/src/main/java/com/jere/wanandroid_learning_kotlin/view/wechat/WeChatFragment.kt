@@ -12,10 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.jere.wanandroid_learning_kotlin.R
-import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeArticleListBean
-import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatArticleList
+import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
 import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatBloggerList
-import com.jere.wanandroid_learning_kotlin.utils.RecyclerItemClickListener
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
 import com.jere.wanandroid_learning_kotlin.viewmodel.wechat.WeChatViewModel
@@ -24,7 +22,7 @@ class WeChatFragment : Fragment() {
 
     private lateinit var weChatVm: WeChatViewModel
     private var mWeChatBloggerList: ArrayList<WeChatBloggerList.DataBean> = ArrayList()
-    private var mWeChatArticleList: ArrayList<HomeArticleListBean.DataBean.DatasBean> = ArrayList()
+    private var mWeChatArticleList: ArrayList<ArticleListBean.DataBean.DatasBean> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
