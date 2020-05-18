@@ -27,9 +27,20 @@
         android:layout_marginBottom="60dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/homeBottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        app:itemTextColor="@color/black"
+        app:itemIconTint="@color/black"
+        app:menu="@menu/home_bottom_navigation_menu" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:visibility="gone"
         android:layout_gravity="bottom"
         android:weightSum="5">
 

@@ -15,7 +15,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.utils.BaseActivity
-import com.jere.wanandroid_learning_kotlin.utils.HomeBottomBarItemCustomView
 import com.jere.wanandroid_learning_kotlin.view.completeproject.CompleteProjectFragment
 import com.jere.wanandroid_learning_kotlin.view.home.HomeFragment
 import com.jere.wanandroid_learning_kotlin.view.knowledgesystem.KnowledgeSystemFragment
@@ -23,40 +22,9 @@ import com.jere.wanandroid_learning_kotlin.view.me.MeFragment
 import com.jere.wanandroid_learning_kotlin.view.wechat.WeChatFragment
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : BaseActivity(), View.OnClickListener {
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.homeBottomBarHomeItem -> {
-                addFragment(HomeFragment(), true, "homeBtn")
-                toolbar.title = getString(R.string.menu_home)
-            }
-            R.id.homeBottomBarCompleteProjectItem -> {
-                addFragment(
-                    CompleteProjectFragment(),
-                    false,
-                    "completeProject"
-                )
-                toolbar.title = getString(R.string.menu_complete_project)
-            }
-            R.id.homeBottomBarWeChartItem -> {
-                addFragment(WeChatFragment(), false, "weChart")
-                toolbar.title = getString(R.string.menu_we_chart)
-            }
-            R.id.homeBottomBarKnowledgeSystemItem -> {
-                addFragment(
-                    KnowledgeSystemFragment(),
-                    false,
-                    "knowledgeSystemBtn"
-                )
-                toolbar.title = getString(R.string.menu_knowledge_system)
-            }
-            R.id.homeBottomBarMeBottomBarItem -> {
-                addFragment(MeFragment(), false, "meFragment")
-            }
-        }
-    }
+class MainActivity : BaseActivity() {
 
-    private fun addFragment(fragment: Fragment, addToBackStack: Boolean, tag: String) {
+    private fun replaceFragment(fragment: Fragment, addToBackStack: Boolean, tag: String) {
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         if (addToBackStack) {
             transaction.addToBackStack(tag)
@@ -94,11 +62,39 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        homeBottomBarHomeItem.setOnClickListener(this)
-        homeBottomBarCompleteProjectItem.setOnClickListener(this)
-        homeBottomBarWeChartItem.setOnClickListener(this)
-        homeBottomBarKnowledgeSystemItem.setOnClickListener(this)
-        homeBottomBarMeBottomBarItem.setOnClickListener(this)
+        homeBottomNavigationView.setOnNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.nav_home -> {
+                    replaceFragment(HomeFragment(), true, "homeBtn")
+                    toolbar.title = getString(R.string.menu_home)
+                }
+                R.id.nav_complete_project -> {
+                    replaceFragment(
+                        CompleteProjectFragment(),
+                        false,
+                        "completeProject"
+                    )
+                    toolbar.title = getString(R.string.menu_complete_project)
+                }
+                R.id.nav_we_chat -> {
+                    replaceFragment(WeChatFragment(), false, "weChart")
+                    toolbar.title = getString(R.string.menu_we_chart)
+                }
+                R.id.nav_knowledge_system -> {
+                    replaceFragment(
+                        KnowledgeSystemFragment(),
+                        false,
+                        "knowledgeSystemBtn"
+                    )
+                    toolbar.title = getString(R.string.menu_knowledge_system)
+                }
+                R.id.nav_me -> {
+                    replaceFragment(MeFragment(), false, "meFragment")
+                    toolbar.title = getString(R.string.menu_me)
+                }
+            }
+            true
+        }
     }
 
     override fun doBusiness(mContext: Context?) {
