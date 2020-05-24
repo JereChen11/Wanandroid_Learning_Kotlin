@@ -5,18 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
 import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatBloggerList
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
 import com.jere.wanandroid_learning_kotlin.viewmodel.wechat.WeChatViewModel
+import kotlinx.android.synthetic.main.fragment_we_chat.*
 
 class WeChatFragment : Fragment() {
 
@@ -35,13 +34,14 @@ class WeChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val weChatBloggerVp: ViewPager2 = view.findViewById(R.id.we_chat_blogger_article_vp)
-        val weChatArticleRecyclerView: RecyclerView =
-            view.findViewById(R.id.we_chat_article_list_recycler_view)
 
         weChatVm.weChatBloggerListLd.observe(viewLifecycleOwner, Observer {
             mWeChatBloggerList = it
-            weChatBloggerVp.adapter = WeChatBloggerVpAdapter(it)
+            for (dataBean in it) {
+                weChatBloggerTabLayout.addTab(
+                    weChatBloggerTabLayout.newTab().setText(dataBean.name)
+                )
+            }
         })
 
         weChatVm.weChatArticleListLd.observe(viewLifecycleOwner, Observer {
@@ -59,47 +59,25 @@ class WeChatFragment : Fragment() {
                 }
 
             })
-            weChatArticleRecyclerView.adapter = adapter
+            weChatArticleListRcy.adapter = adapter
         })
 
         weChatVm.setWeChatBloggerListLd()
-        weChatBloggerVp.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                val data: WeChatBloggerList.DataBean = mWeChatBloggerList[position]
-                weChatVm.setWeChatArticleListLd(data.id, 0)
+
+        weChatBloggerTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val id = mWeChatBloggerList[tab?.position!!].id
+                weChatVm.setWeChatArticleListLd(id, 0)
             }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
         })
 
-    }
-
-    class WeChatBloggerVpAdapter(
-        weChatBloggerList: ArrayList<WeChatBloggerList.DataBean>
-    ) :
-        RecyclerView.Adapter<WeChatBloggerVpAdapter.MyViewHolder>() {
-        private var weChatBloggerList: ArrayList<WeChatBloggerList.DataBean> = ArrayList()
-
-        init {
-            this.weChatBloggerList = weChatBloggerList
-        }
-
-        class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val nameTv: TextView = itemView.findViewById(R.id.we_chart_blogger_list_item_name_tv)
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-            val view: View = LayoutInflater.from(parent.context)
-                .inflate(R.layout.view_pager_item_view_we_chat_blogger_list, parent, false)
-            return MyViewHolder(view)
-        }
-
-        override fun getItemCount(): Int {
-            return weChatBloggerList.size
-        }
-
-        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            val data: WeChatBloggerList.DataBean = weChatBloggerList[position]
-            holder.nameTv.text = data.name
-        }
     }
 }
