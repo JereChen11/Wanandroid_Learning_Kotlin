@@ -70,25 +70,18 @@ class HomeFragment : Fragment() {
                 super.onPageSelected(position)
 
                 var bannerPosition = position
-                //change view page position, if position on banner head and end.
-                if (bannerPosition == 0) {
-                    bannerPosition = 4
-                } else if (bannerPosition == 5) {
-                    bannerPosition = 1
+                if (bannerPosition == 5) {
+                    mHomeBannerVp.setCurrentItem(1, false)
+                } else if (bannerPosition == 0) {
+                    mHomeBannerVp.setCurrentItem(4, false)
                 }
-
-                for (i in 1..4) {
+                bannerPosition = toRealPosition(bannerPosition, 4)
+                for (i in 0..3) {
                     if (bannerPosition == i) {
-                        indicateViews[i - 1].setBackgroundResource(R.drawable.banner_navigation_point_highlight_shape)
+                        indicateViews[i].setBackgroundResource(R.drawable.banner_navigation_point_highlight_shape)
                     } else {
-                        indicateViews[i - 1].setBackgroundResource(R.drawable.banner_navigation_point_gray_shape)
+                        indicateViews[i].setBackgroundResource(R.drawable.banner_navigation_point_gray_shape)
                     }
-                }
-
-                //if bannerPosition != position, meaning you are in the banner head or end,
-                // you need to change viewPager position to implement banner loop feature
-                if (bannerPosition != position) {
-                    mHomeBannerVp.currentItem = bannerPosition
                 }
             }
 
@@ -102,11 +95,7 @@ class HomeFragment : Fragment() {
 
         homeViewModel.homeBannerListLd.observe(viewLifecycleOwner, Observer {
             mHomeBannerListData = ArrayList()
-            //add two fake data on list head and end to implement banner loop feature.
-            val emptyHomeBannerData: HomeBannerListBean.DataBean = HomeBannerListBean.DataBean()
-            mHomeBannerListData.add(emptyHomeBannerData)
             mHomeBannerListData.addAll(it)
-            mHomeBannerListData.add(emptyHomeBannerData)
             mHomeBannerVp.adapter = ViewPagerAdapter(this, mHomeBannerListData)
             mHomeBannerVp.currentItem = 1
         })
@@ -147,7 +136,18 @@ class HomeFragment : Fragment() {
         }, 2, 3, TimeUnit.SECONDS)
     }
 
-    class ViewPagerAdapter(
+    fun toRealPosition(position: Int, realCount: Int): Int {
+        var realPosition = 0
+        if (realCount > 1) {
+            realPosition = (position - 1) % realCount
+        }
+        if (realPosition < 0) {
+            realPosition += realCount
+        }
+        return realPosition
+    }
+
+    inner class ViewPagerAdapter(
         homeFragment: HomeFragment,
         homeBannerList: ArrayList<HomeBannerListBean.DataBean>
     ) :
@@ -160,7 +160,7 @@ class HomeFragment : Fragment() {
             this.weakReference = WeakReference(homeFragment)
         }
 
-        class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val bannerItemIv: ImageView = itemView.findViewById(R.id.banner_item_iv)
         }
 
@@ -171,11 +171,19 @@ class HomeFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
+            if (homeBannerList.size > 0) {
+                //为了实现Banner循环轮播，需要额外多两张图片，分别放置列表首尾。
+                return homeBannerList.size + 2
+            }
+            return homeBannerList.size
+        }
+
+        fun getRealCount(): Int {
             return homeBannerList.size
         }
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            val data: HomeBannerListBean.DataBean = homeBannerList[position]
+            val data: HomeBannerListBean.DataBean = homeBannerList[toRealPosition(position, getRealCount())]
             weakReference.get()
                 ?.let { Glide.with(it).load(data.imagePath).into(holder.bannerItemIv) }
 
