@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +23,8 @@ class WeChatFragment : Fragment() {
     private lateinit var weChatVm: WeChatViewModel
     private var mWeChatBloggerList: ArrayList<WeChatBloggerList.DataBean> = ArrayList()
     private var mWeChatArticleList: ArrayList<ArticleListBean.DataBean.DatasBean> = ArrayList()
+    private var currentSelectedBloggerId = 0
+    private var pageNumber = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +48,7 @@ class WeChatFragment : Fragment() {
         })
 
         weChatVm.weChatArticleListLd.observe(viewLifecycleOwner, Observer {
-            mWeChatArticleList = it
+            mWeChatArticleList.addAll(it)
             val adapter = ArticleListAdapter(mWeChatArticleList, object :
                 ArticleListAdapter.AdapterItemClickListener {
                 override fun onPositionClicked(v: View?, position: Int) {
@@ -66,8 +69,9 @@ class WeChatFragment : Fragment() {
 
         weChatBloggerTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                val id = mWeChatBloggerList[tab?.position!!].id
-                weChatVm.setWeChatArticleListLd(id, 0)
+                currentSelectedBloggerId = mWeChatBloggerList[tab?.position!!].id
+                weChatVm.setWeChatArticleListLd(currentSelectedBloggerId, pageNumber)
+                mWeChatArticleList.clear()
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -77,6 +81,13 @@ class WeChatFragment : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
 
+        })
+
+        weChatNsv.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (!v.canScrollVertically(1)) {
+                pageNumber++
+                weChatVm.setWeChatArticleListLd(currentSelectedBloggerId, pageNumber)
+            }
         })
 
     }

@@ -14,16 +14,12 @@ import com.jere.wanandroid_learning_kotlin.utils.BaseActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
 import com.jere.wanandroid_learning_kotlin.viewmodel.knowledgesystem.KnowledgeSystemViewModel
+import kotlinx.android.synthetic.main.activity_knowledge_system_article_list.*
 
 class KnowledgeSystemArticleListActivity : BaseActivity() {
     private lateinit var knowledgeSystemVm: KnowledgeSystemViewModel
     private var mKnowledgeSystemArticleListData: ArrayList<ArticleListBean.DataBean.DatasBean> =
         ArrayList()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_knowledge_system_article_list)
-    }
 
     override fun bindLayout(): Int {
         return R.layout.activity_knowledge_system_article_list
@@ -32,21 +28,17 @@ class KnowledgeSystemArticleListActivity : BaseActivity() {
     override fun initView(view: View?) {
         knowledgeSystemVm = ViewModelProvider(this)[KnowledgeSystemViewModel::class.java]
 
-        val titleNameTv: TextView = findViewById(R.id.knowledge_system_article_list_title_tv)
-        val articleListRecyclerView: RecyclerView =
-            findViewById(R.id.knowledge_system_article_recycler_view)
-
         val name: String = intent.getStringExtra("titleName")
         val cid: Int = intent.getIntExtra("cid", -1)
-        titleNameTv.text = name
+        knowledgeSystemArticleListTitleTv.text = name
 
         knowledgeSystemVm.knowledgeSystemArticleListLd.observe(this, Observer {
-            mKnowledgeSystemArticleListData = it
+            mKnowledgeSystemArticleListData.addAll(it)
 
             val adapter =
-                ArticleListAdapter(it, object : ArticleListAdapter.AdapterItemClickListener {
+                ArticleListAdapter(mKnowledgeSystemArticleListData, object : ArticleListAdapter.AdapterItemClickListener {
                     override fun onPositionClicked(v: View?, position: Int) {
-                        val link: String? = it[position].link
+                        val link: String? = mKnowledgeSystemArticleListData[position].link
                         val intent = Intent(
                             this@KnowledgeSystemArticleListActivity,
                             ArticleDetailWebViewActivity::class.java
@@ -62,7 +54,7 @@ class KnowledgeSystemArticleListActivity : BaseActivity() {
                     }
 
                 })
-            articleListRecyclerView.adapter = adapter
+            knowledgeSystemArticleRecyclerView.adapter = adapter
         })
 
         knowledgeSystemVm.setKnowledgeSystemArticleListLd(cid)

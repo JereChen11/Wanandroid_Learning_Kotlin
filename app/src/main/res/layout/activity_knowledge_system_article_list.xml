@@ -7,7 +7,7 @@
     tools:context=".view.knowledgesystem.KnowledgeSystemArticleListActivity">
 
     <TextView
-        android:id="@+id/knowledge_system_article_list_title_tv"
+        android:id="@+id/knowledgeSystemArticleListTitleTv"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:gravity="center_vertical"
@@ -22,14 +22,14 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/dark_gray"
-        app:layout_constraintTop_toBottomOf="@id/knowledge_system_article_list_title_tv" />
+        app:layout_constraintTop_toBottomOf="@id/knowledgeSystemArticleListTitleTv" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/knowledge_system_article_recycler_view"
+        android:id="@+id/knowledgeSystemArticleRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/knowledge_system_article_list_title_tv" />
+        app:layout_constraintTop_toBottomOf="@id/knowledgeSystemArticleListTitleTv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

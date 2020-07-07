@@ -27,6 +27,7 @@ class ProjectItemListActivity : BaseActivity() {
     }
 
     private var mProjectItemListDatas: ArrayList<ProjectItemList.DataBean.DatasBean> = ArrayList()
+    private var pageNumber = 0
 
     override fun bindLayout(): Int {
         return R.layout.activity_project_item_list
@@ -40,10 +41,20 @@ class ProjectItemListActivity : BaseActivity() {
 
         val completeProjectVm: CompleteProjectViewModel = ViewModelProvider(this)[CompleteProjectViewModel::class.java]
         completeProjectVm.projectItemListLd.observe(this, Observer {
-            mProjectItemListDatas = it
-            projectItemListRecyclerView.adapter = MyAdapter(this, it)
+            mProjectItemListDatas.addAll(it)
+            projectItemListRecyclerView.adapter = MyAdapter(this, mProjectItemListDatas)
         })
-        completeProjectVm.setProjectItemList(0, cid)
+        completeProjectVm.setProjectItemList(pageNumber, cid)
+
+        projectItemListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1)) {
+                    pageNumber++
+                    completeProjectVm.setProjectItemList(pageNumber, cid)
+                }
+            }
+        })
 
         projectItemListRecyclerView.addOnItemTouchListener(
             RecyclerItemClickListener(this,

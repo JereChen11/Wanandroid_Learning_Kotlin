@@ -42,9 +42,11 @@ abstract class BaseActivity : AppCompatActivity() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(mContextView)
 
-        if (!isAllowScreenRotate) {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-        }
+        //set can rotate screen
+//        if (!isAllowScreenRotate) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+//        }
+
         initView(mContextView)
         doBusiness(this)
     }

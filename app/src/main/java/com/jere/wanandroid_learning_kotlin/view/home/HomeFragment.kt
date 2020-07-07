@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +22,7 @@ import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter.AdapterItemClickListener
 import com.jere.wanandroid_learning_kotlin.viewmodel.home.HomeViewModel
+import kotlinx.android.synthetic.main.fragment_home.*
 import java.lang.ref.WeakReference
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
@@ -36,6 +38,7 @@ class HomeFragment : Fragment() {
     private lateinit var mHomeBannerVp: ViewPager2
     private lateinit var mHomeBannerHandler: HomeBannerHandler
     private lateinit var mHomeBannerExecutorService: ScheduledExecutorService
+    private var pageNumber = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +56,14 @@ class HomeFragment : Fragment() {
 
         initHomeBannerViewPager(view)
         initHomeArticleListRecyclerView(view)
+
+        homeNsv.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (!v.canScrollVertically(1)) {
+                pageNumber++
+                homeViewModel.setHomeArticleList(pageNumber)
+            }
+        })
+
 
         startAutoLoopBanner()
     }
@@ -108,10 +119,10 @@ class HomeFragment : Fragment() {
             view.findViewById(R.id.home_article_list_recycle_view)
 
         homeViewModel.articleListLd.observe(viewLifecycleOwner, Observer {
-            mArticleListData = it
-            val adapter = ArticleListAdapter(it, object : AdapterItemClickListener {
+            mArticleListData.addAll(it)
+            val adapter = ArticleListAdapter(mArticleListData, object : AdapterItemClickListener {
                 override fun onPositionClicked(v: View?, position: Int) {
-                    val link: String? = it[position].link
+                    val link: String? = mArticleListData[position].link
                     val intent = Intent(activity, ArticleDetailWebViewActivity::class.java)
                     intent.putExtra(ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY, link)
                     startActivity(intent)
@@ -124,7 +135,7 @@ class HomeFragment : Fragment() {
             homeArticleListRecyclerView.adapter = adapter
         })
 
-        homeViewModel.setHomeArticleList(1)
+        homeViewModel.setHomeArticleList(pageNumber)
     }
 
     private fun startAutoLoopBanner() {
@@ -183,7 +194,8 @@ class HomeFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            val data: HomeBannerListBean.DataBean = homeBannerList[toRealPosition(position, getRealCount())]
+            val data: HomeBannerListBean.DataBean =
+                homeBannerList[toRealPosition(position, getRealCount())]
             weakReference.get()
                 ?.let { Glide.with(it).load(data.imagePath).into(holder.bannerItemIv) }
 
