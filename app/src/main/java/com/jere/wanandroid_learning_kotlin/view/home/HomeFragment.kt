@@ -35,7 +35,6 @@ class HomeFragment : Fragment() {
     private var mArticleListData: ArrayList<ArticleListBean.DataBean.DatasBean> =
         ArrayList()
     private var mHomeBannerListData: ArrayList<HomeBannerListBean.DataBean> = ArrayList()
-    private lateinit var mHomeBannerVp: ViewPager2
     private lateinit var mHomeBannerHandler: HomeBannerHandler
     private lateinit var mHomeBannerExecutorService: ScheduledExecutorService
     private var pageNumber = 0
@@ -55,7 +54,7 @@ class HomeFragment : Fragment() {
         mHomeBannerHandler = HomeBannerHandler(this)
 
         initHomeBannerViewPager(view)
-        initHomeArticleListRecyclerView(view)
+        initHomeArticleListRecyclerView()
 
         homeNsv.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (!v.canScrollVertically(1)) {
@@ -69,22 +68,18 @@ class HomeFragment : Fragment() {
     }
 
     private fun initHomeBannerViewPager(view: View) {
-        val firstView: View = view.findViewById(R.id.first_indicate_view)
-        val secondView: View = view.findViewById(R.id.second_indicate_view)
-        val thirdView: View = view.findViewById(R.id.third_indicate_view)
-        val fourthView: View = view.findViewById(R.id.fourth_indicate_view)
-        val indicateViews = arrayOf(firstView, secondView, thirdView, fourthView)
+        val indicateViews = arrayOf(firstIndicateView, secondIndicateView, thirdIndicateView, fourthIndicateView)
 
-        mHomeBannerVp = view.findViewById(R.id.home_banner_vp2)
-        mHomeBannerVp.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        homeBannerVp2
+        homeBannerVp2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
 
                 var bannerPosition = position
                 if (bannerPosition == 5) {
-                    mHomeBannerVp.setCurrentItem(1, false)
+                    homeBannerVp2.setCurrentItem(1, false)
                 } else if (bannerPosition == 0) {
-                    mHomeBannerVp.setCurrentItem(4, false)
+                    homeBannerVp2.setCurrentItem(4, false)
                 }
                 bannerPosition = toRealPosition(bannerPosition, 4)
                 for (i in 0..3) {
@@ -107,17 +102,14 @@ class HomeFragment : Fragment() {
         homeViewModel.homeBannerListLd.observe(viewLifecycleOwner, Observer {
             mHomeBannerListData = ArrayList()
             mHomeBannerListData.addAll(it)
-            mHomeBannerVp.adapter = ViewPagerAdapter(this, mHomeBannerListData)
-            mHomeBannerVp.currentItem = 1
+            homeBannerVp2.adapter = ViewPagerAdapter(this, mHomeBannerListData)
+            homeBannerVp2.currentItem = 1
         })
 
         homeViewModel.setHomeBannerList()
     }
 
-    private fun initHomeArticleListRecyclerView(view: View) {
-        val homeArticleListRecyclerView: RecyclerView =
-            view.findViewById(R.id.home_article_list_recycle_view)
-
+    private fun initHomeArticleListRecyclerView() {
         homeViewModel.articleListLd.observe(viewLifecycleOwner, Observer {
             mArticleListData.addAll(it)
             val adapter = ArticleListAdapter(mArticleListData, object : AdapterItemClickListener {
@@ -132,7 +124,7 @@ class HomeFragment : Fragment() {
                 }
 
             })
-            homeArticleListRecyclerView.adapter = adapter
+            homeArticleListRcy.adapter = adapter
         })
 
         homeViewModel.setHomeArticleList(pageNumber)
@@ -220,11 +212,11 @@ class HomeFragment : Fragment() {
             if (msg.what == 1) {
                 val homeFragment: HomeFragment? = weakReference.get()
                 if (homeFragment != null) {
-                    val vpCurrentPosition: Int = homeFragment.mHomeBannerVp.currentItem
+                    val vpCurrentPosition: Int = homeFragment.homeBannerVp2.currentItem
                     if (vpCurrentPosition == 4) {
-                        homeFragment.mHomeBannerVp.currentItem = 1
+                        homeFragment.homeBannerVp2.currentItem = 1
                     } else {
-                        homeFragment.mHomeBannerVp.currentItem = vpCurrentPosition + 1
+                        homeFragment.homeBannerVp2.currentItem = vpCurrentPosition + 1
                     }
                 }
             }
