@@ -2,13 +2,13 @@ package com.jere.wanandroid_learning_kotlin.view.login
 
 import android.content.Context
 import android.text.InputType
-import android.text.TextUtils
 import android.text.method.PasswordTransformationMethod
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.utils.BaseActivity
+import com.jere.wanandroid_learning_kotlin.utils.Settings
 import com.jere.wanandroid_learning_kotlin.viewmodel.login.LoginViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -31,10 +31,21 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         loginVm = ViewModelProvider(this)[LoginViewModel::class.java]
         loginVm.isLoginLd.observe(this, Observer {
-            if (it) {
+            if (it.errorCode == 0) {
+                Settings.setIsLogin(true)
                 finish()
+                showToast(getString(R.string.login_successful_cn))
             } else {
-                showToast(getString(R.string.pls_input_right_username_password_cn))
+                showToast(it.errorMsg)
+            }
+        })
+        loginVm.isRegisterLd.observe(this, Observer {
+            if (it.errorCode == 0) {
+                Settings.setIsLogin(true)
+                finish()
+                showToast(getString(R.string.register_successful_cn))
+            } else {
+                showToast(it.errorMsg)
             }
         })
 
@@ -47,26 +58,27 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.loginOrRegisterBtn -> {
+                val userName = userNameEt.text.toString().trim()
+                val password = passwordEt.text.toString().trim()
+                val rePassword = rePasswordEt.text.toString().trim()
                 if (isLogin) {
-                    if (TextUtils.isEmpty(userNameEt.text.toString())
-                        || TextUtils.isEmpty(passwordEt.text.toString())
-                    ) {
+                    if (userName.isEmpty() || password.isEmpty()) {
                         showToast(getString(R.string.pls_input_right_username_password_cn))
                         return
                     }
-                    loginVm.setIsLoginLd(userNameEt.text.toString(), passwordEt.text.toString())
+                    loginVm.setIsLoginLd(userName, password)
                 } else {
-                    if (TextUtils.isEmpty(userNameEt.text.toString())
-                        || TextUtils.isEmpty(passwordEt.text.toString())
-                        || TextUtils.isEmpty(rePasswordEt.text.toString())
+                    if (userName.isEmpty()
+                        || password.isEmpty()
+                        || rePassword.isEmpty()
                     ) {
                         showToast(getString(R.string.pls_input_right_username_password_cn))
                         return
-                    } else if (rePasswordEt.text != passwordEt.text) {
+                    } else if (rePassword != password) {
                         showToast(getString(R.string.pls_check_password))
                         return
                     }
-
+                    loginVm.setIsRegisterLd(userName, password, rePassword)
                 }
             }
             R.id.goRegisterTv -> {

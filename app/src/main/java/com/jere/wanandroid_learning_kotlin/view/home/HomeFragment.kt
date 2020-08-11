@@ -23,10 +23,16 @@ import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter.AdapterItemClickListener
 import com.jere.wanandroid_learning_kotlin.viewmodel.home.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.coroutineContext
 
 
 class HomeFragment : Fragment() {
@@ -68,7 +74,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun initHomeBannerViewPager(view: View) {
-        val indicateViews = arrayOf(firstIndicateView, secondIndicateView, thirdIndicateView, fourthIndicateView)
+        val indicateViews =
+            arrayOf(firstIndicateView, secondIndicateView, thirdIndicateView, fourthIndicateView)
 
         homeBannerVp2
         homeBannerVp2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -211,7 +218,7 @@ class HomeFragment : Fragment() {
             super.handleMessage(msg)
             if (msg.what == 1) {
                 val homeFragment: HomeFragment? = weakReference.get()
-                if (homeFragment != null) {
+                if (homeFragment?.homeBannerVp2 != null) {
                     val vpCurrentPosition: Int = homeFragment.homeBannerVp2.currentItem
                     if (vpCurrentPosition == 4) {
                         homeFragment.homeBannerVp2.currentItem = 1

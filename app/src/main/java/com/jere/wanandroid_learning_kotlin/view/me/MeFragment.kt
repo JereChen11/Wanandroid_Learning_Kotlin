@@ -15,10 +15,6 @@ import kotlinx.android.synthetic.main.fragment_me.*
 
 class MeFragment : Fragment(), View.OnClickListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

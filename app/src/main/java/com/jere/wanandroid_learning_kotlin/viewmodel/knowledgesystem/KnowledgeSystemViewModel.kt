@@ -1,56 +1,36 @@
 package com.jere.wanandroid_learning_kotlin.viewmodel.knowledgesystem
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.gson.Gson
-import com.jere.wanandroid_learning_kotlin.model.api.AbstractRetrofitCallback
-import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
+import androidx.lifecycle.viewModelScope
 import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
+import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
 import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemCategoryBean
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class KnowledgeSystemViewModel : ViewModel() {
-
-    companion object {
-        const val TAG = "KnowledgeSystemVm"
-    }
-
     val knowledgeSystemCategoryLd: MutableLiveData<ArrayList<KnowledgeSystemCategoryBean.DataBean>> =
         MutableLiveData()
     val knowledgeSystemArticleListLd: MutableLiveData<ArrayList<ArticleListBean.DataBean.DatasBean>> =
         MutableLiveData()
 
     fun setKnowledgeSystemCategoryLd() {
-        ApiWrapper.getInstance()?.getKnowledgeSystemCategory()
-            ?.enqueue(object : AbstractRetrofitCallback() {
-                override fun getSuccessful(responseBody: String) {
-                    val gson = Gson()
-                    val knowledgeSystemCategoryBean: KnowledgeSystemCategoryBean =
-                        gson.fromJson(responseBody, KnowledgeSystemCategoryBean::class.java)
-                    knowledgeSystemCategoryLd.postValue(knowledgeSystemCategoryBean.data)
-                }
-
-                override fun getFailed(failedMsg: String) {
-                    Log.e(TAG, failedMsg)
-                }
-
-            })
+        viewModelScope.launch(Dispatchers.Main) {
+            val knowledgeSystemCategoryBean = withContext(Dispatchers.IO) {
+                ApiWrapper.getInstance()?.getKnowledgeSystemCategory()
+            }
+            knowledgeSystemCategoryLd.value = knowledgeSystemCategoryBean?.data
+        }
     }
 
     fun setKnowledgeSystemArticleListLd(cid: Int) {
-        ApiWrapper.getInstance()?.getKnowledgeSystemArticleList(cid)
-            ?.enqueue(object : AbstractRetrofitCallback() {
-                override fun getSuccessful(responseBody: String) {
-                    val gson = Gson()
-                    val articleListBean: ArticleListBean =
-                        gson.fromJson(responseBody, ArticleListBean::class.java)
-                    knowledgeSystemArticleListLd.postValue(articleListBean.data?.datas)
-                }
-
-                override fun getFailed(failedMsg: String) {
-                    Log.e(TAG, failedMsg)
-                }
-
-            })
+        viewModelScope.launch(Dispatchers.Main) {
+            val articleListBean = withContext(Dispatchers.IO) {
+                ApiWrapper.getInstance()?.getKnowledgeSystemArticleList(cid)
+            }
+            knowledgeSystemArticleListLd.value = articleListBean?.data?.datas
+        }
     }
 }

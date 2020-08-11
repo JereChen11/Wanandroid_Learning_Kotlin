@@ -6,33 +6,9 @@ class LoginBean {
      * errorCode : 0
      * errorMsg :
      */
-    private var data: DataBean? = null
-    private var errorCode = 0
-    private var errorMsg: String? = null
-
-    fun getData(): DataBean? {
-        return data
-    }
-
-    fun setData(data: DataBean?) {
-        this.data = data
-    }
-
-    fun getErrorCode(): Int {
-        return errorCode
-    }
-
-    fun setErrorCode(errorCode: Int) {
-        this.errorCode = errorCode
-    }
-
-    fun getErrorMsg(): String? {
-        return errorMsg
-    }
-
-    fun setErrorMsg(errorMsg: String?) {
-        this.errorMsg = errorMsg
-    }
+    var data: DataBean? = null
+    var errorCode = 0
+    var errorMsg: String? = null
 
     class DataBean {
         /**

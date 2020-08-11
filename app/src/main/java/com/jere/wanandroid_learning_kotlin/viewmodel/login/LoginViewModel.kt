@@ -2,48 +2,58 @@ package com.jere.wanandroid_learning_kotlin.viewmodel.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.gson.Gson
+import androidx.lifecycle.viewModelScope
 import com.jere.wanandroid_learning_kotlin.model.api.AbstractRetrofitCallback
 import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
 import com.jere.wanandroid_learning_kotlin.model.loginbeanfiles.LoginBean
 import com.jere.wanandroid_learning_kotlin.utils.Settings
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginViewModel : ViewModel() {
 
-    val isLoginLd: MutableLiveData<Boolean> = MutableLiveData()
-    val isRegisterLd: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoginLd: MutableLiveData<LoginBean> = MutableLiveData()
+    val isRegisterLd: MutableLiveData<LoginBean> = MutableLiveData()
 
     fun setIsLoginLd(username: String, password: String) {
         val paramsMap = mapOf("username" to username, "password" to password)
-
-        ApiWrapper.getInstance()?.login(paramsMap)?.enqueue(object : AbstractRetrofitCallback() {
-            override fun getSuccessful(responseBody: String) {
-                val gson: Gson = Gson()
-                val loginBean: LoginBean = gson.fromJson(responseBody, LoginBean::class.java)
-                if (loginBean.getErrorCode() == 0) {
-                    isLoginLd.postValue(true)
-                    Settings.setIsLogin(true)
-                }
+        viewModelScope.launch(Dispatchers.Main) {
+            val loginBean = withContext(Dispatchers.IO) {
+                ApiWrapper.getInstance()?.login(paramsMap)
             }
-
-            override fun getFailed(failedMsg: String) {
-                isLoginLd.postValue(false)
-            }
-
-        })
+            isLoginLd.value = loginBean
+//            if (loginBean?.errorCode == 0) {
+//                isLoginLd.value = true
+//                Settings.setIsLogin(true)
+//            }
+        }
     }
 
     fun setIsRegisterLd(username: String, password: String, repassword: String) {
-        val paramsMap = mapOf("username" to username, "password" to password, "repassword" to repassword)
-
-        ApiWrapper.getInstance()?.register(paramsMap)?.enqueue(object : AbstractRetrofitCallback() {
-            override fun getSuccessful(responseBody: String) {
-
+        val paramsMap =
+            mapOf("username" to username, "password" to password, "repassword" to repassword)
+        viewModelScope.launch(Dispatchers.Main) {
+            val registerLoginBean = withContext(Dispatchers.IO) {
+                ApiWrapper.getInstance()?.register(paramsMap)
             }
-
-            override fun getFailed(failedMsg: String) {
-            }
-
-        })
+            isRegisterLd.value = registerLoginBean
+//            if (loginBean?.errorCode == 0) {
+//                isRegisterLd.value = true
+//                Settings.setIsLogin(true)
+//            } else {
+//                isRegisterLd.value = false
+//            }
+        }
+//        ApiWrapper.getInstance()?.register(paramsMap)?.enqueue(object : AbstractRetrofitCallback() {
+//            override fun getSuccessful(responseBody: String) {
+//                isRegisterLd.value = true
+//            }
+//
+//            override fun getFailed(failedMsg: String) {
+//                isRegisterLd.value = false
+//            }
+//
+//        })
     }
 }

@@ -2,10 +2,12 @@ package com.jere.wanandroid_learning_kotlin.viewmodel.mycollection
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.gson.Gson
-import com.jere.wanandroid_learning_kotlin.model.api.AbstractRetrofitCallback
-import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
+import androidx.lifecycle.viewModelScope
 import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
+import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MyCollectionViewModel : ViewModel() {
 
@@ -13,22 +15,11 @@ class MyCollectionViewModel : ViewModel() {
         MutableLiveData()
 
     fun setHomeArticleListLd(pageId: Int) {
-        ApiWrapper.getInstance()?.getCollectionArticleList(pageId)
-            ?.enqueue(object : AbstractRetrofitCallback() {
-                override fun getSuccessful(responseBody: String) {
-                    val articleListBean: ArticleListBean =
-                        Gson().fromJson(responseBody, ArticleListBean::class.java)
-                    val datas: ArrayList<ArticleListBean.DataBean.DatasBean> =
-                        articleListBean.data?.datas!!
-                    for (data in datas) {
-                        data.isCollect = true
-                    }
-                    collectionArticleListLd.postValue(articleListBean.data?.datas)
-                }
-
-                override fun getFailed(failedMsg: String) {
-                }
-
-            })
+        viewModelScope.launch(Dispatchers.Main) {
+            val articleListBean = withContext(Dispatchers.IO) {
+                ApiWrapper.getInstance()?.getCollectionArticleList(pageId)
+            }
+            collectionArticleListLd.value = articleListBean?.data?.datas
+        }
     }
 }

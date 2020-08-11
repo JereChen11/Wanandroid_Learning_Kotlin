@@ -1,5 +1,12 @@
 package com.jere.wanandroid_learning_kotlin.model.api
 
+import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
+import com.jere.wanandroid_learning_kotlin.model.completeprojectbeanfiles.ProjectItemList
+import com.jere.wanandroid_learning_kotlin.model.completeprojectbeanfiles.ProjectTreeItem
+import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeBannerListBean
+import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemCategoryBean
+import com.jere.wanandroid_learning_kotlin.model.loginbeanfiles.LoginBean
+import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatBloggerList
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -10,48 +17,48 @@ import retrofit2.http.*
 interface ApiService {
 
     @GET("banner/json")
-    fun getHomeBannerList(): Call<ResponseBody>
+    suspend fun getHomeBannerList(): HomeBannerListBean
 
     @GET("article/list/{pageNumber}/json")
-    fun getHomeArticleList(@Path("pageNumber") pageNumber: Int): Call<ResponseBody>
+    suspend fun getHomeArticleList(@Path("pageNumber") pageNumber: Int): ArticleListBean
 
 
     @GET("project/tree/json")
-    fun getProjectTreeItems(): Call<ResponseBody>
+    suspend fun getProjectTreeItems(): ProjectTreeItem
 
     @GET("project/list/{pageNumber}/json?")
-    fun getProjectItemList(
+    suspend fun getProjectItemList(
         @Path("pageNumber") pageNumber: Int,
         @Query("cid") cid: Int
-    ): Call<ResponseBody>
+    ): ProjectItemList
 
     @GET("wxarticle/chapters/json")
-    fun getWeChatBloggerList(): Call<ResponseBody>
+    suspend fun getWeChatBloggerList(): WeChatBloggerList
 
     @GET("/wxarticle/list/{authorId}/{pageNumber}/json")
-    fun getWeChatArticleList(
+    suspend fun getWeChatArticleList(
         @Path("authorId") authorId: Int,
         @Path("pageNumber") pageNumber: Int
-    ): Call<ResponseBody>
+    ): ArticleListBean
 
     @GET("tree/json")
-    fun getKnowledgeSystemCategory(): Call<ResponseBody>
+    suspend fun getKnowledgeSystemCategory(): KnowledgeSystemCategoryBean
 
     @GET("article/list/0/json?")
-    fun getKnowledgeSystemArticleList(@Query("cid") cid: Int): Call<ResponseBody>
+    suspend fun getKnowledgeSystemArticleList(@Query("cid") cid: Int): ArticleListBean
 
     @POST("user/login")
-    fun login(@QueryMap paramsMap: @JvmSuppressWildcards Map<String, Any>): Call<ResponseBody>
+    suspend fun login(@QueryMap paramsMap: @JvmSuppressWildcards Map<String, Any>): LoginBean
 
     @POST("user/register")
-    fun register(@QueryMap paramsMap: @JvmSuppressWildcards Map<String, Any>): Call<ResponseBody>
+    suspend fun register(@QueryMap paramsMap: @JvmSuppressWildcards Map<String, Any>): LoginBean
 
     /**
      * 获取收藏的文章列表
      * @return
      */
     @GET("/lg/collect/list/{pageId}/json")
-    fun getCollectionArticleList(@Path("pageId") pageId: Int): Call<ResponseBody>
+    suspend fun getCollectionArticleList(@Path("pageId") pageId: Int): ArticleListBean
 
     /**
      * 收藏文章
