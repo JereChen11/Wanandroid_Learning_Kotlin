@@ -31,21 +31,21 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         loginVm = ViewModelProvider(this)[LoginViewModel::class.java]
         loginVm.isLoginLd.observe(this, Observer {
-            if (it.errorCode == 0) {
+            if (it.isSuccess) {
                 Settings.setIsLogin(true)
                 finish()
                 showToast(getString(R.string.login_successful_cn))
             } else {
-                showToast(it.errorMsg)
+                showToast(it.msg)
             }
         })
         loginVm.isRegisterLd.observe(this, Observer {
-            if (it.errorCode == 0) {
+            if (it.isSuccess) {
                 Settings.setIsLogin(true)
                 finish()
                 showToast(getString(R.string.register_successful_cn))
             } else {
-                showToast(it.errorMsg)
+                showToast(it.msg)
             }
         })
 

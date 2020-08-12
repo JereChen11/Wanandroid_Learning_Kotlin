@@ -6,8 +6,8 @@ import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
 object CollectionRepository {
 
     fun collectArticle(articleId: Int, listener: CollectOrUnCollectListener) {
-        ApiWrapper.getInstance()?.collectArticle(articleId)
-            ?.enqueue(object : AbstractRetrofitCallback() {
+        ApiWrapper.getInstance().collectArticle(articleId)
+            .enqueue(object : AbstractRetrofitCallback() {
 
                 override fun getSuccessful(responseBody: String) {
                     listener.isSuccessful(true)
@@ -20,8 +20,8 @@ object CollectionRepository {
     }
 
     fun unCollectArticle(articleId: Int, listener: CollectOrUnCollectListener) {
-        ApiWrapper.getInstance()?.unCollectArticle(articleId)
-            ?.enqueue(object : AbstractRetrofitCallback() {
+        ApiWrapper.getInstance().unCollectArticle(articleId)
+            .enqueue(object : AbstractRetrofitCallback() {
 
                 override fun getSuccessful(responseBody: String) {
                     listener.isSuccessful(true)

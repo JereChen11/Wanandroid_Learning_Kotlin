@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
+import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.Article
 import com.jere.wanandroid_learning_kotlin.utils.BaseActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_knowledge_system_article_list.*
 
 class KnowledgeSystemArticleListActivity : BaseActivity() {
     private lateinit var knowledgeSystemVm: KnowledgeSystemViewModel
-    private var mKnowledgeSystemArticleListData: ArrayList<ArticleListBean.DataBean.DatasBean> =
+    private var mKnowledgeSystemArticleListData: ArrayList<Article> =
         ArrayList()
 
     override fun bindLayout(): Int {
@@ -33,7 +34,8 @@ class KnowledgeSystemArticleListActivity : BaseActivity() {
         knowledgeSystemArticleListTitleTv.text = name
 
         knowledgeSystemVm.knowledgeSystemArticleListLd.observe(this, Observer {
-            mKnowledgeSystemArticleListData.addAll(it)
+            mKnowledgeSystemArticleListData.clear()
+            mKnowledgeSystemArticleListData.addAll(it.articles)
 
             val adapter =
                 ArticleListAdapter(mKnowledgeSystemArticleListData, object : ArticleListAdapter.AdapterItemClickListener {

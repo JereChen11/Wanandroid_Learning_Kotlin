@@ -8,13 +8,13 @@ import java.util.concurrent.TimeUnit
 
 object ApiWrapper {
 
-    private var instance: ApiService? = null
+    private lateinit var instance: ApiService
 
     //const 用于修饰常量
     private const val BASE_URL: String = "https://www.wanandroid.com/"
 
-    fun getInstance(): ApiService? {
-        var okHttpClient: OkHttpClient = if (!Settings.getIsLogin()) {
+    fun getInstance(): ApiService {
+        val okHttpClient: OkHttpClient = if (!Settings.getIsLogin()) {
             OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(30, TimeUnit.SECONDS)

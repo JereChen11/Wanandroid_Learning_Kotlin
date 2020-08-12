@@ -20,7 +20,7 @@ import com.jere.wanandroid_learning_kotlin.viewmodel.completeproject.CompletePro
 class CompleteProjectFragment : Fragment() {
 
     private lateinit var completeProjectVm: CompleteProjectViewModel
-    private var mProjectTreeItems: ArrayList<ProjectTreeItem.DataBean> = ArrayList()
+    private var mProjectTreeItems: ArrayList<ProjectTreeItem> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,15 +58,16 @@ class CompleteProjectFragment : Fragment() {
         ))
 
         completeProjectVm.projectTreeItemsLd.observe(viewLifecycleOwner, Observer {
-            mProjectTreeItems = it
-            completeProjectRv.adapter = MyAdapter(it)
+            mProjectTreeItems.clear()
+            mProjectTreeItems.addAll(it)
+            completeProjectRv.adapter = MyAdapter(mProjectTreeItems)
         })
         completeProjectVm.setProjectTreeItems()
     }
 
-    class MyAdapter(projectItems: ArrayList<ProjectTreeItem.DataBean>) :
+    class MyAdapter(projectItems: ArrayList<ProjectTreeItem>) :
         RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-        private var projectItems: ArrayList<ProjectTreeItem.DataBean> = ArrayList()
+        private var projectItems: ArrayList<ProjectTreeItem> = ArrayList()
 
         init {
             this.projectItems = projectItems
@@ -88,7 +89,7 @@ class CompleteProjectFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            val data: ProjectTreeItem.DataBean = projectItems[position]
+            val data: ProjectTreeItem = projectItems[position]
             holder.contentTv.text = data.name
         }
     }

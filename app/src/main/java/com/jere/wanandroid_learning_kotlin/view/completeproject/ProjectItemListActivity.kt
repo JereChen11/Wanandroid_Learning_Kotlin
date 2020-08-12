@@ -2,19 +2,17 @@ package com.jere.wanandroid_learning_kotlin.view.completeproject
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jere.wanandroid_learning_kotlin.R
-import com.jere.wanandroid_learning_kotlin.model.completeprojectbeanfiles.ProjectItemList
+import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.Article
 import com.jere.wanandroid_learning_kotlin.utils.BaseActivity
 import com.jere.wanandroid_learning_kotlin.utils.RecyclerItemClickListener
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
@@ -26,7 +24,7 @@ class ProjectItemListActivity : BaseActivity() {
         const val PROJECT_TREE_ITEM_ID_KEY = "PROJECT_TREE_ITEM_ID"
     }
 
-    private var mProjectItemListDatas: ArrayList<ProjectItemList.DataBean.DatasBean> = ArrayList()
+    private var mProjectItemListDatas: ArrayList<Article> = ArrayList()
     private var pageNumber = 0
 
     override fun bindLayout(): Int {
@@ -41,7 +39,7 @@ class ProjectItemListActivity : BaseActivity() {
 
         val completeProjectVm: CompleteProjectViewModel = ViewModelProvider(this)[CompleteProjectViewModel::class.java]
         completeProjectVm.projectItemListLd.observe(this, Observer {
-            mProjectItemListDatas.addAll(it)
+            mProjectItemListDatas.addAll(it.articles)
             projectItemListRecyclerView.adapter = MyAdapter(this, mProjectItemListDatas)
         })
         completeProjectVm.setProjectItemList(pageNumber, cid)
@@ -85,10 +83,10 @@ class ProjectItemListActivity : BaseActivity() {
 
     class MyAdapter(
         projectItemListActivity: ProjectItemListActivity,
-        projectItems: ArrayList<ProjectItemList.DataBean.DatasBean>
+        projectItems: ArrayList<Article>
     ) :
         RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-        private var projectItems: ArrayList<ProjectItemList.DataBean.DatasBean> = ArrayList()
+        private var projectItems: ArrayList<Article> = ArrayList()
         private var weakReference: WeakReference<ProjectItemListActivity>
 
         init {
@@ -117,7 +115,7 @@ class ProjectItemListActivity : BaseActivity() {
         }
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            val data: ProjectItemList.DataBean.DatasBean = projectItems[position]
+            val data: Article = projectItems[position]
             weakReference.get()
                 ?.let { Glide.with(it).load(data.envelopePic).into(holder.envelopIv) }
             holder.titleTv.text = data.title

@@ -3,23 +3,25 @@ package com.jere.wanandroid_learning_kotlin.viewmodel.mycollection
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
-import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
+import com.jere.wanandroid_learning_kotlin.model.BaseResult
+import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.ArticleList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MyCollectionViewModel : ViewModel() {
 
-    val collectionArticleListLd: MutableLiveData<ArrayList<ArticleListBean.DataBean.DatasBean>> =
+    val collectionArticleListLd: MutableLiveData<ArticleList> =
         MutableLiveData()
 
-    fun setHomeArticleListLd(pageId: Int) {
+    fun setCollectionArticleListLd(pageNumber: Int) {
         viewModelScope.launch(Dispatchers.Main) {
-            val articleListBean = withContext(Dispatchers.IO) {
-                ApiWrapper.getInstance()?.getCollectionArticleList(pageId)
+            val result = withContext(Dispatchers.IO) {
+                MyCollectionRepository().getCollectionArticleList(pageNumber)
             }
-            collectionArticleListLd.value = articleListBean?.data?.datas
+            if (result is BaseResult.Success) {
+                collectionArticleListLd.value = result.data
+            }
         }
     }
 }

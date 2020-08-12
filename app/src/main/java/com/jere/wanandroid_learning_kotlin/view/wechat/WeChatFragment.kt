@@ -12,7 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
-import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatBloggerList
+import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.Article
+import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatBlogger
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
 import com.jere.wanandroid_learning_kotlin.viewmodel.wechat.WeChatViewModel
@@ -21,8 +22,8 @@ import kotlinx.android.synthetic.main.fragment_we_chat.*
 class WeChatFragment : Fragment() {
 
     private lateinit var weChatVm: WeChatViewModel
-    private var mWeChatBloggerList: ArrayList<WeChatBloggerList.DataBean> = ArrayList()
-    private var mWeChatArticleList: ArrayList<ArticleListBean.DataBean.DatasBean> = ArrayList()
+    private var mWeChatBlogger: ArrayList<WeChatBlogger> = ArrayList()
+    private var mWeChatArticleList: ArrayList<Article> = ArrayList()
     private var currentSelectedBloggerId = 0
     private var pageNumber = 0
 
@@ -38,8 +39,9 @@ class WeChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        weChatVm.weChatBloggerListLd.observe(viewLifecycleOwner, Observer {
-            mWeChatBloggerList = it
+        weChatVm.weChatBloggerLd.observe(viewLifecycleOwner, Observer {
+            mWeChatBlogger.clear()
+            mWeChatBlogger.addAll(it)
             for (dataBean in it) {
                 weChatBloggerTabLayout.addTab(
                     weChatBloggerTabLayout.newTab().setText(dataBean.name)
@@ -48,11 +50,12 @@ class WeChatFragment : Fragment() {
         })
 
         weChatVm.weChatArticleListLd.observe(viewLifecycleOwner, Observer {
-            mWeChatArticleList.addAll(it)
+            mWeChatArticleList.clear()
+            mWeChatArticleList.addAll(it.articles)
             val adapter = ArticleListAdapter(mWeChatArticleList, object :
                 ArticleListAdapter.AdapterItemClickListener {
                 override fun onPositionClicked(v: View?, position: Int) {
-                    val link: String? = it[position].link
+                    val link: String? = it.articles[position].link
                     val intent = Intent(activity, ArticleDetailWebViewActivity::class.java)
                     intent.putExtra(ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY, link)
                     startActivity(intent)
@@ -69,7 +72,7 @@ class WeChatFragment : Fragment() {
 
         weChatBloggerTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                currentSelectedBloggerId = mWeChatBloggerList[tab?.position!!].id
+                currentSelectedBloggerId = mWeChatBlogger[tab?.position!!].id
                 weChatVm.setWeChatArticleListLd(currentSelectedBloggerId, pageNumber)
                 mWeChatArticleList.clear()
             }

@@ -13,13 +13,14 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.jere.wanandroid_learning_kotlin.R
-import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemCategoryBean
+import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemCategory
+import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemCategoryChildren
 import com.jere.wanandroid_learning_kotlin.viewmodel.knowledgesystem.KnowledgeSystemViewModel
 
 class KnowledgeSystemFragment : Fragment() {
 
     private lateinit var knowledgeSystemVm: KnowledgeSystemViewModel
-    private var mKnowledgeSystemCategoryList: ArrayList<KnowledgeSystemCategoryBean.DataBean> =
+    private var mKnowledgeSystemCategoryList: ArrayList<KnowledgeSystemCategory> =
         ArrayList()
 
     override fun onCreateView(
@@ -39,15 +40,20 @@ class KnowledgeSystemFragment : Fragment() {
         knowledgeSystemVm.knowledgeSystemCategoryLd.observe(
             viewLifecycleOwner,
             androidx.lifecycle.Observer {
-                mKnowledgeSystemCategoryList = it
-                expandableListView.setAdapter(KnowledgeSystemListAdapter(it))
+                mKnowledgeSystemCategoryList.clear()
+                mKnowledgeSystemCategoryList.addAll(it)
+                expandableListView.setAdapter(
+                    KnowledgeSystemListAdapter(
+                        mKnowledgeSystemCategoryList
+                    )
+                )
             })
 
         knowledgeSystemVm.setKnowledgeSystemCategoryLd()
 
-        expandableListView.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
-            val childData: KnowledgeSystemCategoryBean.DataBean.ChildrenBean =
-                mKnowledgeSystemCategoryList[groupPosition].children!![childPosition]
+        expandableListView.setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
+            val childData: KnowledgeSystemCategoryChildren =
+                mKnowledgeSystemCategoryList[groupPosition].children[childPosition]
             val cid: Int = childData.id
             val name: String? = childData.name
             val intent = Intent(context, KnowledgeSystemArticleListActivity::class.java)
@@ -59,10 +65,10 @@ class KnowledgeSystemFragment : Fragment() {
     }
 
     class KnowledgeSystemListAdapter(
-        groupDataList: ArrayList<KnowledgeSystemCategoryBean.DataBean>
+        groupDataList: ArrayList<KnowledgeSystemCategory>
     ) : BaseExpandableListAdapter() {
 
-        private var mGroupDataList: ArrayList<KnowledgeSystemCategoryBean.DataBean> = ArrayList()
+        private var mGroupDataList: ArrayList<KnowledgeSystemCategory> = ArrayList()
 
         init {
             this.mGroupDataList = groupDataList
@@ -73,7 +79,7 @@ class KnowledgeSystemFragment : Fragment() {
         }
 
         override fun getChildrenCount(groupPosition: Int): Int {
-            return mGroupDataList[groupPosition].children?.size!!
+            return mGroupDataList[groupPosition].children.size
         }
 
         override fun getGroup(groupPosition: Int): Any {
@@ -81,7 +87,7 @@ class KnowledgeSystemFragment : Fragment() {
         }
 
         override fun getChild(groupPosition: Int, childPosition: Int): Any {
-            return mGroupDataList[groupPosition].children?.get(childPosition)!!
+            return mGroupDataList[groupPosition].children[childPosition]
         }
 
         override fun getGroupId(groupPosition: Int): Long {
@@ -130,7 +136,7 @@ class KnowledgeSystemFragment : Fragment() {
                 .inflate(R.layout.knowledge_system_child_item_view, parent, false)
             val childTitleTv = mConvertView.findViewById<TextView>(R.id.child_title_tv)
             val childTitleString: String? =
-                mGroupDataList[groupPosition].children?.get(childPosition)?.name
+                mGroupDataList[groupPosition].children[childPosition].name
             if (!TextUtils.isEmpty(childTitleString)) {
                 childTitleTv.text = childTitleString
             }

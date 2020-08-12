@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.CollectionRepository
 import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
+import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.Article
 
 class ArticleListAdapter(
-    articleList: ArrayList<ArticleListBean.DataBean.DatasBean>,
+    articleList: ArrayList<Article>,
     adapter: AdapterItemClickListener
 ) :
     RecyclerView.Adapter<ArticleListAdapter.MyViewHolder>() {
@@ -22,7 +23,7 @@ class ArticleListAdapter(
         fun onLongClicked(v: View?, position: Int)
     }
 
-    private var articleList: ArrayList<ArticleListBean.DataBean.DatasBean> = ArrayList()
+    private var articleList: ArrayList<Article> = ArrayList()
     private val adapterItemClickListener: AdapterItemClickListener
 
     init {
@@ -70,24 +71,24 @@ class ArticleListAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val data: ArticleListBean.DataBean.DatasBean = articleList[position]
+        val data: Article = articleList[position]
         holder.titleTv.text = data.title
         holder.authorTv.text = data.author
         holder.dateTv.text = data.niceShareDate
-        if (data.isCollect) {
+        if (data.collect) {
             holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_star)
         } else {
             holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
         }
         holder.collectionIconIv.setOnClickListener {
-            if (data.isCollect) {
+            if (data.collect) {
                 CollectionRepository.unCollectArticle(
                     data.id,
                     object : CollectionRepository.CollectOrUnCollectListener {
                         override fun isSuccessful(isSuccess: Boolean) {
                             if (isSuccess) {
                                 holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
-                                data.isCollect = false
+                                data.collect = false
                             }
                         }
                     }
@@ -99,7 +100,7 @@ class ArticleListAdapter(
                         override fun isSuccessful(isSuccess: Boolean) {
                             if (isSuccess) {
                                 holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_star)
-                                data.isCollect = true
+                                data.collect = true
                             }
                         }
 

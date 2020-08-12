@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,31 +18,23 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.jere.wanandroid_learning_kotlin.R
-import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
-import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeBannerListBean
+import com.jere.wanandroid_learning_kotlin.model.CollectionRepository
+import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.Article
+import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeBanner
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
-import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
-import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter.AdapterItemClickListener
 import com.jere.wanandroid_learning_kotlin.viewmodel.home.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.coroutineContext
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
-    private var mArticleListData: ArrayList<ArticleListBean.DataBean.DatasBean> =
-        ArrayList()
-    private var mHomeBannerListData: ArrayList<HomeBannerListBean.DataBean> = ArrayList()
+    private var mArticleListData: ArrayList<Article> = ArrayList()
+    private var mHomeBannerListData: ArrayList<HomeBanner> = ArrayList()
     private lateinit var mHomeBannerHandler: HomeBannerHandler
     private lateinit var mHomeBannerExecutorService: ScheduledExecutorService
     private var pageNumber = 0
@@ -107,7 +101,7 @@ class HomeFragment : Fragment() {
         })
 
         homeViewModel.homeBannerListLd.observe(viewLifecycleOwner, Observer {
-            mHomeBannerListData = ArrayList()
+            mHomeBannerListData.clear()
             mHomeBannerListData.addAll(it)
             homeBannerVp2.adapter = ViewPagerAdapter(this, mHomeBannerListData)
             homeBannerVp2.currentItem = 1
@@ -118,19 +112,24 @@ class HomeFragment : Fragment() {
 
     private fun initHomeArticleListRecyclerView() {
         homeViewModel.articleListLd.observe(viewLifecycleOwner, Observer {
-            mArticleListData.addAll(it)
-            val adapter = ArticleListAdapter(mArticleListData, object : AdapterItemClickListener {
-                override fun onPositionClicked(v: View?, position: Int) {
-                    val link: String? = mArticleListData[position].link
-                    val intent = Intent(activity, ArticleDetailWebViewActivity::class.java)
-                    intent.putExtra(ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY, link)
-                    startActivity(intent)
-                }
+            mArticleListData.addAll(it.articles)
+            val adapter = MyArticleListAdapter(
+                mArticleListData,
+                object : MyArticleListAdapter.AdapterItemClickListener {
+                    override fun onPositionClicked(v: View?, position: Int) {
+                        val link: String? = mArticleListData[position].link
+                        val intent = Intent(activity, ArticleDetailWebViewActivity::class.java)
+                        intent.putExtra(
+                            ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
+                            link
+                        )
+                        startActivity(intent)
+                    }
 
-                override fun onLongClicked(v: View?, position: Int) {
-                }
+                    override fun onLongClicked(v: View?, position: Int) {
+                    }
 
-            })
+                })
             homeArticleListRcy.adapter = adapter
         })
 
@@ -159,10 +158,10 @@ class HomeFragment : Fragment() {
 
     inner class ViewPagerAdapter(
         homeFragment: HomeFragment,
-        homeBannerList: ArrayList<HomeBannerListBean.DataBean>
+        homeBannerList: ArrayList<HomeBanner>
     ) :
         RecyclerView.Adapter<ViewPagerAdapter.MyViewHolder>() {
-        private var homeBannerList: ArrayList<HomeBannerListBean.DataBean> = ArrayList()
+        private var homeBannerList: ArrayList<HomeBanner> = ArrayList()
         private var weakReference: WeakReference<HomeFragment>
 
         init {
@@ -193,7 +192,7 @@ class HomeFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            val data: HomeBannerListBean.DataBean =
+            val data: HomeBanner =
                 homeBannerList[toRealPosition(position, getRealCount())]
             weakReference.get()
                 ?.let { Glide.with(it).load(data.imagePath).into(holder.bannerItemIv) }
@@ -235,6 +234,105 @@ class HomeFragment : Fragment() {
         if (!mHomeBannerExecutorService.isShutdown) {
             mHomeBannerExecutorService.shutdown()
         }
+    }
+
+    class MyArticleListAdapter(
+        articleList: ArrayList<Article>,
+        adapter: AdapterItemClickListener
+    ) :
+        RecyclerView.Adapter<MyArticleListAdapter.MyViewHolder>() {
+
+        interface AdapterItemClickListener {
+            fun onPositionClicked(v: View?, position: Int)
+            fun onLongClicked(v: View?, position: Int)
+        }
+
+        private var articleList: ArrayList<Article> = ArrayList()
+        private val adapterItemClickListener: AdapterItemClickListener
+
+        init {
+            this.articleList = articleList
+            this.adapterItemClickListener = adapter
+        }
+
+        class MyViewHolder(itemView: View, adapter: AdapterItemClickListener) :
+            RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener {
+
+            private val adapterItemClickListener: AdapterItemClickListener = adapter
+            private val containerCl: ConstraintLayout =
+                itemView.findViewById(R.id.article_list_item_container_cl)
+            val titleTv: TextView = itemView.findViewById(R.id.article_list_item_title_tv)
+            val authorTv: TextView = itemView.findViewById(R.id.article_list_item_author_tv)
+            val dateTv: TextView = itemView.findViewById(R.id.article_list_item_shared_date_tv)
+            val collectionIconIv: ImageView = itemView.findViewById(R.id.collection_icon_iv)
+
+            init {
+                containerCl.setOnClickListener(this)
+                titleTv.setOnClickListener(this)
+                authorTv.setOnClickListener(this)
+                dateTv.setOnClickListener(this)
+                collectionIconIv.setOnClickListener(this)
+            }
+
+            override fun onClick(v: View?) {
+                adapterItemClickListener.onPositionClicked(v, adapterPosition)
+            }
+
+            override fun onLongClick(v: View?): Boolean {
+                adapterItemClickListener.onLongClicked(v, adapterPosition)
+                return true
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+            val view: View = LayoutInflater.from(parent.context)
+                .inflate(R.layout.recycler_item_view_home_article_list_item, parent, false)
+            return MyViewHolder(view, adapterItemClickListener)
+        }
+
+        override fun getItemCount(): Int {
+            return articleList.size
+        }
+
+        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+            val data: Article = articleList[position]
+            holder.titleTv.text = data.title
+            holder.authorTv.text = data.author
+            holder.dateTv.text = data.niceShareDate
+            if (data.collect) {
+                holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_star)
+            } else {
+                holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
+            }
+            holder.collectionIconIv.setOnClickListener {
+                if (data.collect) {
+                    CollectionRepository.unCollectArticle(
+                        data.id,
+                        object : CollectionRepository.CollectOrUnCollectListener {
+                            override fun isSuccessful(isSuccess: Boolean) {
+                                if (isSuccess) {
+                                    holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
+                                    data.collect = false
+                                }
+                            }
+                        }
+                    )
+                } else {
+                    CollectionRepository.collectArticle(
+                        data.id,
+                        object : CollectionRepository.CollectOrUnCollectListener {
+                            override fun isSuccessful(isSuccess: Boolean) {
+                                if (isSuccess) {
+                                    holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_star)
+                                    data.collect = true
+                                }
+                            }
+
+                        })
+                }
+            }
+        }
+
     }
 
 }

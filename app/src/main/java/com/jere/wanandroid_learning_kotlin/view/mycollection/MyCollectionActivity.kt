@@ -6,7 +6,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.jere.wanandroid_learning_kotlin.R
-import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
+import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.Article
 import com.jere.wanandroid_learning_kotlin.utils.BaseActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_my_collection.*
 
 class MyCollectionActivity : BaseActivity() {
     private lateinit var myCollectionVm: MyCollectionViewModel
-    private var collectionArticleList: ArrayList<ArticleListBean.DataBean.DatasBean> = ArrayList()
+    private var collectionArticleList: ArrayList<Article> = ArrayList()
 
     override fun bindLayout(): Int {
         return R.layout.activity_my_collection
@@ -26,9 +26,10 @@ class MyCollectionActivity : BaseActivity() {
 
         myCollectionVm = ViewModelProvider(this)[MyCollectionViewModel::class.java]
         myCollectionVm.collectionArticleListLd.observe(this, Observer {
-            collectionArticleList = it
+            collectionArticleList.clear()
+            collectionArticleList.addAll(it.articles)
             val articleListAdapter: ArticleListAdapter? =
-                ArticleListAdapter(it, object : AdapterItemClickListener {
+                ArticleListAdapter(collectionArticleList, object : AdapterItemClickListener {
                     override fun onPositionClicked(v: View?, position: Int) {
                         val link: String? = collectionArticleList[position].link
 
@@ -54,7 +55,7 @@ class MyCollectionActivity : BaseActivity() {
     }
 
     override fun doBusiness(mContext: Context?) {
-        myCollectionVm.setHomeArticleListLd(0)
+        myCollectionVm.setCollectionArticleListLd(0)
         backIv.setOnClickListener {
             finish()
         }
