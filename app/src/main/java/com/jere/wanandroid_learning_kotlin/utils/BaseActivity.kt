@@ -11,6 +11,9 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.jaeger.library.StatusBarUtil
+import com.jere.wanandroid_learning_kotlin.R
 
 abstract class BaseActivity : AppCompatActivity() {
     /**
@@ -34,18 +37,22 @@ abstract class BaseActivity : AppCompatActivity() {
         mContextView = LayoutInflater.from(this).inflate(bindLayout(), null)
 
         //hide time, battery status bar
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
+//        window.setFlags(
+//            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//            WindowManager.LayoutParams.FLAG_FULLSCREEN
+//        )
+
         //hide app title bar
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        requestWindowFeature(Window.FEATURE_NO_TITLE)
+
         setContentView(mContextView)
 
         //set can rotate screen
 //        if (!isAllowScreenRotate) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 //        }
+
+        setStatusBar()
 
         initView(mContextView)
         doBusiness(this)
@@ -69,6 +76,10 @@ abstract class BaseActivity : AppCompatActivity() {
      * @param mContext
      */
     abstract fun doBusiness(mContext: Context?)
+
+    protected open fun setStatusBar() {
+        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.dark_gray), 0)
+    }
 
     /**
      * [页面跳转]

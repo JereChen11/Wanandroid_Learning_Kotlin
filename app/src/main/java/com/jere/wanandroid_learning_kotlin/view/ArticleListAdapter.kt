@@ -9,12 +9,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.CollectionRepository
-import com.jere.wanandroid_learning_kotlin.model.ArticleListBean
 import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.Article
 
 class ArticleListAdapter(
-    articleList: ArrayList<Article>,
-    adapter: AdapterItemClickListener
+    private val articleList: ArrayList<Article>,
+    private val adapterItemClickListener: AdapterItemClickListener
 ) :
     RecyclerView.Adapter<ArticleListAdapter.MyViewHolder>() {
 
@@ -23,24 +22,16 @@ class ArticleListAdapter(
         fun onLongClicked(v: View?, position: Int)
     }
 
-    private var articleList: ArrayList<Article> = ArrayList()
-    private val adapterItemClickListener: AdapterItemClickListener
-
-    init {
-        this.articleList = articleList
-        this.adapterItemClickListener = adapter
-    }
-
     class MyViewHolder(itemView: View, adapter: AdapterItemClickListener) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener {
 
         private val adapterItemClickListener: AdapterItemClickListener = adapter
         private val containerCl: ConstraintLayout =
-            itemView.findViewById(R.id.article_list_item_container_cl)
-        val titleTv: TextView = itemView.findViewById(R.id.article_list_item_title_tv)
-        val authorTv: TextView = itemView.findViewById(R.id.article_list_item_author_tv)
-        val dateTv: TextView = itemView.findViewById(R.id.article_list_item_shared_date_tv)
-        val collectionIconIv: ImageView = itemView.findViewById(R.id.collection_icon_iv)
+            itemView.findViewById(R.id.articleListItemContainerCl)
+        val titleTv: TextView = itemView.findViewById(R.id.articleListItemTitleTv)
+        val authorTv: TextView = itemView.findViewById(R.id.articleListItemAuthorTv)
+        val dateTv: TextView = itemView.findViewById(R.id.articleListItemSharedDateTv)
+        val collectionIconIv: ImageView = itemView.findViewById(R.id.collectionIconIv)
 
         init {
             containerCl.setOnClickListener(this)
@@ -73,7 +64,7 @@ class ArticleListAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data: Article = articleList[position]
         holder.titleTv.text = data.title
-        holder.authorTv.text = data.author
+        holder.authorTv.text = if (data.author.isNotEmpty()) data.author else data.shareUser
         holder.dateTv.text = data.niceShareDate
         if (data.collect) {
             holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_star)

@@ -15,11 +15,15 @@
         <item
             android:id="@+id/nav_we_chat"
             android:icon="@drawable/we_chat_icon"
-            android:title="@string/menu_we_chart" />
+            android:title="@string/menu_we_chat" />
         <item
             android:id="@+id/nav_knowledge_system"
             android:icon="@drawable/knowledge_system_icon"
             android:title="@string/menu_knowledge_system" />
+        <item
+            android:id="@+id/nav_me"
+            android:icon="@drawable/me_icon"
+            android:title="@string/menu_me" />
     </group>
 
     <item android:title="@string/other_cn">

@@ -7,16 +7,17 @@
     <application
         android:name=".utils.MyApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/android_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/android_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".view.mycollection.MyCollectionActivity"></activity>
+        <activity android:name=".view.mycollection.MyCollectionActivity"/>
         <activity android:name=".view.login.LoginActivity" />
         <activity android:name=".view.knowledgesystem.KnowledgeSystemArticleListActivity" />
         <activity android:name=".view.ArticleDetailWebViewActivity" />
         <activity android:name=".view.completeproject.ProjectItemListActivity" />
+        <activity android:name=".view.aboutme.AboutMeActivity"/>
         <activity
             android:name=".view.MainActivity"
             android:label="@string/app_name"

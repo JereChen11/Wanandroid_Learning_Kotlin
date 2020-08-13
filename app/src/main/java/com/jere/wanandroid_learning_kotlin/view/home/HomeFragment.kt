@@ -8,8 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -18,10 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.jere.wanandroid_learning_kotlin.R
-import com.jere.wanandroid_learning_kotlin.model.CollectionRepository
 import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.Article
 import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeBanner
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
+import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
 import com.jere.wanandroid_learning_kotlin.viewmodel.home.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.lang.ref.WeakReference
@@ -53,10 +51,10 @@ class HomeFragment : Fragment() {
 
         mHomeBannerHandler = HomeBannerHandler(this)
 
-        initHomeBannerViewPager(view)
+        initHomeBannerViewPager()
         initHomeArticleListRecyclerView()
 
-        homeNsv.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+        homeNsv.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
             if (!v.canScrollVertically(1)) {
                 pageNumber++
                 homeViewModel.setHomeArticleList(pageNumber)
@@ -67,7 +65,7 @@ class HomeFragment : Fragment() {
         startAutoLoopBanner()
     }
 
-    private fun initHomeBannerViewPager(view: View) {
+    private fun initHomeBannerViewPager() {
         val indicateViews =
             arrayOf(firstIndicateView, secondIndicateView, thirdIndicateView, fourthIndicateView)
 
@@ -113,9 +111,9 @@ class HomeFragment : Fragment() {
     private fun initHomeArticleListRecyclerView() {
         homeViewModel.articleListLd.observe(viewLifecycleOwner, Observer {
             mArticleListData.addAll(it.articles)
-            val adapter = MyArticleListAdapter(
+            val adapter = ArticleListAdapter(
                 mArticleListData,
-                object : MyArticleListAdapter.AdapterItemClickListener {
+                object : ArticleListAdapter.AdapterItemClickListener {
                     override fun onPositionClicked(v: View?, position: Int) {
                         val link: String? = mArticleListData[position].link
                         val intent = Intent(activity, ArticleDetailWebViewActivity::class.java)
@@ -142,7 +140,7 @@ class HomeFragment : Fragment() {
             val msg = Message()
             msg.what = 1
             mHomeBannerHandler.sendMessage(msg)
-        }, 2, 3, TimeUnit.SECONDS)
+        }, 2, 5, TimeUnit.SECONDS)
     }
 
     fun toRealPosition(position: Int, realCount: Int): Int {
@@ -187,7 +185,7 @@ class HomeFragment : Fragment() {
             return homeBannerList.size
         }
 
-        fun getRealCount(): Int {
+        private fun getRealCount(): Int {
             return homeBannerList.size
         }
 
@@ -235,104 +233,4 @@ class HomeFragment : Fragment() {
             mHomeBannerExecutorService.shutdown()
         }
     }
-
-    class MyArticleListAdapter(
-        articleList: ArrayList<Article>,
-        adapter: AdapterItemClickListener
-    ) :
-        RecyclerView.Adapter<MyArticleListAdapter.MyViewHolder>() {
-
-        interface AdapterItemClickListener {
-            fun onPositionClicked(v: View?, position: Int)
-            fun onLongClicked(v: View?, position: Int)
-        }
-
-        private var articleList: ArrayList<Article> = ArrayList()
-        private val adapterItemClickListener: AdapterItemClickListener
-
-        init {
-            this.articleList = articleList
-            this.adapterItemClickListener = adapter
-        }
-
-        class MyViewHolder(itemView: View, adapter: AdapterItemClickListener) :
-            RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener {
-
-            private val adapterItemClickListener: AdapterItemClickListener = adapter
-            private val containerCl: ConstraintLayout =
-                itemView.findViewById(R.id.article_list_item_container_cl)
-            val titleTv: TextView = itemView.findViewById(R.id.article_list_item_title_tv)
-            val authorTv: TextView = itemView.findViewById(R.id.article_list_item_author_tv)
-            val dateTv: TextView = itemView.findViewById(R.id.article_list_item_shared_date_tv)
-            val collectionIconIv: ImageView = itemView.findViewById(R.id.collection_icon_iv)
-
-            init {
-                containerCl.setOnClickListener(this)
-                titleTv.setOnClickListener(this)
-                authorTv.setOnClickListener(this)
-                dateTv.setOnClickListener(this)
-                collectionIconIv.setOnClickListener(this)
-            }
-
-            override fun onClick(v: View?) {
-                adapterItemClickListener.onPositionClicked(v, adapterPosition)
-            }
-
-            override fun onLongClick(v: View?): Boolean {
-                adapterItemClickListener.onLongClicked(v, adapterPosition)
-                return true
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-            val view: View = LayoutInflater.from(parent.context)
-                .inflate(R.layout.recycler_item_view_home_article_list_item, parent, false)
-            return MyViewHolder(view, adapterItemClickListener)
-        }
-
-        override fun getItemCount(): Int {
-            return articleList.size
-        }
-
-        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            val data: Article = articleList[position]
-            holder.titleTv.text = data.title
-            holder.authorTv.text = data.author
-            holder.dateTv.text = data.niceShareDate
-            if (data.collect) {
-                holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_star)
-            } else {
-                holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
-            }
-            holder.collectionIconIv.setOnClickListener {
-                if (data.collect) {
-                    CollectionRepository.unCollectArticle(
-                        data.id,
-                        object : CollectionRepository.CollectOrUnCollectListener {
-                            override fun isSuccessful(isSuccess: Boolean) {
-                                if (isSuccess) {
-                                    holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
-                                    data.collect = false
-                                }
-                            }
-                        }
-                    )
-                } else {
-                    CollectionRepository.collectArticle(
-                        data.id,
-                        object : CollectionRepository.CollectOrUnCollectListener {
-                            override fun isSuccessful(isSuccess: Boolean) {
-                                if (isSuccess) {
-                                    holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_star)
-                                    data.collect = true
-                                }
-                            }
-
-                        })
-                }
-            }
-        }
-
-    }
-
 }

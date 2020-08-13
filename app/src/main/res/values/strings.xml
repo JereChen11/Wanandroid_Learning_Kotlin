@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Wanandroid_Learning_kotlin</string>
+    <string name="app_name">WanAnd_Kt</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Jere Chen</string>
@@ -7,9 +7,12 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string name="nav_view_drawer_open">drawer open</string>
+    <string name="nav_view_drawer_close">drawer close</string>
+
     <string name="menu_home">主页</string>
     <string name="menu_complete_project">完整项目</string>
-    <string name="menu_we_chart">微信公众号</string>
+    <string name="menu_we_chat">微信公众号</string>
     <string name="menu_knowledge_system">知识体系</string>
     <string name="menu_me">我的</string>
     <string name="menu_about_me">关于我</string>
@@ -29,6 +32,10 @@
 
     <string name="login_successful_cn">登入成功</string>
     <string name="register_successful_cn">注册成功</string>
+
+    <string name="quite_app_prompt">是否退出程序</string>
+    <string name="yes_cn">是</string>
+    <string name="no_cn">否</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

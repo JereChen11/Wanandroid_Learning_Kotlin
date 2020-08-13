@@ -2,23 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/bottom_nav_home"
             android:icon="@drawable/home_icon"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_complete_project"
+            android:id="@+id/bottom_nav_complete_project"
             android:icon="@drawable/complete_project_icon"
             android:title="@string/menu_complete_project" />
         <item
-            android:id="@+id/nav_we_chat"
+            android:id="@+id/bottom_nav_we_chat"
             android:icon="@drawable/we_chat_icon"
-            android:title="@string/menu_we_chart" />
+            android:title="@string/menu_we_chat" />
         <item
-            android:id="@+id/nav_knowledge_system"
+            android:id="@+id/bottom_nav_knowledge_system"
             android:icon="@drawable/knowledge_system_icon"
             android:title="@string/menu_knowledge_system" />
         <item
-            android:id="@+id/nav_me"
+            android:id="@+id/bottom_nav_me"
             android:icon="@drawable/me_icon"
             android:title="@string/menu_me" />
     </group>
