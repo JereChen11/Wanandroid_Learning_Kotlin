@@ -12,7 +12,7 @@ import com.jere.wanandroid_learning_kotlin.model.CollectionRepository
 import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.Article
 
 class ArticleListAdapter(
-    private val articleList: ArrayList<Article>,
+    private var articleList: ArrayList<Article>,
     private val adapterItemClickListener: AdapterItemClickListener
 ) :
     RecyclerView.Adapter<ArticleListAdapter.MyViewHolder>() {
@@ -20,6 +20,11 @@ class ArticleListAdapter(
     interface AdapterItemClickListener {
         fun onPositionClicked(v: View?, position: Int)
         fun onLongClicked(v: View?, position: Int)
+    }
+
+    fun setData(newArticleList: ArrayList<Article>) {
+        this.articleList = newArticleList
+        notifyDataSetChanged()
     }
 
     class MyViewHolder(itemView: View, adapter: AdapterItemClickListener) :
