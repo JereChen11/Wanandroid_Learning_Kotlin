@@ -6,8 +6,6 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -49,7 +47,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
         //set can rotate screen
 //        if (!isAllowScreenRotate) {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 //        }
 
         setStatusBar()
@@ -78,7 +76,7 @@ abstract class BaseActivity : AppCompatActivity() {
     abstract fun doBusiness(mContext: Context?)
 
     protected open fun setStatusBar() {
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.dark_gray), 0)
+        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.white_smoke), 0)
     }
 
     /**

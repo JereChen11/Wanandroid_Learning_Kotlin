@@ -12,21 +12,22 @@
         android:roundIcon="@drawable/android_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".view.mycollection.MyCollectionActivity"/>
-        <activity android:name=".view.login.LoginActivity" />
-        <activity android:name=".view.knowledgesystem.KnowledgeSystemArticleListActivity" />
-        <activity android:name=".view.ArticleDetailWebViewActivity" />
-        <activity android:name=".view.completeproject.ProjectItemListActivity" />
-        <activity android:name=".view.aboutme.AboutMeActivity"/>
-        <activity
-            android:name=".view.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".view.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".view.mycollection.MyCollectionActivity" />
+        <activity android:name=".view.login.LoginActivity" />
+        <activity android:name=".view.knowledgesystem.KnowledgeSystemArticleListActivity" />
+        <activity android:name=".view.ArticleDetailWebViewActivity" />
+        <activity android:name=".view.completeproject.ProjectItemListActivity" />
+        <activity android:name=".view.aboutme.AboutMeActivity" />
+        <activity
+            android:name=".view.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 
