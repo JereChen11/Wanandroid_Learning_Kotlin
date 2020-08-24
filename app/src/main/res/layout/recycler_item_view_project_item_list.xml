@@ -3,71 +3,70 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <ImageView
-        android:id="@+id/project_item_list_envelop_iv"
-        android:layout_width="150dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="10dp"
+        android:id="@+id/envelopIv"
+        android:layout_width="80dp"
+        android:layout_height="150dp"
+        android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/project_item_list_title_tv"
+        android:id="@+id/projectItemListTitleTv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/project_item_list_envelop_iv"
-        app:layout_constraintTop_toTopOf="@id/project_item_list_envelop_iv" />
-
-    <TextView
-        android:id="@+id/project_item_list_describe_content_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
         android:ellipsize="end"
         android:maxLines="3"
-        android:textColor="@color/gray"
-        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/project_item_list_title_tv"
-        app:layout_constraintTop_toBottomOf="@id/project_item_list_title_tv" />
+        app:layout_constraintStart_toEndOf="@id/envelopIv"
+        app:layout_constraintTop_toTopOf="@id/envelopIv" />
 
     <TextView
-        android:id="@+id/project_item_list_share_date_tv"
+        android:id="@+id/projectItemListDescribeContentTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:maxLines="4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/projectItemListTitleTv"
+        app:layout_constraintTop_toBottomOf="@id/projectItemListTitleTv" />
+
+    <TextView
+        android:id="@+id/projectItemListShareDateTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="@color/orange_red"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/project_item_list_envelop_iv"
-        app:layout_constraintStart_toStartOf="@id/project_item_list_title_tv" />
+        app:layout_constraintBottom_toBottomOf="@id/envelopIv"
+        app:layout_constraintStart_toStartOf="@id/projectItemListTitleTv" />
 
     <TextView
-        android:id="@+id/project_item_list_author_tv"
+        android:id="@+id/projectItemListAuthorTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="@color/blue_violet"
+        android:textColor="@color/black"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/project_item_list_envelop_iv"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/envelopIv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/project_item_list_share_date_tv" />
+        app:layout_constraintStart_toEndOf="@id/projectItemListShareDateTv" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="5dp"
         android:background="@color/gray"
-        app:layout_constraintTop_toBottomOf="@id/project_item_list_envelop_iv" />
+        app:layout_constraintTop_toBottomOf="@id/envelopIv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
