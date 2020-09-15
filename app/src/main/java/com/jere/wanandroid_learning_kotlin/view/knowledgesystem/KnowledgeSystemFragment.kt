@@ -16,6 +16,7 @@ import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemCategory
 import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemCategoryChildren
 import com.jere.wanandroid_learning_kotlin.viewmodel.knowledgesystem.KnowledgeSystemViewModel
+import kotlinx.android.synthetic.main.fragment_knowledge_system.*
 
 class KnowledgeSystemFragment : Fragment() {
 
@@ -34,8 +35,6 @@ class KnowledgeSystemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val expandableListView: ExpandableListView = view.findViewById(R.id.expandable_list_view)
 
         knowledgeSystemVm.knowledgeSystemCategoryLd.observe(
             viewLifecycleOwner,
@@ -57,8 +56,8 @@ class KnowledgeSystemFragment : Fragment() {
             val cid: Int = childData.id
             val name: String? = childData.name
             val intent = Intent(context, KnowledgeSystemArticleListActivity::class.java)
-            intent.putExtra("cid", cid)
-            intent.putExtra("titleName", name)
+            intent.putExtra(KnowledgeSystemArticleListActivity.KNOWLEDGE_SYSTEM_CID, cid)
+            intent.putExtra(KnowledgeSystemArticleListActivity.KNOWLEDGE_SYSTEM_TITLE_NAME, name)
             startActivity(intent)
             true
         }

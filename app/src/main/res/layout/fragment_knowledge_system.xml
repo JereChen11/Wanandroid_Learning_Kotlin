@@ -5,7 +5,7 @@
     android:background="@color/white_smoke">
 
     <ExpandableListView
-        android:id="@+id/expandable_list_view"
+        android:id="@+id/expandableListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:groupIndicator="@null" />

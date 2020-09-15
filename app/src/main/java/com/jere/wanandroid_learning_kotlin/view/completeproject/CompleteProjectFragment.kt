@@ -31,55 +31,13 @@ class CompleteProjectFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val completeProjectRv: RecyclerView = view.findViewById(R.id.complete_project_rv)
-//        val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(context, 2)
-//        completeProjectRv.layoutManager = layoutManager
-//        completeProjectRv.addOnItemTouchListener(RecyclerItemClickListener(context,
-//            completeProjectRv, object : RecyclerItemClickListener.OnItemClickListener {
-//                override fun onItemClick(view: View?, position: Int) {
-//
-//                    Toast.makeText(context, "position = $position", Toast.LENGTH_SHORT).show()
-//                    val cid = mProjectTreeItems[position].id
-//                    val intent = Intent(context, ProjectItemListActivity::class.java)
-//                    intent.putExtra(ProjectItemListActivity.PROJECT_TREE_ITEM_ID_KEY, cid)
-//                    startActivity(intent)
-//                }
-//
-//                override fun onLongItemClick(view: View?, position: Int) {
-//                    Toast.makeText(
-//                        context,
-//                        "long Item click position = $position",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            }
-//        ))
-
         completeProjectVm.projectTreeItemsLd.observe(viewLifecycleOwner, Observer {
             mProjectTreeItems.clear()
             mProjectTreeItems.addAll(it)
 
             initTabLayoutAndVp2()
-
-//            completeProjectRv.adapter = MyAdapter(mProjectTreeItems)
         })
         completeProjectVm.setProjectTreeItems()
-
-
-//        completeProjectTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-//            override fun onTabReselected(tab: TabLayout.Tab?) {
-//                TODO("Not yet implemented")
-//            }
-//
-//            override fun onTabUnselected(tab: TabLayout.Tab?) {
-//                TODO("Not yet implemented")
-//            }
-//
-//            override fun onTabSelected(tab: TabLayout.Tab?) {
-//                TODO("Not yet implemented")
-//            }
-//
-//        })
     }
 
     private fun initTabLayoutAndVp2() {
@@ -89,35 +47,6 @@ class CompleteProjectFragment : Fragment() {
             tab.text = mProjectTreeItems[position].name
         }.attach()
     }
-
-//    class MyAdapter(projectItems: ArrayList<ProjectTreeItem>) :
-//        RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-//        private var projectItems: ArrayList<ProjectTreeItem> = ArrayList()
-//
-//        init {
-//            this.projectItems = projectItems
-//        }
-//
-//        class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//            val contentTv: TextView = itemView.findViewById(R.id.complete_project_content_tv)
-//        }
-//
-//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-//            val view: View =
-//                LayoutInflater.from(parent.context)
-//                    .inflate(R.layout.recycler_item_view_complete_project, parent, false)
-//            return MyViewHolder(view)
-//        }
-//
-//        override fun getItemCount(): Int {
-//            return projectItems.size
-//        }
-//
-//        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-//            val data: ProjectTreeItem = projectItems[position]
-//            holder.contentTv.text = data.name
-//        }
-//    }
 
     inner class CompleteProjectVp2Adapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 

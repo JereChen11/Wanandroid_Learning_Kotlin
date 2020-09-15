@@ -8,11 +8,12 @@
 
     <TextView
         android:id="@+id/knowledgeSystemArticleListTitleTv"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:textColor="@color/black"
-        android:textSize="25sp"
+        android:background="@color/white_smoke"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

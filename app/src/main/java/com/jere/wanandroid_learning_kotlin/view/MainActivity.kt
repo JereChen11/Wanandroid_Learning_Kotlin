@@ -79,33 +79,22 @@ class MainActivity : BaseActivity() {
             val result: Boolean
             when (it.itemId) {
                 R.id.nav_home -> {
-                    replaceFragment(HomeFragment(), HOME_TAG)
                     setBottomNavAndToolbar(R.id.bottom_nav_home, R.string.menu_home)
                     result = true
                 }
                 R.id.nav_complete_project -> {
-                    replaceFragment(
-                        CompleteProjectFragment(),
-                        COMPLETE_PROJECT_TAG
-                    )
                     setBottomNavAndToolbar(R.id.bottom_nav_complete_project, R.string.menu_complete_project)
                     result = true
                 }
                 R.id.nav_we_chat -> {
-                    replaceFragment(WeChatFragment(), WECHAT_TAG)
                     setBottomNavAndToolbar(R.id.bottom_nav_we_chat, R.string.menu_we_chat)
                     result = true
                 }
                 R.id.nav_knowledge_system -> {
-                    replaceFragment(
-                        KnowledgeSystemFragment(),
-                        KNOWLEDGE_SYSTEM_TAG
-                    )
                     setBottomNavAndToolbar(R.id.bottom_nav_knowledge_system, R.string.menu_knowledge_system)
                     result = true
                 }
                 R.id.nav_me -> {
-                    replaceFragment(MeFragment(), ME_TAG)
                     setBottomNavAndToolbar(R.id.bottom_nav_me, R.string.menu_me)
                     result = true
                 }
@@ -217,7 +206,7 @@ class MainActivity : BaseActivity() {
         navView.setCheckedItem(navViewCheckedItemId)
     }
 
-    private fun setBottomNavAndToolbar(toolbarTitleId: Int, bottomNavSelectedItemId: Int) {
+    private fun setBottomNavAndToolbar(bottomNavSelectedItemId: Int, toolbarTitleId: Int) {
         toolbar.title = getString(toolbarTitleId)
         homeBottomNavigationView.selectedItemId = bottomNavSelectedItemId
     }
