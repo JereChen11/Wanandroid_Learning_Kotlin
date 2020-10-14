@@ -1,5 +1,6 @@
 package com.jere.wanandroid_learning_kotlin.view
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,13 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.jere.wanandroid_learning_kotlin.R
+import com.jere.wanandroid_learning_kotlin.model.BaseResult
 import com.jere.wanandroid_learning_kotlin.model.CollectionRepository
 import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.Article
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ArticleListAdapter(
     private var articleList: ArrayList<Article>,
@@ -77,30 +83,28 @@ class ArticleListAdapter(
             holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
         }
         holder.collectionIconIv.setOnClickListener {
-            if (data.collect) {
-                CollectionRepository.unCollectArticle(
-                    data.id,
-                    object : CollectionRepository.CollectOrUnCollectListener {
-                        override fun isSuccessful(isSuccess: Boolean) {
-                            if (isSuccess) {
-                                holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
-                                data.collect = false
-                            }
-                        }
+            CoroutineScope(Dispatchers.Main).launch {
+                val result = withContext(Dispatchers.IO) {
+                    if (data.collect) {
+                        CollectionRepository().unCollectArticle(data.id)
+                    } else {
+                        CollectionRepository().collectArticle(data.id)
                     }
-                )
-            } else {
-                CollectionRepository.collectArticle(
-                    data.id,
-                    object : CollectionRepository.CollectOrUnCollectListener {
-                        override fun isSuccessful(isSuccess: Boolean) {
-                            if (isSuccess) {
-                                holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_star)
-                                data.collect = true
-                            }
-                        }
-
-                    })
+                }
+                if (result is BaseResult.Success) {
+                    if (data.collect) {
+                        holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
+                        data.collect = false
+                    } else {
+                        holder.collectionIconIv.setImageResource(R.drawable.vector_drawable_star)
+                        data.collect = true
+                    }
+                } else if (result is BaseResult.Error) {
+                    Log.e(
+                        "jereTest",
+                        "collect | unCollect Article failed: ${result.exception.message}"
+                    )
+                }
             }
         }
     }

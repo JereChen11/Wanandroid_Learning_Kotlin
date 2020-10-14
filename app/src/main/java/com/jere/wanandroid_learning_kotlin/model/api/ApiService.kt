@@ -66,7 +66,7 @@ interface ApiService {
      * @return
      */
     @POST("/lg/collect/{id}/json")
-    fun collectArticle(@Path("id") id: Int): Call<ResponseBody>
+    suspend fun collectArticle(@Path("id") id: Int): BaseResponse<Any>
 
     /**
      * 取消文章收藏
@@ -74,5 +74,5 @@ interface ApiService {
      * @return
      */
     @POST("/lg/uncollect_originId/{id}/json")
-    fun unCollectArticle(@Path("id") id: Int): Call<ResponseBody>
+    suspend fun unCollectArticle(@Path("id") id: Int): BaseResponse<Any>
 }

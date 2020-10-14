@@ -1,39 +1,21 @@
 package com.jere.wanandroid_learning_kotlin.model
 
-import com.jere.wanandroid_learning_kotlin.model.api.AbstractRetrofitCallback
 import com.jere.wanandroid_learning_kotlin.model.api.ApiWrapper
 
-object CollectionRepository {
+class CollectionRepository : BaseRepository() {
 
-    fun collectArticle(articleId: Int, listener: CollectOrUnCollectListener) {
-        ApiWrapper.getInstance().collectArticle(articleId)
-            .enqueue(object : AbstractRetrofitCallback() {
-
-                override fun getSuccessful(responseBody: String) {
-                    listener.isSuccessful(true)
-                }
-
-                override fun getFailed(failedMsg: String) {
-                    listener.isSuccessful(false)
-                }
-            })
+    suspend fun collectArticle(articleId: Int): BaseResult<Any> {
+        return safeApiCall("collectArticle", call = { requestCollectArticle(articleId) })
     }
 
-    fun unCollectArticle(articleId: Int, listener: CollectOrUnCollectListener) {
-        ApiWrapper.getInstance().unCollectArticle(articleId)
-            .enqueue(object : AbstractRetrofitCallback() {
+    private suspend fun requestCollectArticle(articleId: Int): BaseResult<Any> =
+        executeResponse(ApiWrapper.getInstance().collectArticle(articleId))
 
-                override fun getSuccessful(responseBody: String) {
-                    listener.isSuccessful(true)
-                }
-
-                override fun getFailed(failedMsg: String) {
-                    listener.isSuccessful(false)
-                }
-            })
+    suspend fun unCollectArticle(articleId: Int): BaseResult<Any> {
+        return safeApiCall("unCollectArticle", call = { requestUnCollectArticle(articleId) })
     }
 
-    interface CollectOrUnCollectListener {
-        fun isSuccessful(isSuccess: Boolean)
-    }
+    private suspend fun requestUnCollectArticle(articleId: Int): BaseResult<Any> =
+        executeResponse(ApiWrapper.getInstance().unCollectArticle(articleId))
+
 }

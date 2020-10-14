@@ -7,11 +7,11 @@
     <application
         android:name=".utils.MyApp"
         android:allowBackup="true"
-        android:icon="@drawable/android_logo"
+        android:icon="@drawable/wanand_kotlin_logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/android_logo"
+        android:roundIcon="@drawable/wanand_kotlin_logo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme">
         <activity android:name=".view.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,6 @@
         <activity android:name=".view.login.LoginActivity" />
         <activity android:name=".view.knowledgesystem.KnowledgeSystemArticleListActivity" />
         <activity android:name=".view.ArticleDetailWebViewActivity" />
-        <activity android:name=".view.completeproject.ProjectItemListActivity" />
         <activity android:name=".view.aboutme.AboutMeActivity" />
         <activity
             android:name=".view.MainActivity"

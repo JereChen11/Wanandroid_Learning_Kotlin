@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/favoriteItem"
-            app:meListIconReference="@drawable/vector_drawable_setting"
+            app:meListIconReference="@drawable/vector_drawable_login"
             app:meListItemTitleText="@string/login_cn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
