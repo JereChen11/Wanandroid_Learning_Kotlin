@@ -1,16 +1,16 @@
 # Wanandroid_Learning_Kotlin
 
 ## 项目介绍
-本项目是基于 [Wanandroid网站的开放API](https://www.wanandroid.com/blog/show/2) （**感谢泓洋老师的分享**），采用 MVVM + Retrofit + Callback 的模式进行开发，使用Kotlin语言开发，以供学习。同时，关于该项目的Java版本请看[Wanandroid_Learning Java版本传送门](https://github.com/JereChen11/Wanandroid_Learning)。
+本项目是基于 [Wanandroid网站的开放API](https://www.wanandroid.com/blog/show/2) （**感谢泓洋大佬的分享**），采用 MVVM + Retrofit + Callback 的模式进行开发，使用Kotlin语言开发，以供学习。同时，关于该项目的Java版本请看[Wanandroid_Learning Java版本传送门](https://github.com/JereChen11/Wanandroid_Learning)。
 
 ## 功能图展示
 | 主页  | 完整项目  |  微信公众号  | 知识体系  |
 |------------|-------------| -------------| -------------|
-|  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/home.png" width="200"> |  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/completeproject.png" width="200"> |  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/wechat.png" width="200"> |  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/knowledgesystem.png" width="200"> |
+|  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/home.png" width="250"> |  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/project.png" width="250"> |  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/wechat.png" width="250"> |  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/ks.png" width="250"> |
 
-| 完整项目列表  | 知识体系列表  | 具体文章细节  | 导航栏  | 
+| 具体文章细节  | 登入  | 我的  | 导航栏  | 
 |------------|-------------| -------------|-------------|
-|  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/articleList.png" width="200"> |  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/knowledgesystemarticlelist.png" width="200"> |  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/detailwebview.png" width="200"> |  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/navigation.png" width="200"> |
+|  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/detail.png" width="250"> |  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/login.png" width="250"> |  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/me.png" width="250"> |  <img src="https://github.com/JereChen11/Wanandroid_Learning_Kotlin/raw/master/imageResource/nav.png" width="250"> |
 
 ## 开发模式
 本项目是采用 MVVM + Retrofit + Callback 的开发模式，如下所示：
