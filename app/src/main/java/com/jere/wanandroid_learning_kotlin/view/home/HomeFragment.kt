@@ -20,6 +20,7 @@ import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.Article
 import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeBanner
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
+import com.jere.wanandroid_learning_kotlin.view.login.LoginActivity
 import com.jere.wanandroid_learning_kotlin.viewmodel.home.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.lang.ref.WeakReference
@@ -36,6 +37,7 @@ class HomeFragment : Fragment() {
     private lateinit var mHomeBannerHandler: HomeBannerHandler
     private lateinit var mHomeBannerExecutorService: ScheduledExecutorService
     private var pageNumber = 0
+    private lateinit var articleListAdapter: ArticleListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -109,26 +111,30 @@ class HomeFragment : Fragment() {
     }
 
     private fun initHomeArticleListRecyclerView() {
+        articleListAdapter = ArticleListAdapter(mArticleListData,  object : ArticleListAdapter.AdapterItemClickListener {
+            override fun onPositionClicked(v: View?, position: Int) {
+                val link: String? = mArticleListData[position].link
+                val intent = Intent(activity, ArticleDetailWebViewActivity::class.java)
+                intent.putExtra(
+                    ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
+                    link
+                )
+                startActivity(intent)
+            }
+
+            override fun onLongClicked(v: View?, position: Int) {
+            }
+
+            override fun clickWithoutLogin() {
+                startActivity(Intent(activity, LoginActivity::class.java))
+            }
+
+        })
+        homeArticleListRcy.adapter = articleListAdapter
+
         homeViewModel.articleListLd.observe(viewLifecycleOwner, Observer {
             mArticleListData.addAll(it.articles)
-            val adapter = ArticleListAdapter(
-                mArticleListData,
-                object : ArticleListAdapter.AdapterItemClickListener {
-                    override fun onPositionClicked(v: View?, position: Int) {
-                        val link: String? = mArticleListData[position].link
-                        val intent = Intent(activity, ArticleDetailWebViewActivity::class.java)
-                        intent.putExtra(
-                            ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
-                            link
-                        )
-                        startActivity(intent)
-                    }
-
-                    override fun onLongClicked(v: View?, position: Int) {
-                    }
-
-                })
-            homeArticleListRcy.adapter = adapter
+            articleListAdapter.setData(mArticleListData)
         })
 
         homeViewModel.setHomeArticleList(pageNumber)

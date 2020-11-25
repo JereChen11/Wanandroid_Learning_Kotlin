@@ -16,6 +16,7 @@ import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.Article
 import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatBlogger
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.view.ArticleListAdapter
+import com.jere.wanandroid_learning_kotlin.view.login.LoginActivity
 import com.jere.wanandroid_learning_kotlin.viewmodel.wechat.WeChatViewModel
 import kotlinx.android.synthetic.main.fragment_we_chat.*
 
@@ -53,6 +54,10 @@ class WeChatFragment : Fragment() {
             }
 
             override fun onLongClicked(v: View?, position: Int) {
+            }
+
+            override fun clickWithoutLogin() {
+                startActivity(Intent(activity, LoginActivity::class.java))
             }
 
         })

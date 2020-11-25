@@ -15,11 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.Article
+import com.jere.wanandroid_learning_kotlin.utils.PullUpRefreshView
 import com.jere.wanandroid_learning_kotlin.utils.RecyclerItemClickListener
 import com.jere.wanandroid_learning_kotlin.view.ArticleDetailWebViewActivity
 import com.jere.wanandroid_learning_kotlin.viewmodel.completeproject.CompleteProjectViewModel
 import kotlinx.android.synthetic.main.activity_project_item_list.*
-import java.lang.ref.WeakReference
 
 
 class ProjectItemListFragment : Fragment() {
@@ -40,6 +40,8 @@ class ProjectItemListFragment : Fragment() {
 
     private var mProjectItemListData: ArrayList<Article> = ArrayList()
     private var pageNumber = 0
+    private var isLoadAllArticleData = false
+    private lateinit var projectArticleListAdapter: ProjectArticleListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,21 +61,27 @@ class ProjectItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        projectArticleListAdapter =
+            activity?.let { ProjectArticleListAdapter(it, mProjectItemListData) }!!
+
         val completeProjectVm: CompleteProjectViewModel =
             ViewModelProvider(this)[CompleteProjectViewModel::class.java]
         completeProjectVm.projectItemListLd.observe(viewLifecycleOwner, Observer {
             mProjectItemListData.addAll(it.articles)
-            completeProjectRcy.adapter =
-                activity?.let { it1 ->
-                    MyAdapter(it1, mProjectItemListData)
-                }
+            isLoadAllArticleData = it.over
+            projectArticleListAdapter.setIsLoadAllArticleData(isLoadAllArticleData)
+            projectArticleListAdapter.setData(mProjectItemListData)
         })
         id?.let { completeProjectVm.setProjectItemList(pageNumber, it) }
 
+        completeProjectRcy.adapter = projectArticleListAdapter
         completeProjectRcy.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1)) {
+                if (!recyclerView.canScrollVertically(1)
+                    && newState == RecyclerView.SCROLL_STATE_IDLE
+                    && !isLoadAllArticleData
+                ) {
                     pageNumber++
                     id?.let { completeProjectVm.setProjectItemList(pageNumber, it) }
                 }
@@ -102,20 +110,25 @@ class ProjectItemListFragment : Fragment() {
 
     }
 
-    class MyAdapter(
-        activity: Activity,
-        projectItems: ArrayList<Article>
+    class ProjectArticleListAdapter(
+        private val activity: Activity,
+        private var projectItems: ArrayList<Article>
     ) :
-        RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-        private var projectItems: ArrayList<Article> = ArrayList()
-        private var weakReference: WeakReference<Activity>
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        private val normalProjectArticleType = 0
+        private val bottomViewType = 1
+        private var isLoadAllArticleData = false
 
-        init {
-            this.projectItems = projectItems
-            this.weakReference = WeakReference(activity)
+        fun setData(projectItemsData: ArrayList<Article>) {
+            this.projectItems = projectItemsData
+            notifyDataSetChanged()
         }
 
-        class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun setIsLoadAllArticleData(isLoadAllArticleData: Boolean) {
+            this.isLoadAllArticleData = isLoadAllArticleData
+        }
+
+        class ProjectArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val envelopIv: ImageView = itemView.findViewById(R.id.envelopIv)
             val titleTv: TextView = itemView.findViewById(R.id.projectItemListTitleTv)
             val describeContentTv: TextView =
@@ -124,25 +137,61 @@ class ProjectItemListFragment : Fragment() {
             val authorTv: TextView = itemView.findViewById(R.id.projectItemListAuthorTv)
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-            val view: View =
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.recycler_item_view_project_item_list, parent, false)
-            return MyViewHolder(view)
+        class BottomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            val pullUpRefreshView: PullUpRefreshView =
+                itemView.findViewById(R.id.bottomViewPullUpRefreshView)
+        }
+
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): RecyclerView.ViewHolder {
+            if (viewType == normalProjectArticleType) {
+                val view: View =
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.recycler_item_view_project_item_list, parent, false)
+                return ProjectArticleViewHolder(view)
+            }
+            val bottomView: View = LayoutInflater.from(parent.context)
+                .inflate(
+                    R.layout.recycler_item_view_article_list_adapter_bottom_view,
+                    parent,
+                    false
+                )
+            return BottomViewHolder(bottomView)
         }
 
         override fun getItemCount(): Int {
-            return projectItems.size
+            return projectItems.size + 1
         }
 
-        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            val data: Article = projectItems[position]
-            weakReference.get()
-                ?.let { Glide.with(it).load(data.envelopePic).into(holder.envelopIv) }
-            holder.titleTv.text = data.title
-            holder.describeContentTv.text = data.desc
-            holder.shareDateTv.text = data.niceShareDate
-            holder.authorTv.text = data.author
+        override fun getItemViewType(position: Int): Int {
+            if (position == projectItems.size) {
+                return bottomViewType
+            }
+            return normalProjectArticleType
+        }
+
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
+            if (holder.itemViewType == normalProjectArticleType) {
+                val data: Article = projectItems[position]
+                val projectArticleViewHolder = holder as ProjectArticleViewHolder
+                Glide.with(activity).load(data.envelopePic)
+                    .into(projectArticleViewHolder.envelopIv)
+                projectArticleViewHolder.titleTv.text = data.title
+                projectArticleViewHolder.describeContentTv.text = data.desc
+                projectArticleViewHolder.shareDateTv.text = data.niceShareDate
+                projectArticleViewHolder.authorTv.text = data.author
+            } else {
+                val bottomViewHolder = holder as BottomViewHolder
+                if (isLoadAllArticleData) {
+                    bottomViewHolder.pullUpRefreshView.showIsLoadAllData()
+                } else {
+                    bottomViewHolder.pullUpRefreshView.showLoadingData()
+                }
+            }
+
         }
     }
 }

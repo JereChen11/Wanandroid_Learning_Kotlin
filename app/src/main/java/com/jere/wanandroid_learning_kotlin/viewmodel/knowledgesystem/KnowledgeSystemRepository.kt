@@ -15,11 +15,11 @@ class KnowledgeSystemRepository : BaseRepository() {
     private suspend fun requestKnowledgeSystemCategory(): BaseResult<List<KnowledgeSystemCategory>> =
         executeResponse(ApiWrapper.getInstance().getKnowledgeSystemCategory())
 
-    suspend fun getKnowledgeSystemArticleList(id: Int): BaseResult<ArticleList> {
-        return safeApiCall("getKnowledgeSystemArticleList", call = { requestKnowledgeSystemArticleList(id) })
+    suspend fun getKnowledgeSystemArticleList(pageNumber: Int, id: Int): BaseResult<ArticleList> {
+        return safeApiCall("getKnowledgeSystemArticleList", call = { requestKnowledgeSystemArticleList(pageNumber, id) })
     }
 
-    private suspend fun requestKnowledgeSystemArticleList(id: Int): BaseResult<ArticleList> =
-        executeResponse(ApiWrapper.getInstance().getKnowledgeSystemArticleList(id))
+    private suspend fun requestKnowledgeSystemArticleList(pageNumber: Int, id: Int): BaseResult<ArticleList> =
+        executeResponse(ApiWrapper.getInstance().getKnowledgeSystemArticleList(pageNumber, id))
 
 }

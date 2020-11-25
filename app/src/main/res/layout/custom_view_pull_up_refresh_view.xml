@@ -21,14 +21,13 @@
             style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminateTint="@color/gray" />
+            android:indeterminateTint="@color/dark_gray" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="@string/loading"
-            android:textColor="@color/black"
+            android:text="@string/loading_cn"
             android:textSize="18sp" />
 
     </LinearLayout>
@@ -37,7 +36,7 @@
         android:id="@+id/noDataTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_data_cn"
+        android:text="@string/is_load_all_data_cn"
         android:textSize="18sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

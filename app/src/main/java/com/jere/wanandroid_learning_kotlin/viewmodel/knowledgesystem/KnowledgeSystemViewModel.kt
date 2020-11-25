@@ -27,10 +27,10 @@ class KnowledgeSystemViewModel : ViewModel() {
         }
     }
 
-    fun setKnowledgeSystemArticleListLd(cid: Int) {
+    fun setKnowledgeSystemArticleListLd(pageNumber: Int, cid: Int) {
         viewModelScope.launch(Dispatchers.Main) {
             val result = withContext(Dispatchers.IO) {
-                KnowledgeSystemRepository().getKnowledgeSystemArticleList(cid)
+                KnowledgeSystemRepository().getKnowledgeSystemArticleList(pageNumber, cid)
             }
             if (result is BaseResult.Success) {
                 knowledgeSystemArticleListLd.value = result.data

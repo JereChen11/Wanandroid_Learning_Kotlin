@@ -30,7 +30,8 @@
     <string name="pls_input_right_username_password_cn">请输入正确的用户名与密码</string>
     <string name="pls_check_password">请检查密码是否对应</string>
     <string name="loading">Loading</string>
-    <string name="no_data_cn">没有数据了</string>
+    <string name="loading_cn">加载中</string>
+    <string name="is_load_all_data_cn">已加载完所有数据</string>
 
     <string name="login_successful_cn">登入成功</string>
     <string name="register_successful_cn">注册成功</string>

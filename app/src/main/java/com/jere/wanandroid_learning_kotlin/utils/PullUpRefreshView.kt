@@ -21,7 +21,7 @@ class PullUpRefreshView(context: Context?, attrs: AttributeSet?) :
 
     }
 
-    fun showNoData() {
+    fun showIsLoadAllData() {
         loadingContainerLl.visibility = View.GONE
         noDataTv.visibility = View.VISIBLE
     }

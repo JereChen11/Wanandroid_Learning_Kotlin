@@ -7,8 +7,6 @@ import com.jere.wanandroid_learning_kotlin.model.homebeanfiles.HomeBanner
 import com.jere.wanandroid_learning_kotlin.model.knowledgesystembeanfiles.KnowledgeSystemCategory
 import com.jere.wanandroid_learning_kotlin.model.loginbeanfiles.LoginBean
 import com.jere.wanandroid_learning_kotlin.model.wechartbeanfiles.WeChatBlogger
-import okhttp3.ResponseBody
-import retrofit2.Call
 import retrofit2.http.*
 
 /**
@@ -44,8 +42,11 @@ interface ApiService {
     @GET("tree/json")
     suspend fun getKnowledgeSystemCategory(): BaseResponse<List<KnowledgeSystemCategory>>
 
-    @GET("article/list/0/json?")
-    suspend fun getKnowledgeSystemArticleList(@Query("cid") cid: Int): BaseResponse<ArticleList>
+    @GET("article/list/{pageNumber}/json?")
+    suspend fun getKnowledgeSystemArticleList(
+        @Path("pageNumber") pageNumber: Int,
+        @Query("cid") cid: Int
+    ): BaseResponse<ArticleList>
 
     @POST("user/login")
     suspend fun login(@QueryMap paramsMap: @JvmSuppressWildcards Map<String, Any>): BaseResponse<LoginBean>
