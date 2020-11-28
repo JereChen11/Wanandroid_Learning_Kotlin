@@ -26,6 +26,8 @@
     <string name="register_cn">注册</string>
     <string name="password_cn">密码</string>
     <string name="repassword_cn">验证密码</string>
+    <string name="personal_info_cn">我的信息</string>
+    <string name="avatar_cn">头像</string>
 
     <string name="pls_input_right_username_password_cn">请输入正确的用户名与密码</string>
     <string name="pls_check_password">请检查密码是否对应</string>
@@ -42,4 +44,15 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="set_user_name_dialog_title_cn">请设置新的用户名</string>
+    <string name="complete_cn">完成</string>
+    <string name="pls_input_right_username">请输入正确的用户名</string>
+
+    <string name="camera_cn">拍照</string>
+    <string name="album_cn">相册</string>
+    <string name="cancel_cn">取消</string>
+
+    <string name="confirm_cn">确认</string>
+    <string name="granted_permission">该功能依赖于该权限，请允许</string>
 </resources>

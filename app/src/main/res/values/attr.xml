@@ -10,4 +10,8 @@
         <attr name="meListIconReference" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="MyAppBarCustomView">
+        <attr name="myAppBarTitleText" format="string" />
+    </declare-styleable>
+
 </resources>

@@ -3,9 +3,11 @@ package com.jere.wanandroid_learning_kotlin.view.mycollection
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.jaeger.library.StatusBarUtil
 import com.jere.wanandroid_learning_kotlin.R
 import com.jere.wanandroid_learning_kotlin.model.articlebeanfile.Article
 import com.jere.wanandroid_learning_kotlin.utils.BaseActivity
@@ -85,8 +87,9 @@ class MyCollectionActivity : BaseActivity() {
 
     override fun doBusiness(mContext: Context?) {
         myCollectionVm.setCollectionArticleListLd(pageNumber)
-        backIv.setOnClickListener {
-            finish()
-        }
+    }
+
+    override fun setStatusBar() {
+        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.dark_gray), 0)
     }
 }

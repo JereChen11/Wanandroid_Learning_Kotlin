@@ -6,25 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".view.mycollection.MyCollectionActivity">
 
-    <ImageView
-        android:id="@+id/backIv"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
-        android:src="@drawable/vector_drawable_leftarrow"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:layout_width="wrap_content"
+    <com.jere.wanandroid_learning_kotlin.utils.MyAppBarCustomView
+        android:id="@+id/myCollectionAppBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/my_favorite_cn"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:myAppBarTitleText="@string/my_favorite_cn" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/myCollectionRcy"
@@ -32,7 +19,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/backIv"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/myCollectionAppBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -56,6 +56,8 @@ dependencies {
 
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
 
+    implementation 'com.permissionx.guolindev:permissionx:1.4.0'
+
     //协程
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines"
