@@ -4,33 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.knowledgesystem.KnowledgeSystemArticleListActivity">
+    tools:context=".ui.knowledge.KnowledgeTreeArticleListActivity">
 
-    <TextView
-        android:id="@+id/knowledgeSystemArticleListTitleTv"
+    <com.wanandroid.kotlin.utils.MyAppBar
+        android:id="@+id/knowledgeTreeArticleListAppBar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:background="@color/white_smoke"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/dark_gray"
-        app:layout_constraintTop_toBottomOf="@id/knowledgeSystemArticleListTitleTv" />
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/knowledgeSystemArticleRecyclerView"
+        android:id="@+id/knowledgeTreeArticleRcy"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/knowledgeSystemArticleListTitleTv" />
+        app:layout_constraintTop_toBottomOf="@id/knowledgeTreeArticleListAppBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.mycollection.MyCollectionActivity">
+    tools:context=".ui.collection.MyCollectionActivity">
 
-    <com.jere.wanandroid_learning_kotlin.utils.MyAppBarCustomView
+    <com.wanandroid.kotlin.utils.MyAppBar
         android:id="@+id/myCollectionAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

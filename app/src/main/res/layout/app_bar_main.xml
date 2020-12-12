@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    tools:context=".ui.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -37,59 +37,5 @@
         app:itemTextColor="@color/bottom_nav_view_color"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/home_bottom_navigation_menu" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom"
-        android:visibility="gone"
-        android:weightSum="5">
-
-        <com.jere.wanandroid_learning_kotlin.utils.HomeBottomBarItemCustomView
-            android:id="@+id/homeBottomBarHomeItem"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            app:contentTv="@string/menu_home"
-            app:iconReference="@drawable/home_icon" />
-
-        <com.jere.wanandroid_learning_kotlin.utils.HomeBottomBarItemCustomView
-            android:id="@+id/homeBottomBarCompleteProjectItem"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            app:contentTv="@string/menu_complete_project"
-            app:iconReference="@drawable/complete_project_icon" />
-
-        <com.jere.wanandroid_learning_kotlin.utils.HomeBottomBarItemCustomView
-            android:id="@+id/homeBottomBarWeChartItem"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            app:contentTv="@string/menu_we_chat"
-            app:iconReference="@drawable/we_chat_icon" />
-
-        <com.jere.wanandroid_learning_kotlin.utils.HomeBottomBarItemCustomView
-            android:id="@+id/homeBottomBarKnowledgeSystemItem"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            app:contentTv="@string/menu_knowledge_system"
-            app:iconReference="@drawable/knowledge_system_icon" />
-
-        <com.jere.wanandroid_learning_kotlin.utils.HomeBottomBarItemCustomView
-            android:id="@+id/homeBottomBarMeBottomBarItem"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            app:contentTv="@string/menu_me"
-            app:iconReference="@drawable/me_icon" />
-
-    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

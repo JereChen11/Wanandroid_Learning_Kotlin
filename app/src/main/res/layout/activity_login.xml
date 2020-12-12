@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.login.LoginActivity">
+    tools:context=".ui.login.LoginActivity">
 
     <TextView
         android:id="@+id/logInOrRegisterTv"
@@ -135,7 +135,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:background="@drawable/login_register_btn_bg_style"
+        android:background="@drawable/shape_login_register_btn_rectangle_radius_10_white_smoke"
         android:text="@string/login_cn"
         android:textAllCaps="false"
         android:textSize="20sp"

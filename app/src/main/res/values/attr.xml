@@ -5,12 +5,12 @@
         <attr name="iconReference" format="reference" />
     </declare-styleable>
 
-    <declare-styleable name="MeListItemCustomView">
+    <declare-styleable name="MeListItem">
         <attr name="meListItemTitleText" format="string" />
         <attr name="meListIconReference" format="reference" />
     </declare-styleable>
 
-    <declare-styleable name="MyAppBarCustomView">
+    <declare-styleable name="MyAppBar">
         <attr name="myAppBarTitleText" format="string" />
     </declare-styleable>
 

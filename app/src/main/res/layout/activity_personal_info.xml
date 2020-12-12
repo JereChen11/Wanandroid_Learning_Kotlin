@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.me.PersonalInfoActivity">
+    tools:context=".ui.me.PersonalInfoActivity">
 
-    <com.jere.wanandroid_learning_kotlin.utils.MyAppBarCustomView
+    <com.wanandroid.kotlin.utils.MyAppBar
         android:id="@+id/personalInfoAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

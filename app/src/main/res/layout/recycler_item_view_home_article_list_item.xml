@@ -7,7 +7,7 @@
     android:layout_marginStart="10dp"
     android:layout_marginTop="10dp"
     android:layout_marginEnd="10dp"
-    android:background="@drawable/article_container_shape"
+    android:background="@drawable/shape_article_container_rectange_radius_10_white_smoke"
     android:padding="10dp">
 
     <TextView

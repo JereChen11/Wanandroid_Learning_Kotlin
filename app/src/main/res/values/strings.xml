@@ -12,7 +12,7 @@
     <string name="nav_view_drawer_close">drawer close</string>
 
     <string name="menu_home">主页</string>
-    <string name="menu_complete_project">完整项目</string>
+    <string name="menu_project">项目</string>
     <string name="menu_we_chat">微信公众号</string>
     <string name="menu_knowledge_system">知识体系</string>
     <string name="menu_me">我的</string>
@@ -55,4 +55,6 @@
 
     <string name="confirm_cn">确认</string>
     <string name="granted_permission">该功能依赖于该权限，请允许</string>
+
+    <string name="article_list_cn">文章列表</string>
 </resources>

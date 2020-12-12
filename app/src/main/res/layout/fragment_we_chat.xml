@@ -17,12 +17,12 @@
         app:tabSelectedTextColor="@color/black"
         app:tabTextColor="@color/gray" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/weChatArticleSrl"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weChatBloggerTabLayout">
+<!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--        android:id="@+id/weChatArticleSrl"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/weChatBloggerTabLayout">-->
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/weChatVp2"
@@ -31,15 +31,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/weChatBloggerTabLayout" />
 
-            <!-- not working-->
-        <com.jere.wanandroid_learning_kotlin.utils.PullUpRefreshView
-            android:id="@+id/weChatPullUpRefreshView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/weChatVp2" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+<!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
