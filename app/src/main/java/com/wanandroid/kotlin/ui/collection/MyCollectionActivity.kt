@@ -9,11 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.jaeger.library.StatusBarUtil
 import com.wanandroid.kotlin.R
-import com.wanandroid.kotlin.model.bean.Article
-import com.wanandroid.kotlin.utils.BaseActivity
-import com.wanandroid.kotlin.ui.ArticleDetailWebViewActivity
-import com.wanandroid.kotlin.ui.ArticleListAdapter
-import com.wanandroid.kotlin.ui.ArticleListAdapter.AdapterItemClickListener
+import com.wanandroid.kotlin.data.bean.Article
+import com.wanandroid.kotlin.ui.base.BaseActivity
+import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewActivity
+import com.wanandroid.kotlin.ui.adapter.ArticleListAdapter
+import com.wanandroid.kotlin.ui.adapter.ArticleListAdapter.AdapterItemClickListener
 import com.wanandroid.kotlin.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_my_collection.*
 
@@ -30,30 +30,32 @@ class MyCollectionActivity : BaseActivity() {
 
     override fun initView(view: View?) {
         articleListAdapter =
-            ArticleListAdapter(collectionArticleList, object : AdapterItemClickListener {
-                override fun onPositionClicked(v: View?, position: Int) {
-                    val link: String? = collectionArticleList[position].link
+            ArticleListAdapter(
+                collectionArticleList,
+                object : AdapterItemClickListener {
+                    override fun onPositionClicked(v: View?, position: Int) {
+                        val link: String? = collectionArticleList[position].link
 
-                    val intent = Intent(
-                        this@MyCollectionActivity,
-                        ArticleDetailWebViewActivity::class.java
-                    )
-                    intent.putExtra(
-                        ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
-                        link
-                    )
-                    startActivity(intent)
-                }
+                        val intent = Intent(
+                            this@MyCollectionActivity,
+                            ArticleDetailWebViewActivity::class.java
+                        )
+                        intent.putExtra(
+                            ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
+                            link
+                        )
+                        startActivity(intent)
+                    }
 
-                override fun onLongClicked(v: View?, position: Int) {
+                    override fun onLongClicked(v: View?, position: Int) {
 
-                }
+                    }
 
-                override fun clickWithoutLogin() {
-                    startActivity(Intent(this@MyCollectionActivity, LoginActivity::class.java))
-                }
+                    override fun clickWithoutLogin() {
+                        startActivity(Intent(this@MyCollectionActivity, LoginActivity::class.java))
+                    }
 
-            })
+                })
 
         myCollectionRcy.adapter = articleListAdapter
         myCollectionRcy.addOnScrollListener(object : RecyclerView.OnScrollListener() {

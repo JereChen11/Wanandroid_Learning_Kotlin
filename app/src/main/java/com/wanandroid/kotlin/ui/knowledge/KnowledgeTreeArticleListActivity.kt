@@ -9,11 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.jaeger.library.StatusBarUtil
 import com.wanandroid.kotlin.R
-import com.wanandroid.kotlin.model.bean.Article
-import com.wanandroid.kotlin.ui.ArticleDetailWebViewActivity
-import com.wanandroid.kotlin.ui.ArticleListAdapter
+import com.wanandroid.kotlin.data.bean.Article
+import com.wanandroid.kotlin.data.repository.KnowledgeTreeRepository
+import com.wanandroid.kotlin.ui.adapter.ArticleListAdapter
+import com.wanandroid.kotlin.ui.base.BaseActivity
+import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewActivity
 import com.wanandroid.kotlin.ui.login.LoginActivity
-import com.wanandroid.kotlin.utils.BaseActivity
 import kotlinx.android.synthetic.main.activity_knowledge_system_article_list.*
 
 class KnowledgeTreeArticleListActivity : BaseActivity() {
@@ -43,7 +44,8 @@ class KnowledgeTreeArticleListActivity : BaseActivity() {
 
         articleListAdapter = ArticleListAdapter(
             mKnowledgeSystemArticleListData,
-            object : ArticleListAdapter.AdapterItemClickListener {
+            object :
+                ArticleListAdapter.AdapterItemClickListener {
                 override fun onPositionClicked(v: View?, position: Int) {
                     val link: String? = mKnowledgeSystemArticleListData[position].link
                     val intent = Intent(
@@ -85,7 +87,10 @@ class KnowledgeTreeArticleListActivity : BaseActivity() {
             }
         })
 
-        knowledgeTreeVm = ViewModelProvider(this)[KnowledgeTreeViewModel::class.java]
+        knowledgeTreeVm = ViewModelProvider(
+            this,
+            KnowledgeTreeVmFactory(KnowledgeTreeRepository())
+        )[KnowledgeTreeViewModel::class.java]
         knowledgeTreeVm.knowledgeSystemArticleListLd.observe(this, Observer {
             mKnowledgeSystemArticleListData.addAll(it.articles)
             isLoadAllArticleData = it.over

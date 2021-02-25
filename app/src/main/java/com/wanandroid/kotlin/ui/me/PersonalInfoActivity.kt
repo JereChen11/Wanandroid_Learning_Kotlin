@@ -21,18 +21,21 @@ import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.jaeger.library.StatusBarUtil
-import com.wanandroid.kotlin.R
-import com.wanandroid.kotlin.utils.BaseActivity
-import com.wanandroid.kotlin.utils.SpSettings
 import com.permissionx.guolindev.PermissionX
+import com.wanandroid.kotlin.R
+import com.wanandroid.kotlin.ui.base.BaseActivity
+import com.wanandroid.kotlin.utils.SpSettings
 import kotlinx.android.synthetic.main.activity_personal_info.*
 import java.io.File
 import java.io.IOException
 
 class PersonalInfoActivity : BaseActivity(), View.OnClickListener {
 
-    private val TAKE_PHOTO_REQUEST_CODE = 1
-    private val FROM_ALBUM_REQUEST_CODE = 2
+    companion object {
+        private const val TAKE_PHOTO_REQUEST_CODE = 1
+        private const val FROM_ALBUM_REQUEST_CODE = 2
+    }
+
     private var imageUri: Uri? = null
     private lateinit var selectedPictureDialog: AlertDialog
 
@@ -238,7 +241,9 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener {
 
     private fun setAvatar(avatarUri: Uri) {
         val requestOptions = RequestOptions.circleCropTransform()
-        Glide.with(this).load(avatarUri).apply(requestOptions)
+        Glide.with(this)
+            .load(avatarUri)
+            .apply(requestOptions)
             .into(avatarPictureIv)
     }
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.collection.MyCollectionActivity">
 
-    <com.wanandroid.kotlin.utils.MyAppBar
+    <com.wanandroid.kotlin.ui.customview.MyAppBar
         android:id="@+id/myCollectionAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

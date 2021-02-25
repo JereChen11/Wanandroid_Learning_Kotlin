@@ -10,17 +10,21 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.ui.AppBarConfiguration
+import com.bumptech.glide.Glide
 import com.jaeger.library.StatusBarUtil
 import com.wanandroid.kotlin.R
-import com.wanandroid.kotlin.utils.BaseActivity
 import com.wanandroid.kotlin.ui.aboutme.AboutMeActivity
-import com.wanandroid.kotlin.ui.project.ProjectTypeFragment
+import com.wanandroid.kotlin.ui.base.BaseActivity
 import com.wanandroid.kotlin.ui.home.HomeFragment
 import com.wanandroid.kotlin.ui.knowledge.KnowledgeTreeFragment
 import com.wanandroid.kotlin.ui.me.MeFragment
+import com.wanandroid.kotlin.ui.project.ProjectTypeFragment
 import com.wanandroid.kotlin.ui.wechat.WeChatFragment
+import com.wanandroid.kotlin.utils.SpSettings
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.fragment_me.*
+import kotlinx.android.synthetic.main.nav_header_main.view.*
 
 class MainActivity : BaseActivity() {
 
@@ -75,6 +79,9 @@ class MainActivity : BaseActivity() {
         )
 
         toolbar.title = getString(R.string.menu_home)
+
+        setAvatarAndNickname()
+
         navView.setNavigationItemSelectedListener {
             val result: Boolean
             when (it.itemId) {
@@ -91,7 +98,10 @@ class MainActivity : BaseActivity() {
                     result = true
                 }
                 R.id.nav_knowledge_tree -> {
-                    setBottomNavAndToolbar(R.id.bottom_nav_knowledge_tree, R.string.menu_knowledge_system)
+                    setBottomNavAndToolbar(
+                        R.id.bottom_nav_knowledge_tree,
+                        R.string.menu_knowledge_system
+                    )
                     result = true
                 }
                 R.id.nav_me -> {
@@ -154,6 +164,26 @@ class MainActivity : BaseActivity() {
             }
 
         }
+    }
+
+    private fun setAvatarAndNickname() {
+        navView.getHeaderView(0).apply {
+            Glide.with(this)
+                .load(
+                    if (SpSettings.getAvatarUriString().isNullOrBlank())
+                        R.drawable.default_profile
+                    else
+                        SpSettings.getAvatarUriString()
+                )
+                .circleCrop()
+                .into(navAvatarIv)
+            navNameTv.text = SpSettings.getUsername()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setAvatarAndNickname()
     }
 
     override fun doBusiness(mContext: Context?) {

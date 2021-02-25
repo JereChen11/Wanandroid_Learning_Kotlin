@@ -24,12 +24,12 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         AnimationUtils.loadAnimation(this, R.anim.scale).also { hyperspaceJumpAnimation ->
-            appNickNameTv.startAnimation(hyperspaceJumpAnimation)
+            splashLogoIv.startAnimation(hyperspaceJumpAnimation)
         }
 
         Handler(Looper.getMainLooper()).postDelayed(
             kotlin.run { Runnable { goToMainActivity() } },
-            2500
+            1200
         )
     }
 

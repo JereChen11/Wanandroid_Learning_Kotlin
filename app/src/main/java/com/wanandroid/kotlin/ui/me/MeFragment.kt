@@ -83,6 +83,8 @@ class MeFragment : Fragment(), View.OnClickListener {
                 if (SpSettings.getIsLogin()) {
                     loginInOutItem.setTitleText(getString(R.string.logout_cn))
                     SpSettings.setIsLogin(false)
+                    SpSettings.setUsername("username")
+                    userNameTv.text = "username"
                 } else {
                     startActivity(Intent(activity, LoginActivity::class.java))
                 }

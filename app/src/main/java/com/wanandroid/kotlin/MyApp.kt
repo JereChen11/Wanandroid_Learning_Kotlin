@@ -1,16 +1,16 @@
 package com.wanandroid.kotlin
 
 import android.app.Application
+import android.content.Context
 
 class MyApp : Application() {
 
     companion object {
-        lateinit var instance: MyApp
-
+        lateinit var context: Context
     }
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
+        context = this
     }
 }

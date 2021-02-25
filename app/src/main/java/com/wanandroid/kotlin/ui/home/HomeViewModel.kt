@@ -4,23 +4,22 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wanandroid.kotlin.model.repository.base.BaseResult
-import com.wanandroid.kotlin.model.bean.ArticleList
-import com.wanandroid.kotlin.model.bean.HomeBannerBean
-import com.wanandroid.kotlin.model.repository.HomeRepository
+import com.wanandroid.kotlin.data.bean.ArticleList
+import com.wanandroid.kotlin.data.bean.HomeBannerBean
+import com.wanandroid.kotlin.data.repository.HomeRepository
+import com.wanandroid.kotlin.data.repository.base.BaseResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
     val homeBannerBeanListLd: MutableLiveData<List<HomeBannerBean>> = MutableLiveData()
     val articleListLd: MutableLiveData<ArticleList> = MutableLiveData()
 
     fun setHomeBannerList() {
         viewModelScope.launch(Dispatchers.Main) {
             val result = withContext(Dispatchers.IO) {
-                HomeRepository()
-                    .getHomeBanner()
+                repository.getHomeBanner()
             }
             if (result is BaseResult.Success) {
                 homeBannerBeanListLd.value = result.data
@@ -34,8 +33,7 @@ class HomeViewModel : ViewModel() {
     fun setHomeArticleList(pageNumber: Int) {
         viewModelScope.launch(Dispatchers.Main) {
             val result = withContext(Dispatchers.IO) {
-                HomeRepository()
-                    .getHomeArticle(pageNumber)
+                repository.getHomeArticle(pageNumber)
             }
             if (result is BaseResult.Success) {
                 articleListLd.value = result.data

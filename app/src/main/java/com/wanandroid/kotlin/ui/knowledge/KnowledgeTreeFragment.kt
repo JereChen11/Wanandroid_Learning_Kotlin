@@ -1,7 +1,6 @@
 package com.wanandroid.kotlin.ui.knowledge
 
 import android.content.Intent
-import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -9,46 +8,29 @@ import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.wanandroid.kotlin.R
-import com.wanandroid.kotlin.model.bean.KnowledgeTree
-import com.wanandroid.kotlin.model.bean.KnowledgeTreeChildren
-import kotlinx.android.synthetic.main.fragment_knowledge_tree.*
+import com.wanandroid.kotlin.data.bean.KnowledgeTree
+import com.wanandroid.kotlin.data.bean.KnowledgeTreeChildren
+import com.wanandroid.kotlin.data.repository.KnowledgeTreeRepository
+import com.wanandroid.kotlin.databinding.FragmentKnowledgeTreeBinding
+import com.wanandroid.kotlin.ui.base.BaseVmFragment
 
-class KnowledgeTreeFragment : Fragment() {
+class KnowledgeTreeFragment :
+    BaseVmFragment<KnowledgeTreeViewModel, FragmentKnowledgeTreeBinding>() {
 
-    private lateinit var knowledgeTreeVm: KnowledgeTreeViewModel
-    private var mKnowledgeTreeList: ArrayList<KnowledgeTree> =
-        ArrayList()
+    private var mKnowledgeTreeList: ArrayList<KnowledgeTree> = ArrayList()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        knowledgeTreeVm = ViewModelProvider(this)[KnowledgeTreeViewModel::class.java]
-        return inflater.inflate(R.layout.fragment_knowledge_tree, container, false)
+    override fun setVmFactory(): ViewModelProvider.Factory = KnowledgeTreeVmFactory(
+        KnowledgeTreeRepository()
+    )
+
+    override fun initData() {
+        viewModel.setKnowledgeSystemCategoryLd()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        knowledgeTreeVm.knowledgeTreeLd.observe(
-            viewLifecycleOwner,
-            androidx.lifecycle.Observer {
-                mKnowledgeTreeList.clear()
-                mKnowledgeTreeList.addAll(it)
-                expandableListView.setAdapter(
-                    KnowledgeSystemListAdapter(
-                        mKnowledgeTreeList
-                    )
-                )
-            })
-
-        knowledgeTreeVm.setKnowledgeSystemCategoryLd()
-
-        expandableListView.setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
+    override fun initView() {
+        binding.expandableListView.setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
             val childData: KnowledgeTreeChildren =
                 mKnowledgeTreeList[groupPosition].children[childPosition]
             val cid: Int = childData.id
@@ -59,6 +41,23 @@ class KnowledgeTreeFragment : Fragment() {
             startActivity(intent)
             true
         }
+    }
+
+    override fun initObserve() {
+        viewModel.apply {
+            knowledgeTreeLd.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer {
+                    mKnowledgeTreeList.clear()
+                    mKnowledgeTreeList.addAll(it)
+                    binding.expandableListView.setAdapter(
+                        KnowledgeSystemListAdapter(
+                            mKnowledgeTreeList
+                        )
+                    )
+                })
+        }
+
     }
 
     class KnowledgeSystemListAdapter(

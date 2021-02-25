@@ -3,9 +3,9 @@ package com.wanandroid.kotlin.ui.collection
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wanandroid.kotlin.model.repository.base.BaseResult
-import com.wanandroid.kotlin.model.bean.ArticleList
-import com.wanandroid.kotlin.model.repository.MyCollectionRepository
+import com.wanandroid.kotlin.data.repository.base.BaseResult
+import com.wanandroid.kotlin.data.bean.ArticleList
+import com.wanandroid.kotlin.data.repository.MyCollectionRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

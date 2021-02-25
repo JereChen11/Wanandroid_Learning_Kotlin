@@ -7,7 +7,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.wanandroid.kotlin.R
-import com.wanandroid.kotlin.utils.BaseActivity
+import com.wanandroid.kotlin.ui.base.BaseActivity
 import com.wanandroid.kotlin.utils.SpSettings
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -32,8 +32,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         loginVm.isLoginLdBean.observe(this, Observer {
             if (it.isSuccess) {
                 SpSettings.setIsLogin(true)
-                finish()
+                SpSettings.setUsername(it.msg)
                 showToast(getString(R.string.login_successful_cn))
+                finish()
             } else {
                 showToast(it.msg)
             }

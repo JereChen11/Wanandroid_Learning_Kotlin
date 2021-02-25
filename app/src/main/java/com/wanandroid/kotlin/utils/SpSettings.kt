@@ -12,7 +12,7 @@ object SpSettings {
     private const val AVATAR_URI_STRING_KEY = "AVATAR_URI_STRING"
 
     private fun getSp() : SharedPreferences {
-        return MyApp.instance.applicationContext.getSharedPreferences(SETTINGS_SP_KEY, Context.MODE_PRIVATE)
+        return MyApp.context.getSharedPreferences(SETTINGS_SP_KEY, Context.MODE_PRIVATE)
     }
 
     fun getIsLogin(): Boolean {

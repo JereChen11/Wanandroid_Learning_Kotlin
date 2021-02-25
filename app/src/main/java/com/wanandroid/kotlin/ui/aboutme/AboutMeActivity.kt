@@ -3,7 +3,7 @@ package com.wanandroid.kotlin.ui.aboutme
 import android.content.Context
 import android.view.View
 import com.wanandroid.kotlin.R
-import com.wanandroid.kotlin.utils.BaseActivity
+import com.wanandroid.kotlin.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_about_me.*
 
 class AboutMeActivity : BaseActivity() {

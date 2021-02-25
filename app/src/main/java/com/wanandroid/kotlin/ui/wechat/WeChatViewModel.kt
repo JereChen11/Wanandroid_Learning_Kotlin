@@ -3,25 +3,24 @@ package com.wanandroid.kotlin.ui.wechat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wanandroid.kotlin.model.repository.base.BaseResult
-import com.wanandroid.kotlin.model.bean.ArticleList
-import com.wanandroid.kotlin.model.bean.WeChatBean
-import com.wanandroid.kotlin.model.repository.WeChatRepository
+import com.wanandroid.kotlin.data.bean.ArticleList
+import com.wanandroid.kotlin.data.bean.WeChatBean
+import com.wanandroid.kotlin.data.repository.WeChatRepository
+import com.wanandroid.kotlin.data.repository.base.BaseResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class WeChatViewModel : ViewModel() {
+class WeChatViewModel(private val repository: WeChatRepository) : ViewModel() {
     val weChatBeanLd: MutableLiveData<List<WeChatBean>> =
         MutableLiveData()
     val weChatArticleListLd: MutableLiveData<ArticleList> =
         MutableLiveData()
 
-    fun setWeChatBloggerListLd() {
+    fun getWeChatBloggerListLd() {
         viewModelScope.launch(Dispatchers.Main) {
             val result = withContext(Dispatchers.IO) {
-                WeChatRepository()
-                    .getWeChatBloggerList()
+                repository.getWeChatBloggerList()
             }
             if (result is BaseResult.Success) {
                 weChatBeanLd.value = result.data
@@ -29,11 +28,10 @@ class WeChatViewModel : ViewModel() {
         }
     }
 
-    fun setWeChatArticleListLd(authorId: Int, pageNumber: Int) {
+    fun setWeChatArticleListLd(authorId: Int, pageNumber: Int = 0) {
         viewModelScope.launch(Dispatchers.Main) {
             val result = withContext(Dispatchers.IO) {
-                WeChatRepository()
-                    .getWeChatArticleList(authorId, pageNumber)
+                repository.getWeChatArticleList(authorId, pageNumber)
             }
             if (result is BaseResult.Success) {
                 weChatArticleListLd.value = result.data
