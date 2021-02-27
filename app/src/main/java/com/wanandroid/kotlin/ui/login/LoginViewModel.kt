@@ -3,14 +3,14 @@ package com.wanandroid.kotlin.ui.login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wanandroid.kotlin.data.repository.base.BaseResult
 import com.wanandroid.kotlin.data.bean.LoginResultBean
 import com.wanandroid.kotlin.data.repository.LoginRepository
+import com.wanandroid.kotlin.data.repository.base.BaseResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
 
     val isLoginLdBean: MutableLiveData<LoginResultBean> = MutableLiveData()
     val isRegisterLdBean: MutableLiveData<LoginResultBean> = MutableLiveData()
@@ -19,8 +19,7 @@ class LoginViewModel : ViewModel() {
         val paramsMap = mapOf("username" to username, "password" to password)
         viewModelScope.launch(Dispatchers.Main) {
             val result = withContext(Dispatchers.IO) {
-                LoginRepository()
-                    .login(paramsMap)
+                repository.login(paramsMap)
             }
             if (result is BaseResult.Success) {
                 isLoginLdBean.value =
@@ -45,8 +44,7 @@ class LoginViewModel : ViewModel() {
             mapOf("username" to username, "password" to password, "repassword" to repassword)
         viewModelScope.launch(Dispatchers.Main) {
             val result = withContext(Dispatchers.IO) {
-                LoginRepository()
-                    .register(paramsMap)
+                repository.register(paramsMap)
             }
             if (result is BaseResult.Success) {
                 isRegisterLdBean.value =

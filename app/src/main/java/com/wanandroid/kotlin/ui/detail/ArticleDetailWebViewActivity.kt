@@ -20,6 +20,9 @@ class ArticleDetailWebViewActivity : BaseActivity() {
 
         val webViewModel: WebView = findViewById(R.id.articleDetailWebView)
         webViewModel.loadUrl(link)
+
+//        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+//        startActivity(browserIntent)
     }
 
     override fun doBusiness(mContext: Context?) {

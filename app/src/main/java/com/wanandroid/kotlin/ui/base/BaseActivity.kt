@@ -1,7 +1,6 @@
 package com.wanandroid.kotlin.ui.base
 
 import android.content.Context
-import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,10 +13,6 @@ import com.jaeger.library.StatusBarUtil
 import com.wanandroid.kotlin.R
 
 abstract class BaseActivity : AppCompatActivity() {
-    /**
-     * 是否禁止旋转屏幕
-     */
-    private var isAllowScreenRotate = false
 
     /**
      * 当前Activity渲染的视图View
@@ -34,21 +29,9 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mContextView = LayoutInflater.from(this).inflate(bindLayout(), null)
 
-        //hide time, battery status bar
-//        window.setFlags(
-//            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//            WindowManager.LayoutParams.FLAG_FULLSCREEN
-//        )
-
-        //hide app title bar
-//        requestWindowFeature(Window.FEATURE_NO_TITLE)
-
         setContentView(mContextView)
 
-        //set can rotate screen
-//        if (!isAllowScreenRotate) {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-//        }
 
         setStatusBar()
 
@@ -77,46 +60,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected open fun setStatusBar() {
         StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.white_smoke), 0)
-    }
-
-    /**
-     * [页面跳转]
-     * * @param clz
-     */
-    fun startActivity(targetClass: Class<*>?) {
-        startActivity(Intent(this@BaseActivity, targetClass))
-    }
-
-    /**
-     * [携带数据的页面跳转]
-     */
-    fun startActivity(targetClass: Class<*>?, bundle: Bundle?) {
-        val intent = Intent()
-        intent.setClass(this, targetClass!!)
-        if (bundle != null) {
-            intent.putExtras(bundle)
-        }
-        startActivity(intent)
-    }
-
-    /**
-     * [含有Bundle通过Class打开编辑界面]
-     * * @param tartgetClass
-     *
-     * @param bundle
-     * @param requestCode
-     */
-    fun startActivityForResult(
-        tartgetClass: Class<*>?,
-        bundle: Bundle?,
-        requestCode: Int
-    ) {
-        val intent = Intent()
-        intent.setClass(this, tartgetClass!!)
-        if (bundle != null) {
-            intent.putExtras(bundle)
-        }
-        startActivityForResult(intent, requestCode)
     }
 
     protected fun showToast(msgContent: String?) {
@@ -148,12 +91,5 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * [是否允许屏幕旋转] *
-     *
-     * @param isAllowScreenRoate
-     */
-    fun setScreenRoate(isAllowScreenRoate: Boolean) {
-        isAllowScreenRotate = isAllowScreenRoate
-    }
+
 }

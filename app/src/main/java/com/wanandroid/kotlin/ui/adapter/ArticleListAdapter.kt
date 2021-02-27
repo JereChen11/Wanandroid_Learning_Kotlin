@@ -9,10 +9,11 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.wanandroid.kotlin.R
-import com.wanandroid.kotlin.data.repository.base.BaseResult
-import com.wanandroid.kotlin.data.repository.CollectionRepository
 import com.wanandroid.kotlin.data.bean.Article
-import com.wanandroid.kotlin.ui.customview.PullUpRefreshView
+import com.wanandroid.kotlin.data.repository.CollectionRepository
+import com.wanandroid.kotlin.data.repository.base.BaseResult
+import com.wanandroid.kotlin.databinding.RecyclerItemViewArticleListAdapterBottomViewBinding
+import com.wanandroid.kotlin.databinding.RecyclerItemViewHomeArticleListItemBinding
 import com.wanandroid.kotlin.utils.SpSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,22 +45,68 @@ class ArticleListAdapter(
         isLoadAllArticleData = isLoadAll
     }
 
-    inner class ArticleViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener {
+    inner class ArticleViewHolder(private val binding: RecyclerItemViewHomeArticleListItemBinding) :
+        RecyclerView.ViewHolder(binding.root), View.OnClickListener, View.OnLongClickListener {
 
-        private val containerCl: ConstraintLayout =
-            itemView.findViewById(R.id.articleListItemContainerCl)
-        val titleTv: TextView = itemView.findViewById(R.id.articleListItemTitleTv)
-        val authorTv: TextView = itemView.findViewById(R.id.articleListItemAuthorTv)
-        val dateTv: TextView = itemView.findViewById(R.id.articleListItemSharedDateTv)
-        val collectionIconIv: ImageView = itemView.findViewById(R.id.collectionIconIv)
+//        private val containerCl: ConstraintLayout =
+//            itemView.findViewById(R.id.articleListItemContainerCl)
+//        val titleTv: TextView = itemView.findViewById(R.id.articleListItemTitleTv)
+//        val authorTv: TextView = itemView.findViewById(R.id.articleListItemAuthorTv)
+//        val dateTv: TextView = itemView.findViewById(R.id.articleListItemSharedDateTv)
+//        val collectionIconIv: ImageView = itemView.findViewById(R.id.collectionIconIv)
+//
+//        init {
+//            containerCl.setOnClickListener(this)
+//            titleTv.setOnClickListener(this)
+//            authorTv.setOnClickListener(this)
+//            dateTv.setOnClickListener(this)
+//            collectionIconIv.setOnClickListener(this)
+//        }
 
-        init {
-            containerCl.setOnClickListener(this)
-            titleTv.setOnClickListener(this)
-            authorTv.setOnClickListener(this)
-            dateTv.setOnClickListener(this)
-            collectionIconIv.setOnClickListener(this)
+        fun bind(article: Article) {
+            binding.apply {
+                articleListItemTitleTv.text = article.title
+                articleListItemAuthorTv.text =
+                    if (article.author.isNotEmpty()) article.author else article.shareUser
+                articleListItemSharedDateTv.text = article.niceShareDate
+                if (article.collect) {
+                    collectionIconIv.setImageResource(R.drawable.vector_drawable_star)
+                } else {
+                    collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
+                }
+                collectionIconIv.setOnClickListener {
+                    if (!SpSettings.getIsLogin()) {
+                        adapterItemClickListener.clickWithoutLogin()
+                    } else {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            val result = withContext(Dispatchers.IO) {
+                                if (article.collect) {
+                                    CollectionRepository()
+                                        .unCollectArticle(if (article.originId > 0) article.originId else article.id)
+                                } else {
+                                    CollectionRepository()
+                                        .collectArticle(article.id)
+                                }
+                            }
+                            if (result is BaseResult.Success) {
+                                article.collect = if (article.collect) {
+                                    collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
+                                    false
+                                } else {
+                                    collectionIconIv.setImageResource(R.drawable.vector_drawable_star)
+                                    true
+                                }
+                            } else if (result is BaseResult.Error) {
+                                Log.e(
+                                    "jereTest",
+                                    "collect | unCollect Article failed: ${result.exception.message}"
+                                )
+                            }
+                        }
+                    }
+                }
+                articleListItemContainerCl.setOnClickListener(this@ArticleViewHolder)
+            }
         }
 
         override fun onClick(v: View?) {
@@ -72,19 +119,36 @@ class ArticleListAdapter(
         }
     }
 
-    inner class BottomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val pullUpRefreshView: PullUpRefreshView = itemView.findViewById(R.id.bottomViewPullUpRefreshView)
+    inner class BottomViewHolder(private val binding: RecyclerItemViewArticleListAdapterBottomViewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind() {
+            binding.bottomViewPullUpRefreshView.apply {
+                if (isLoadAllArticleData) {
+                    showIsLoadAllData()
+                } else {
+                    showLoadingData()
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == normalArticleViewType) {
-            val view: View = LayoutInflater.from(parent.context)
-                .inflate(R.layout.recycler_item_view_home_article_list_item, parent, false)
-            return ArticleViewHolder(view)
+            val binding =
+                RecyclerItemViewHomeArticleListItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            return ArticleViewHolder(binding)
         }
-        val bottomView: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recycler_item_view_article_list_adapter_bottom_view, parent, false)
-        return BottomViewHolder(bottomView)
+        val binding = RecyclerItemViewArticleListAdapterBottomViewBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return BottomViewHolder(binding)
 
     }
 
@@ -102,58 +166,10 @@ class ArticleListAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder.itemViewType == normalArticleViewType) {
             val articleViewHolder: ArticleViewHolder = holder as ArticleViewHolder
-            articleList[position].apply {
-                articleViewHolder.titleTv.text = title
-                articleViewHolder.authorTv.text = if (author.isNotEmpty()) author else shareUser
-                articleViewHolder.dateTv.text = niceShareDate
-                if (collect) {
-                    articleViewHolder.collectionIconIv.setImageResource(R.drawable.vector_drawable_star)
-                } else {
-                    articleViewHolder.collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
-                }
-                articleViewHolder.collectionIconIv.setOnClickListener {
-
-                    if (!SpSettings.getIsLogin()) {
-                        adapterItemClickListener.clickWithoutLogin()
-                    } else {
-                        CoroutineScope(Dispatchers.Main).launch {
-                            val result = withContext(Dispatchers.IO) {
-                                if (collect) {
-                                    CollectionRepository()
-                                        .unCollectArticle(if (originId > 0) originId else id)
-                                } else {
-                                    CollectionRepository()
-                                        .collectArticle(id)
-                                }
-                            }
-                            if (result is BaseResult.Success) {
-                                collect = if (collect) {
-                                    articleViewHolder.collectionIconIv.setImageResource(R.drawable.vector_drawable_unstar)
-                                    false
-                                } else {
-                                    articleViewHolder.collectionIconIv.setImageResource(R.drawable.vector_drawable_star)
-                                    true
-                                }
-                            } else if (result is BaseResult.Error) {
-                                Log.e(
-                                    "jereTest",
-                                    "collect | unCollect Article failed: ${result.exception.message}"
-                                )
-                            }
-                        }
-                    }
-                }
-
-
-            }
-
+            articleViewHolder.bind(articleList[position])
         } else {
             val bottomViewHolder: BottomViewHolder = holder as BottomViewHolder
-            if (isLoadAllArticleData) {
-                bottomViewHolder.pullUpRefreshView.showIsLoadAllData()
-            } else {
-                bottomViewHolder.pullUpRefreshView.showLoadingData()
-            }
+            bottomViewHolder.bind()
         }
 
     }

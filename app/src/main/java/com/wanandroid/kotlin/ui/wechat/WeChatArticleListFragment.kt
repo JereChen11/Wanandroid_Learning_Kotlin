@@ -11,6 +11,7 @@ import com.wanandroid.kotlin.data.repository.WeChatRepository
 import com.wanandroid.kotlin.databinding.FragmentWeChatArticleListBinding
 import com.wanandroid.kotlin.ui.adapter.ArticleListAdapter
 import com.wanandroid.kotlin.ui.base.BaseVmFragment
+import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewActivity
 import com.wanandroid.kotlin.ui.login.LoginActivity
 
 class WeChatArticleListFragment :
@@ -37,6 +38,13 @@ class WeChatArticleListFragment :
             weChatArticleList,
             object : ArticleListAdapter.AdapterItemClickListener {
                 override fun onPositionClicked(v: View?, position: Int) {
+                    val link: String? = weChatArticleList[position].link
+                    val intent = Intent(activity, ArticleDetailWebViewActivity::class.java)
+                    intent.putExtra(
+                        ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
+                        link
+                    )
+                    startActivity(intent)
                 }
 
                 override fun onLongClicked(v: View?, position: Int) {

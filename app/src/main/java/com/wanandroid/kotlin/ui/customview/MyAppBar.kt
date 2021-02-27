@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import com.wanandroid.kotlin.R
-import kotlinx.android.synthetic.main.custom_view_my_app_bar.view.*
+import com.wanandroid.kotlin.databinding.CustomViewMyAppBarBinding
 
 class MyAppBar(
     context: Context,
@@ -22,20 +22,23 @@ class MyAppBar(
         init(context, attributeSet)
     }
 
-    private fun init(context: Context?, attrs: AttributeSet?) {
-        LayoutInflater.from(context).inflate(R.layout.custom_view_my_app_bar, this, true)
+    private lateinit var binding: CustomViewMyAppBarBinding
 
-        myAppBarBackIv.setOnClickListener { v: View -> (v.context as Activity).onBackPressed() }
+    private fun init(context: Context?, attrs: AttributeSet?) {
+        binding = CustomViewMyAppBarBinding.inflate(LayoutInflater.from(context), this, true)
 
         val typedArray = context!!.obtainStyledAttributes(attrs, R.styleable.MyAppBar)
         val titleString = typedArray.getString(R.styleable.MyAppBar_myAppBarTitleText)
-        myAppBarTitleTv.text = titleString
+        binding.myAppBarTitleTv.apply {
+            text = titleString
+            setOnClickListener { v: View -> (v.context as Activity).onBackPressed() }
+        }
 
         typedArray.recycle()
     }
 
     fun setTitle(newTitle: String) {
-        myAppBarTitleTv.text = newTitle
+        binding.myAppBarTitleTv.text = newTitle
         invalidate()
     }
 }

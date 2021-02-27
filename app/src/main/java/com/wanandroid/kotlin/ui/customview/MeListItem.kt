@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.wanandroid.kotlin.R
-import kotlinx.android.synthetic.main.custom_view_me_list_item.view.*
+import com.wanandroid.kotlin.databinding.CustomViewMeListItemBinding
 
 class MeListItem(
     context: Context,
@@ -22,25 +22,27 @@ class MeListItem(
         init(context, attributeSet)
     }
 
+    private lateinit var binding: CustomViewMeListItemBinding
+
     private fun init(context: Context?, attrs: AttributeSet?) {
-        LayoutInflater.from(context).inflate(R.layout.custom_view_me_list_item, this, true)
+        binding = CustomViewMeListItemBinding.inflate(LayoutInflater.from(context), this, true)
 
         val typedArray = context!!.obtainStyledAttributes(attrs, R.styleable.MeListItem)
         val titleTextString =
             typedArray.getString(R.styleable.MeListItem_meListItemTitleText)
-        meListItemTitleTv.text = titleTextString
+        binding.meListItemTitleTv.text = titleTextString
 
         val iconResourceId = typedArray.getResourceId(
             R.styleable.MeListItem_meListIconReference,
             R.drawable.default_profile
         )
-        Glide.with(this).load(iconResourceId).into(meListItemIconIv)
+        Glide.with(this).load(iconResourceId).into(binding.meListItemIconIv)
 
         typedArray.recycle()
     }
 
     fun setTitleText(newTitle: String) {
-        meListItemTitleTv.text = newTitle
+        binding.meListItemTitleTv.text = newTitle
         invalidate()
     }
 

@@ -81,7 +81,7 @@ class MeFragment : Fragment(), View.OnClickListener {
             }
             R.id.loginInOutItem -> {
                 if (SpSettings.getIsLogin()) {
-                    loginInOutItem.setTitleText(getString(R.string.logout_cn))
+                    loginInOutItem.setTitleText(getString(R.string.login_cn))
                     SpSettings.setIsLogin(false)
                     SpSettings.setUsername("username")
                     userNameTv.text = "username"
