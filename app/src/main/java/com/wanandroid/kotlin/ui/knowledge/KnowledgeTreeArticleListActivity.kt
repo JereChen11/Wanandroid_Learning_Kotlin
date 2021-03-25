@@ -14,7 +14,6 @@ import com.wanandroid.kotlin.data.repository.KnowledgeTreeRepository
 import com.wanandroid.kotlin.ui.adapter.ArticleListAdapter
 import com.wanandroid.kotlin.ui.base.BaseActivity
 import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewActivity
-import com.wanandroid.kotlin.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_knowledge_system_article_list.*
 
 class KnowledgeTreeArticleListActivity : BaseActivity() {
@@ -43,6 +42,7 @@ class KnowledgeTreeArticleListActivity : BaseActivity() {
         )
 
         articleListAdapter = ArticleListAdapter(
+            this,
             mKnowledgeSystemArticleListData,
             object :
                 ArticleListAdapter.AdapterItemClickListener {
@@ -60,15 +60,6 @@ class KnowledgeTreeArticleListActivity : BaseActivity() {
                 }
 
                 override fun onLongClicked(v: View?, position: Int) {
-                }
-
-                override fun clickWithoutLogin() {
-                    startActivity(
-                        Intent(
-                            this@KnowledgeTreeArticleListActivity,
-                            LoginActivity::class.java
-                        )
-                    )
                 }
 
             })

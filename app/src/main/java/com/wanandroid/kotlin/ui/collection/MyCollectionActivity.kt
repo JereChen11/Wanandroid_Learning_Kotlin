@@ -15,10 +15,8 @@ import com.wanandroid.kotlin.ui.adapter.ArticleListAdapter
 import com.wanandroid.kotlin.ui.adapter.ArticleListAdapter.AdapterItemClickListener
 import com.wanandroid.kotlin.ui.base.BaseVmActivity
 import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewActivity
-import com.wanandroid.kotlin.ui.login.LoginActivity
 
 class MyCollectionActivity : BaseVmActivity<MyCollectionViewModel, ActivityMyCollectionBinding>() {
-    private lateinit var myCollectionVm: MyCollectionViewModel
     private var collectionArticleList: ArrayList<Article> = ArrayList()
     private lateinit var articleListAdapter: ArticleListAdapter
     private var pageNumber = 0
@@ -29,12 +27,13 @@ class MyCollectionActivity : BaseVmActivity<MyCollectionViewModel, ActivityMyCol
     )
 
     override fun initData() {
-        myCollectionVm.setCollectionArticleListLd(pageNumber)
+        viewModel.setCollectionArticleListLd(pageNumber)
     }
 
     override fun initView() {
         articleListAdapter =
             ArticleListAdapter(
+                this,
                 collectionArticleList,
                 object : AdapterItemClickListener {
                     override fun onPositionClicked(v: View?, position: Int) {
@@ -55,10 +54,6 @@ class MyCollectionActivity : BaseVmActivity<MyCollectionViewModel, ActivityMyCol
 
                     }
 
-                    override fun clickWithoutLogin() {
-                        startActivity(Intent(this@MyCollectionActivity, LoginActivity::class.java))
-                    }
-
                 })
 
         binding.myCollectionRcy.apply {
@@ -71,14 +66,13 @@ class MyCollectionActivity : BaseVmActivity<MyCollectionViewModel, ActivityMyCol
                         && !isLoadAllArticleData
                     ) {
                         pageNumber++
-                        myCollectionVm.setCollectionArticleListLd(pageNumber)
+                        viewModel.setCollectionArticleListLd(pageNumber)
                     }
                 }
             })
         }
 
-        myCollectionVm = ViewModelProvider(this)[MyCollectionViewModel::class.java]
-        myCollectionVm.collectionArticleListLd.observe(this, Observer {
+        viewModel.collectionArticleListLd.observe(this, Observer {
 
             for (article in it.articles) {
                 article.collect = true

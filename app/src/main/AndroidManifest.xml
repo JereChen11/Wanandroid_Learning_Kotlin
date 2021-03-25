@@ -27,7 +27,6 @@
         <activity android:name="com.wanandroid.kotlin.ui.login.LoginActivity" />
         <activity android:name="com.wanandroid.kotlin.ui.knowledge.KnowledgeTreeArticleListActivity" />
         <activity android:name="com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewActivity" />
-        <activity android:name="com.wanandroid.kotlin.ui.aboutme.AboutMeActivity" />
         <activity
             android:name="com.wanandroid.kotlin.ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />

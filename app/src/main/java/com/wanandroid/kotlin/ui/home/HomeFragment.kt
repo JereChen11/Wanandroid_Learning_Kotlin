@@ -119,6 +119,7 @@ class HomeFragment : BaseVmFragment<HomeViewModel, FragmentHomeBinding>() {
 
     private fun initHomeArticleListRecyclerView() {
         articleListAdapter = ArticleListAdapter(
+            requireContext(),
             mArticleListData,
             object :
                 ArticleListAdapter.AdapterItemClickListener {
@@ -133,10 +134,6 @@ class HomeFragment : BaseVmFragment<HomeViewModel, FragmentHomeBinding>() {
                 }
 
                 override fun onLongClicked(v: View?, position: Int) {
-                }
-
-                override fun clickWithoutLogin() {
-                    startActivity(Intent(activity, LoginActivity::class.java))
                 }
 
             })

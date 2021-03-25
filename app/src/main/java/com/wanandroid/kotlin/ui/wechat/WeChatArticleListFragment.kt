@@ -35,6 +35,7 @@ class WeChatArticleListFragment :
 
     override fun initView() {
         articleListAdapter = ArticleListAdapter(
+            requireContext(),
             weChatArticleList,
             object : ArticleListAdapter.AdapterItemClickListener {
                 override fun onPositionClicked(v: View?, position: Int) {
@@ -48,10 +49,6 @@ class WeChatArticleListFragment :
                 }
 
                 override fun onLongClicked(v: View?, position: Int) {
-                }
-
-                override fun clickWithoutLogin() {
-                    startActivity(Intent(activity, LoginActivity::class.java))
                 }
 
             })

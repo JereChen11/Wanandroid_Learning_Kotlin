@@ -13,8 +13,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import com.bumptech.glide.Glide
 import com.jaeger.library.StatusBarUtil
 import com.wanandroid.kotlin.R
-import com.wanandroid.kotlin.ui.aboutme.AboutMeActivity
 import com.wanandroid.kotlin.ui.base.BaseActivity
+import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewActivity
 import com.wanandroid.kotlin.ui.home.HomeFragment
 import com.wanandroid.kotlin.ui.knowledge.KnowledgeTreeFragment
 import com.wanandroid.kotlin.ui.me.MeFragment
@@ -108,7 +108,12 @@ class MainActivity : BaseActivity() {
                     result = true
                 }
                 R.id.nav_about_me -> {
-                    startActivity(Intent(this, AboutMeActivity::class.java))
+                    val intent = Intent(this, ArticleDetailWebViewActivity::class.java)
+                    intent.putExtra(
+                        ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
+                        "https://juejin.cn/user/1169536104807399/posts"
+                    )
+                    startActivity(intent)
                     result = true
                 }
                 else -> {
