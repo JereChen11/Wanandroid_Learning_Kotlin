@@ -59,7 +59,7 @@ abstract class BaseActivity : AppCompatActivity() {
     abstract fun doBusiness(mContext: Context?)
 
     protected open fun setStatusBar() {
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.white_smoke), 0)
+        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.dark_gray), 0)
     }
 
     protected fun showToast(msgContent: String?) {

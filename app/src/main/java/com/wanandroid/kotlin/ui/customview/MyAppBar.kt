@@ -31,7 +31,9 @@ class MyAppBar(
         val titleString = typedArray.getString(R.styleable.MyAppBar_myAppBarTitleText)
         binding.myAppBarTitleTv.apply {
             text = titleString
-            setOnClickListener { v: View -> (v.context as Activity).onBackPressed() }
+        }
+        binding.myAppBarBackIv.setOnClickListener { v: View ->
+            (v.context as Activity).onBackPressed()
         }
 
         typedArray.recycle()

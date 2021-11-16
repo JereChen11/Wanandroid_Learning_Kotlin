@@ -16,11 +16,9 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.jaeger.library.StatusBarUtil
 import com.permissionx.guolindev.PermissionX
 import com.wanandroid.kotlin.R
 import com.wanandroid.kotlin.ui.base.BaseActivity
@@ -53,10 +51,6 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener {
 
     override fun doBusiness(mContext: Context?) {
 
-    }
-
-    override fun setStatusBar() {
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.dark_gray), 0)
     }
 
     override fun onResume() {

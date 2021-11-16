@@ -27,6 +27,7 @@ abstract class BaseVmActivity<VM : ViewModel, B : ViewBinding> : AppCompatActivi
         val method = getViewBindingClass().getDeclaredMethod("inflate", LayoutInflater::class.java)
         binding = method.invoke(null, layoutInflater) as B
         setContentView(binding.root)
+        setStatusBar()
         initData()
         initView()
         initObserve()
@@ -43,7 +44,7 @@ abstract class BaseVmActivity<VM : ViewModel, B : ViewBinding> : AppCompatActivi
     }
 
     open fun setStatusBar() {
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.white_smoke), 0)
+        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.dark_gray), 0)
     }
 
     abstract fun setVmFactory(): ViewModelProvider.Factory

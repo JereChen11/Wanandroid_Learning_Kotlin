@@ -3,11 +3,9 @@ package com.wanandroid.kotlin.ui.knowledge
 import android.content.Context
 import android.content.Intent
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.jaeger.library.StatusBarUtil
 import com.wanandroid.kotlin.R
 import com.wanandroid.kotlin.data.bean.Article
 import com.wanandroid.kotlin.data.repository.KnowledgeTreeRepository
@@ -93,10 +91,6 @@ class KnowledgeTreeArticleListActivity : BaseActivity() {
     }
 
     override fun doBusiness(mContext: Context?) {
-    }
-
-    override fun setStatusBar() {
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.dark_gray), 0)
     }
 
 }
