@@ -6,6 +6,9 @@ import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +24,7 @@ import com.wanandroid.kotlin.databinding.FragmentHomeBinding
 import com.wanandroid.kotlin.ui.adapter.ArticleListAdapter
 import com.wanandroid.kotlin.ui.base.BaseVmFragment
 import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewActivity
-import com.wanandroid.kotlin.ui.login.LoginActivity
+import com.wanandroid.kotlin.utils.px
 import java.lang.ref.WeakReference
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
@@ -35,6 +38,7 @@ class HomeFragment : BaseVmFragment<HomeViewModel, FragmentHomeBinding>() {
     private lateinit var mHomeBannerExecutorService: ScheduledExecutorService
     private var pageNumber = 0
     private lateinit var articleListAdapter: ArticleListAdapter
+    private val indicateViewList = arrayListOf<View>()
 
     override fun setVmFactory(): ViewModelProvider.Factory = HomeVmFactory(HomeRepository())
 
@@ -68,6 +72,20 @@ class HomeFragment : BaseVmFragment<HomeViewModel, FragmentHomeBinding>() {
         viewModel.homeBannerBeanListLd.observe(viewLifecycleOwner, Observer {
             mHomeBannerBeanListData.clear()
             mHomeBannerBeanListData.addAll(it)
+
+            for (i in 0 until mHomeBannerBeanListData.size) {
+                val layParams = LinearLayout.LayoutParams(10.px, 10.px).apply {
+                    setMargins(5.px, 0, 5.px, 0)
+                }
+                val indicateView = TextView(context).apply {
+                    layoutParams = layParams
+                    background = ContextCompat.getDrawable(context,
+                        R.drawable.shape_banner_nav_point_oval_gray)
+                }
+
+                indicateViewList.add(indicateView)
+                binding.indicateContainerLl.addView(indicateView)
+            }
             binding.homeBannerVp2.apply {
                 adapter = ViewPagerAdapter(mHomeBannerBeanListData)
                 currentItem = 1
@@ -78,30 +96,28 @@ class HomeFragment : BaseVmFragment<HomeViewModel, FragmentHomeBinding>() {
 
     private fun initHomeBannerViewPager() {
         binding.apply {
-            val indicateViews =
-                arrayOf(
-                    firstIndicateView,
-                    secondIndicateView,
-                    thirdIndicateView,
-                    fourthIndicateView
-                )
 
             homeBannerVp2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
 
-                    var bannerPosition = position
-                    if (bannerPosition == 5) {
-                        homeBannerVp2.setCurrentItem(1, false)
-                    } else if (bannerPosition == 0) {
-                        homeBannerVp2.setCurrentItem(4, false)
+                    val realSize = mHomeBannerBeanListData.size
+                    if (realSize == 1) {
+                        return
                     }
-                    bannerPosition = toRealPosition(bannerPosition, 4)
-                    for (i in 0..3) {
-                        if (bannerPosition == i) {
-                            indicateViews[i].setBackgroundResource(R.drawable.shape_banner_nav_point_highlight_oval_white)
+                    //Log.e(TAG, "onPageSelected: position = $position")
+                    if (position == realSize + 1) {
+                        homeBannerVp2.setCurrentItem(1, false)
+                    } else if (position == 0) {
+                        homeBannerVp2.setCurrentItem(realSize, false)
+                    }
+                    val realPosition = toRealPosition(position, realSize)
+                    //Log.e(TAG, "onPageSelected: bannerPosition = $realPosition")
+                    for (i in 0 until realSize) {
+                        if (realPosition == i) {
+                            indicateViewList[i].setBackgroundResource(R.drawable.shape_banner_nav_point_highlight_oval_white)
                         } else {
-                            indicateViews[i].setBackgroundResource(R.drawable.shape_banner_nav_point_oval_gray)
+                            indicateViewList[i].setBackgroundResource(R.drawable.shape_banner_nav_point_oval_gray)
                         }
                     }
                 }
@@ -124,7 +140,7 @@ class HomeFragment : BaseVmFragment<HomeViewModel, FragmentHomeBinding>() {
             object :
                 ArticleListAdapter.AdapterItemClickListener {
                 override fun onPositionClicked(v: View?, position: Int) {
-                    val link: String? = mArticleListData[position].link
+                    val link: String = mArticleListData[position].link
                     val intent = Intent(activity, ArticleDetailWebViewActivity::class.java)
                     intent.putExtra(
                         ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
@@ -150,9 +166,7 @@ class HomeFragment : BaseVmFragment<HomeViewModel, FragmentHomeBinding>() {
         }, 2, 5, TimeUnit.SECONDS)
     }
 
-    class ViewPagerAdapter(
-        private var homeBannerBeanList: ArrayList<HomeBannerBean>
-    ) :
+    class ViewPagerAdapter(private var homeBannerBeanList: ArrayList<HomeBannerBean>) :
         RecyclerView.Adapter<ViewPagerAdapter.MyViewHolder>() {
 
         class MyViewHolder(private val binding: BannerViewPageItemBinding) :
@@ -162,7 +176,7 @@ class HomeFragment : BaseVmFragment<HomeViewModel, FragmentHomeBinding>() {
                 val context = binding.root.context
                 Glide.with(context).load(homeBannerBean.imagePath).into(binding.bannerItemIv)
 
-                val articleDetailUrl: String? = homeBannerBean.url
+                val articleDetailUrl: String = homeBannerBean.url
                 binding.bannerItemIv.setOnClickListener {
                     val intent = Intent(context, ArticleDetailWebViewActivity::class.java)
                     intent.putExtra(
@@ -185,7 +199,7 @@ class HomeFragment : BaseVmFragment<HomeViewModel, FragmentHomeBinding>() {
         }
 
         override fun getItemCount(): Int {
-            if (homeBannerBeanList.size > 0) {
+            if (homeBannerBeanList.size > 1) {
                 //为了实现Banner循环轮播，需要额外多两张图片，分别放置列表首尾。
                 return homeBannerBeanList.size + 2
             }
@@ -213,7 +227,11 @@ class HomeFragment : BaseVmFragment<HomeViewModel, FragmentHomeBinding>() {
             if (msg.what == 1) {
                 weakReference.get()?.binding?.homeBannerVp2?.apply {
                     val vpCurrentPosition: Int = currentItem
-                    currentItem = if (vpCurrentPosition == 4) 1 else vpCurrentPosition + 1
+                    currentItem = if (vpCurrentPosition == mHomeBannerBeanListData.size) {
+                        1
+                    } else {
+                        vpCurrentPosition + 1
+                    }
                 }
             }
         }
