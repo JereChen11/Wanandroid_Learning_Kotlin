@@ -31,10 +31,10 @@ class ArticleDetailWebViewActivity : BaseActivity() {
             settings.domStorageEnabled = true
             webChromeClient = WebChromeClient()
             webViewClient = MyWebViewClient()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+            settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+            link?.let { linkString ->
+                loadUrl(linkString)
             }
-            loadUrl(link)
         }
 
     }
