@@ -2,54 +2,35 @@ package com.wanandroid.kotlin.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
+import com.jaeger.library.StatusBarUtil
 import com.wanandroid.kotlin.MyApp
+import com.wanandroid.kotlin.R
 import java.lang.reflect.ParameterizedType
 
 @Suppress("UNCHECKED_CAST")
-abstract class BaseVmFragment<VM : ViewModel, B : ViewBinding> : Fragment() {
+abstract class BaseVmVbActivity<VM : ViewModel, B : ViewBinding> : AppCompatActivity() {
 
     lateinit var viewModel: VM
-    private var _binding: B? = null
-    val binding get() = _binding!!
+    lateinit var binding: B
 
     protected val TAG = this.javaClass.simpleName
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this, setVmFactory())[getViewModelClass()]
-
-        val method = getViewBindingClass().getDeclaredMethod(
-            "inflate",
-            LayoutInflater::class.java,
-            ViewGroup::class.java,
-            Boolean::class.java
-        )
-        _binding = method.invoke(null, layoutInflater, container, false) as B
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+        val method = getViewBindingClass().getDeclaredMethod("inflate", LayoutInflater::class.java)
+        binding = method.invoke(null, layoutInflater) as B
+        setContentView(binding.root)
+        setStatusBar()
         initData()
         initView()
         initObserve()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun getViewModelClass(): Class<VM> {
@@ -62,6 +43,10 @@ abstract class BaseVmFragment<VM : ViewModel, B : ViewBinding> : Fragment() {
         return type as Class<B>
     }
 
+    open fun setStatusBar() {
+        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.dark_gray), 0)
+    }
+
     abstract fun setVmFactory(): ViewModelProvider.Factory
 
     abstract fun initView()
@@ -70,9 +55,7 @@ abstract class BaseVmFragment<VM : ViewModel, B : ViewBinding> : Fragment() {
 
     open fun initObserve() {}
 
-
     fun showToast(msgContent: String?) {
         Toast.makeText(MyApp.context, msgContent, Toast.LENGTH_SHORT).show()
     }
-
 }

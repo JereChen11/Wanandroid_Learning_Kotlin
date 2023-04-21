@@ -8,9 +8,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.wanandroid.kotlin.data.bean.ProjectTreeItemBean
 import com.wanandroid.kotlin.data.repository.ProjectRepository
 import com.wanandroid.kotlin.databinding.FragmentProjectBinding
-import com.wanandroid.kotlin.ui.base.BaseVmFragment
+import com.wanandroid.kotlin.ui.base.BaseVmVbFragment
 
-class ProjectTypeFragment : BaseVmFragment<ProjectViewModel, FragmentProjectBinding>() {
+class ProjectTypeFragment : BaseVmVbFragment<ProjectViewModel, FragmentProjectBinding>() {
     private var mProjectTreeItemBeans: ArrayList<ProjectTreeItemBean> = ArrayList()
 
     override fun setVmFactory(): ViewModelProvider.Factory = ProjectVmFactory(ProjectRepository())

@@ -22,15 +22,15 @@ import com.wanandroid.kotlin.data.repository.HomeRepository
 import com.wanandroid.kotlin.databinding.BannerViewPageItemBinding
 import com.wanandroid.kotlin.databinding.FragmentHomeBinding
 import com.wanandroid.kotlin.ui.adapter.ArticleListAdapter
-import com.wanandroid.kotlin.ui.base.BaseVmFragment
-import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewActivity
+import com.wanandroid.kotlin.ui.base.BaseVmVbFragment
+import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewVbActivity
 import com.wanandroid.kotlin.utils.px
 import java.lang.ref.WeakReference
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 
-class HomeFragment : BaseVmFragment<HomeViewModel, FragmentHomeBinding>() {
+class HomeVbFragment : BaseVmVbFragment<HomeViewModel, FragmentHomeBinding>() {
 
     private var mArticleListData: ArrayList<Article> = ArrayList()
     private var mHomeBannerBeanListData: ArrayList<HomeBannerBean> = ArrayList()
@@ -141,9 +141,9 @@ class HomeFragment : BaseVmFragment<HomeViewModel, FragmentHomeBinding>() {
                 ArticleListAdapter.AdapterItemClickListener {
                 override fun onPositionClicked(v: View?, position: Int) {
                     val link: String = mArticleListData[position].link
-                    val intent = Intent(activity, ArticleDetailWebViewActivity::class.java)
+                    val intent = Intent(activity, ArticleDetailWebViewVbActivity::class.java)
                     intent.putExtra(
-                        ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
+                        ArticleDetailWebViewVbActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
                         link
                     )
                     startActivity(intent)
@@ -178,9 +178,9 @@ class HomeFragment : BaseVmFragment<HomeViewModel, FragmentHomeBinding>() {
 
                 val articleDetailUrl: String = homeBannerBean.url
                 binding.bannerItemIv.setOnClickListener {
-                    val intent = Intent(context, ArticleDetailWebViewActivity::class.java)
+                    val intent = Intent(context, ArticleDetailWebViewVbActivity::class.java)
                     intent.putExtra(
-                        ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
+                        ArticleDetailWebViewVbActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
                         articleDetailUrl
                     )
                     context.startActivity(intent)
@@ -219,8 +219,8 @@ class HomeFragment : BaseVmFragment<HomeViewModel, FragmentHomeBinding>() {
         }
     }
 
-    inner class HomeBannerHandler(homeFragment: HomeFragment) : Handler() {
-        private val weakReference: WeakReference<HomeFragment> = WeakReference(homeFragment)
+    inner class HomeBannerHandler(homeFragment: HomeVbFragment) : Handler() {
+        private val weakReference: WeakReference<HomeVbFragment> = WeakReference(homeFragment)
 
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)

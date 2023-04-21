@@ -9,9 +9,13 @@ import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.wanandroid.kotlin.R
-import kotlinx.android.synthetic.main.activity_splash.*
+import com.wanandroid.kotlin.databinding.ActivitySplashBinding
+import com.wanandroid.kotlin.ui.main.MainActivity
 
 class SplashActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivitySplashBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -21,10 +25,11 @@ class SplashActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
 
-        setContentView(R.layout.activity_splash)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         AnimationUtils.loadAnimation(this, R.anim.scale).also { hyperspaceJumpAnimation ->
-            splashLogoIv.startAnimation(hyperspaceJumpAnimation)
+            binding.splashLogoIv.startAnimation(hyperspaceJumpAnimation)
         }
 
         Handler(Looper.getMainLooper()).postDelayed(

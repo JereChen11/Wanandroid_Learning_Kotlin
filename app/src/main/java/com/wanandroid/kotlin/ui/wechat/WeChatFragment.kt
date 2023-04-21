@@ -8,9 +8,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.wanandroid.kotlin.data.bean.WeChatBean
 import com.wanandroid.kotlin.data.repository.WeChatRepository
 import com.wanandroid.kotlin.databinding.FragmentWeChatBinding
-import com.wanandroid.kotlin.ui.base.BaseVmFragment
+import com.wanandroid.kotlin.ui.base.BaseVmVbFragment
 
-class WeChatFragment : BaseVmFragment<WeChatViewModel, FragmentWeChatBinding>() {
+class WeChatFragment : BaseVmVbFragment<WeChatViewModel, FragmentWeChatBinding>() {
 
     private var mWeChatBean: ArrayList<WeChatBean> = ArrayList()
 

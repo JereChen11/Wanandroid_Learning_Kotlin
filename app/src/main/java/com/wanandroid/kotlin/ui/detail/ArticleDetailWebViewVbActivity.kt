@@ -1,27 +1,35 @@
 package com.wanandroid.kotlin.ui.detail
 
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.util.Log
-import android.view.View
-import android.webkit.*
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.wanandroid.kotlin.R
-import com.wanandroid.kotlin.ui.base.BaseActivity
+import com.wanandroid.kotlin.databinding.ActivityArticleDetailWebViewBinding
+import com.wanandroid.kotlin.ui.base.BaseVmVbActivity
 
 
-class ArticleDetailWebViewActivity : BaseActivity() {
+class ArticleDetailWebViewVbActivity :
+    BaseVmVbActivity<ArticleDetailViewModel, ActivityArticleDetailWebViewBinding>() {
     companion object {
         const val ARTICLE_DETAIL_WEB_LINK_KEY = "ARTICLE_DETAIL_WEB_LINK"
     }
 
-    override fun bindLayout(): Int {
-        return R.layout.activity_article_detail_web_view
+    override fun setVmFactory(): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return ArticleDetailViewModel() as T
+            }
+        }
     }
 
-    override fun initView(view: View?) {
+    override fun initView() {
         val link: String? = intent.getStringExtra(ARTICLE_DETAIL_WEB_LINK_KEY)
         Log.e(TAG, "initView: link = $link")
 
@@ -37,9 +45,6 @@ class ArticleDetailWebViewActivity : BaseActivity() {
             }
         }
 
-    }
-
-    override fun doBusiness(mContext: Context?) {
     }
 
     inner class MyWebViewClient : WebViewClient() {

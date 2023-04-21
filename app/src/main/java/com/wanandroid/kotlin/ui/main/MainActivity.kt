@@ -1,31 +1,30 @@
-package com.wanandroid.kotlin.ui
+package com.wanandroid.kotlin.ui.main
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.view.Menu
-import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ui.AppBarConfiguration
 import com.bumptech.glide.Glide
 import com.jaeger.library.StatusBarUtil
 import com.wanandroid.kotlin.R
-import com.wanandroid.kotlin.ui.base.BaseActivity
-import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewActivity
-import com.wanandroid.kotlin.ui.home.HomeFragment
+import com.wanandroid.kotlin.databinding.ActivityMainBinding
+import com.wanandroid.kotlin.databinding.NavHeaderMainBinding
+import com.wanandroid.kotlin.ui.base.BaseVmVbActivity
+import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewVbActivity
+import com.wanandroid.kotlin.ui.home.HomeVbFragment
 import com.wanandroid.kotlin.ui.knowledge.KnowledgeTreeFragment
 import com.wanandroid.kotlin.ui.me.MeFragment
 import com.wanandroid.kotlin.ui.project.ProjectTypeFragment
 import com.wanandroid.kotlin.ui.wechat.WeChatFragment
 import com.wanandroid.kotlin.utils.SpSettings
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.nav_header_main.view.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseVmVbActivity<MainViewModel, ActivityMainBinding>() {
 
     companion object {
         const val HOME_TAG = "home"
@@ -49,23 +48,82 @@ class MainActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
 
 
-    override fun bindLayout(): Int {
-        return R.layout.activity_main
+    override fun setVmFactory(): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return MainViewModel() as T
+            }
+        }
     }
 
-    override fun initView(view: View?) {
+    override fun initView() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.navHostFragment, HomeFragment(), HOME_TAG).commit()
+            .replace(R.id.navHostFragment, HomeVbFragment(), HOME_TAG).commit()
         setNavViewAndToolbar(R.string.menu_home, R.id.nav_home)
 
-        setSupportActionBar(toolbar)
+        binding.appBarMainInclude.apply {
+            setSupportActionBar(toolbar)
 
-        val toggle = ActionBarDrawerToggle(
-            this, mainDrawerLayout, toolbar, R.string.nav_view_drawer_open,
-            R.string.nav_view_drawer_close
-        )
-        mainDrawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
+            val toggle = ActionBarDrawerToggle(
+                this@MainActivity,
+                binding.mainDrawerLayout,
+                toolbar,
+                R.string.nav_view_drawer_open,
+                R.string.nav_view_drawer_close
+            )
+            binding.mainDrawerLayout.addDrawerListener(toggle)
+            toggle.syncState()
+
+            toolbar.title = getString(R.string.menu_home)
+
+
+            homeBottomNavigationView.setOnNavigationItemSelectedListener {
+                when (it.itemId) {
+                    R.id.bottom_nav_home -> {
+                        replaceFragment(HomeVbFragment(), HOME_TAG)
+                        setNavViewAndToolbar(R.string.menu_home, R.id.nav_home)
+                    }
+                    R.id.bottom_nav_project -> {
+                        replaceFragment(
+                            ProjectTypeFragment(),
+                            COMPLETE_PROJECT_TAG
+                        )
+                        setNavViewAndToolbar(R.string.menu_project, R.id.nav_project)
+                    }
+                    R.id.bottom_nav_we_chat -> {
+                        replaceFragment(WeChatFragment(), WECHAT_TAG)
+                        setNavViewAndToolbar(R.string.menu_we_chat, R.id.nav_we_chat)
+                    }
+                    R.id.bottom_nav_knowledge_tree -> {
+                        replaceFragment(
+                            KnowledgeTreeFragment(),
+                            KNOWLEDGE_SYSTEM_TAG
+                        )
+                        setNavViewAndToolbar(
+                            R.string.menu_knowledge_system,
+                            R.id.nav_knowledge_tree
+                        )
+                    }
+                    R.id.bottom_nav_me -> {
+                        replaceFragment(MeFragment(), ME_TAG)
+                        setNavViewAndToolbar(R.string.menu_me, R.id.nav_me)
+                    }
+                }
+                true
+            }
+
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_search -> {
+//                    val intent = Intent(this, SearchActivity::class.java)
+//                    startActivity(intent)
+                        true
+                    }
+                    else -> false
+                }
+
+            }
+        }
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -74,14 +132,12 @@ class MainActivity : BaseActivity() {
                 R.id.nav_we_chat,
                 R.id.nav_knowledge_tree,
                 R.id.nav_about_me
-            ), mainDrawerLayout
+            ), binding.mainDrawerLayout
         )
-
-        toolbar.title = getString(R.string.menu_home)
 
         setAvatarAndNickname()
 
-        navView.setNavigationItemSelectedListener {
+        binding.navView.setNavigationItemSelectedListener {
             val result: Boolean
             when (it.itemId) {
                 R.id.nav_home -> {
@@ -108,9 +164,9 @@ class MainActivity : BaseActivity() {
                     result = true
                 }
                 R.id.nav_about_me -> {
-                    val intent = Intent(this, ArticleDetailWebViewActivity::class.java)
+                    val intent = Intent(this, ArticleDetailWebViewVbActivity::class.java)
                     intent.putExtra(
-                        ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
+                        ArticleDetailWebViewVbActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
                         "https://juejin.cn/user/1169536104807399/posts"
                     )
                     startActivity(intent)
@@ -121,57 +177,17 @@ class MainActivity : BaseActivity() {
                 }
             }
 
-            mainDrawerLayout.closeDrawers()
+            binding.mainDrawerLayout.closeDrawers()
             result
-        }
-
-        homeBottomNavigationView.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.bottom_nav_home -> {
-                    replaceFragment(HomeFragment(), HOME_TAG)
-                    setNavViewAndToolbar(R.string.menu_home, R.id.nav_home)
-                }
-                R.id.bottom_nav_project -> {
-                    replaceFragment(
-                        ProjectTypeFragment(),
-                        COMPLETE_PROJECT_TAG
-                    )
-                    setNavViewAndToolbar(R.string.menu_project, R.id.nav_project)
-                }
-                R.id.bottom_nav_we_chat -> {
-                    replaceFragment(WeChatFragment(), WECHAT_TAG)
-                    setNavViewAndToolbar(R.string.menu_we_chat, R.id.nav_we_chat)
-                }
-                R.id.bottom_nav_knowledge_tree -> {
-                    replaceFragment(
-                        KnowledgeTreeFragment(),
-                        KNOWLEDGE_SYSTEM_TAG
-                    )
-                    setNavViewAndToolbar(R.string.menu_knowledge_system, R.id.nav_knowledge_tree)
-                }
-                R.id.bottom_nav_me -> {
-                    replaceFragment(MeFragment(), ME_TAG)
-                    setNavViewAndToolbar(R.string.menu_me, R.id.nav_me)
-                }
-            }
-            true
-        }
-
-        toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.action_search -> {
-//                    val intent = Intent(this, SearchActivity::class.java)
-//                    startActivity(intent)
-                    true
-                }
-                else -> false
-            }
-
         }
     }
 
     private fun setAvatarAndNickname() {
-        navView.getHeaderView(0).apply {
+        binding.navView.getHeaderView(0).apply {
+
+            //todo 要看一下这么写是否工作。
+            val headerMainBinding = NavHeaderMainBinding.inflate(layoutInflater)
+
             Glide.with(this)
                 .load(
                     if (SpSettings.getAvatarUriString().isNullOrBlank())
@@ -180,18 +196,15 @@ class MainActivity : BaseActivity() {
                         SpSettings.getAvatarUriString()
                 )
                 .circleCrop()
-                .into(navAvatarIv)
-            navNameTv.text = SpSettings.getUsername()
+                .into(headerMainBinding.navAvatarIv)
+            headerMainBinding.navNameTv.text = SpSettings.getUsername()
+
         }
     }
 
     override fun onResume() {
         super.onResume()
         setAvatarAndNickname()
-    }
-
-    override fun doBusiness(mContext: Context?) {
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -211,38 +224,41 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setToolBarAndBottomBar(tag: String) {
-        when (tag) {
+        val selectedItemId = when (tag) {
             HOME_TAG -> {
                 setNavViewAndToolbar(R.string.menu_home, R.id.nav_home)
-                homeBottomNavigationView.selectedItemId = R.id.bottom_nav_home
+                R.id.bottom_nav_home
             }
             COMPLETE_PROJECT_TAG -> {
                 setNavViewAndToolbar(R.string.menu_project, R.id.nav_project)
-                homeBottomNavigationView.selectedItemId = R.id.bottom_nav_project
+                R.id.bottom_nav_project
             }
             WECHAT_TAG -> {
                 setNavViewAndToolbar(R.string.menu_we_chat, R.id.nav_we_chat)
-                homeBottomNavigationView.selectedItemId = R.id.bottom_nav_we_chat
+                R.id.bottom_nav_we_chat
             }
             KNOWLEDGE_SYSTEM_TAG -> {
                 setNavViewAndToolbar(R.string.menu_knowledge_system, R.id.nav_knowledge_tree)
-                homeBottomNavigationView.selectedItemId = R.id.bottom_nav_knowledge_tree
+                R.id.bottom_nav_knowledge_tree
             }
-            ME_TAG -> {
+            else -> {
                 setNavViewAndToolbar(R.string.menu_me, R.id.nav_me)
-                homeBottomNavigationView.selectedItemId = R.id.bottom_nav_me
+                R.id.bottom_nav_me
             }
         }
+        binding.appBarMainInclude.homeBottomNavigationView.selectedItemId = selectedItemId
     }
 
     private fun setNavViewAndToolbar(toolbarTitleId: Int, navViewCheckedItemId: Int) {
-        toolbar.title = getString(toolbarTitleId)
-        navView.setCheckedItem(navViewCheckedItemId)
+        binding.appBarMainInclude.toolbar.title = getString(toolbarTitleId)
+        binding.navView.setCheckedItem(navViewCheckedItemId)
     }
 
     private fun setBottomNavAndToolbar(bottomNavSelectedItemId: Int, toolbarTitleId: Int) {
-        toolbar.title = getString(toolbarTitleId)
-        homeBottomNavigationView.selectedItemId = bottomNavSelectedItemId
+        binding.appBarMainInclude.apply {
+            toolbar.title = getString(toolbarTitleId)
+            homeBottomNavigationView.selectedItemId = bottomNavSelectedItemId
+        }
     }
 
     private fun showConfirmQuitDialog() {

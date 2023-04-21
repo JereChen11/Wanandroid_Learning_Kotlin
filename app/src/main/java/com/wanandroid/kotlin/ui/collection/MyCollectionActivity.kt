@@ -10,10 +10,10 @@ import com.wanandroid.kotlin.data.repository.MyCollectionRepository
 import com.wanandroid.kotlin.databinding.ActivityMyCollectionBinding
 import com.wanandroid.kotlin.ui.adapter.ArticleListAdapter
 import com.wanandroid.kotlin.ui.adapter.ArticleListAdapter.AdapterItemClickListener
-import com.wanandroid.kotlin.ui.base.BaseVmActivity
-import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewActivity
+import com.wanandroid.kotlin.ui.base.BaseVmVbActivity
+import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewVbActivity
 
-class MyCollectionActivity : BaseVmActivity<MyCollectionViewModel, ActivityMyCollectionBinding>() {
+class MyCollectionActivity : BaseVmVbActivity<MyCollectionViewModel, ActivityMyCollectionBinding>() {
     private var collectionArticleList: ArrayList<Article> = ArrayList()
     private lateinit var articleListAdapter: ArticleListAdapter
     private var pageNumber = 0
@@ -38,10 +38,10 @@ class MyCollectionActivity : BaseVmActivity<MyCollectionViewModel, ActivityMyCol
 
                         val intent = Intent(
                             this@MyCollectionActivity,
-                            ArticleDetailWebViewActivity::class.java
+                            ArticleDetailWebViewVbActivity::class.java
                         )
                         intent.putExtra(
-                            ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
+                            ArticleDetailWebViewVbActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
                             link
                         )
                         startActivity(intent)

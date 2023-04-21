@@ -15,12 +15,10 @@ import com.wanandroid.kotlin.databinding.ActivityProjectItemListBinding
 import com.wanandroid.kotlin.databinding.RecyclerItemViewArticleListAdapterBottomViewBinding
 import com.wanandroid.kotlin.databinding.RecyclerItemViewProjectItemListBinding
 import com.wanandroid.kotlin.ui.adapter.RecyclerItemClickListener
-import com.wanandroid.kotlin.ui.base.BaseVmFragment
-import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewActivity
-import kotlinx.android.synthetic.main.activity_project_item_list.*
+import com.wanandroid.kotlin.ui.base.BaseVmVbFragment
+import com.wanandroid.kotlin.ui.detail.ArticleDetailWebViewVbActivity
 
-
-class ProjectItemListFragment : BaseVmFragment<ProjectViewModel, ActivityProjectItemListBinding>() {
+class ProjectItemListFragment : BaseVmVbFragment<ProjectViewModel, ActivityProjectItemListBinding>() {
 
     companion object {
         private const val COMPLETE_PROJECT_ID_KEY = "COMPLETE_PROJECT_ID"
@@ -52,40 +50,42 @@ class ProjectItemListFragment : BaseVmFragment<ProjectViewModel, ActivityProject
     override fun initView() {
         projectArticleListAdapter = ProjectArticleListAdapter(mProjectItemListData)
 
-        completeProjectRcy.adapter = projectArticleListAdapter
-        completeProjectRcy.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1)
-                    && newState == RecyclerView.SCROLL_STATE_IDLE
-                    && !isLoadAllArticleData
-                ) {
-                    pageNumber++
-                    viewModel.setProjectItemList(pageNumber, projectId)
+        binding.completeProjectRcy.apply {
+            adapter = projectArticleListAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1)
+                        && newState == RecyclerView.SCROLL_STATE_IDLE
+                        && !isLoadAllArticleData
+                    ) {
+                        pageNumber++
+                        viewModel.setProjectItemList(pageNumber, projectId)
+                    }
                 }
-            }
-        })
+            })
 
-        completeProjectRcy.addOnItemTouchListener(
-            RecyclerItemClickListener(context,
-                completeProjectRcy,
-                object :
-                    RecyclerItemClickListener.OnItemClickListener {
-                    override fun onItemClick(view: View?, position: Int) {
-                        val link: String? = mProjectItemListData[position].link
-                        val intent = Intent(activity, ArticleDetailWebViewActivity::class.java)
-                        intent.putExtra(
-                            ArticleDetailWebViewActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
-                            link
-                        )
-                        startActivity(intent)
-                    }
+            addOnItemTouchListener(
+                RecyclerItemClickListener(context,
+                    this,
+                    object :
+                        RecyclerItemClickListener.OnItemClickListener {
+                        override fun onItemClick(view: View?, position: Int) {
+                            val link: String = mProjectItemListData[position].link
+                            val intent = Intent(activity, ArticleDetailWebViewVbActivity::class.java)
+                            intent.putExtra(
+                                ArticleDetailWebViewVbActivity.ARTICLE_DETAIL_WEB_LINK_KEY,
+                                link
+                            )
+                            startActivity(intent)
+                        }
 
-                    override fun onLongItemClick(view: View?, position: Int) {
+                        override fun onLongItemClick(view: View?, position: Int) {
 
-                    }
-                })
-        )
+                        }
+                    })
+            )
+        }
     }
 
     override fun initObserve() {

@@ -8,10 +8,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.wanandroid.kotlin.R
 import com.wanandroid.kotlin.data.repository.LoginRepository
 import com.wanandroid.kotlin.databinding.ActivityLoginBinding
-import com.wanandroid.kotlin.ui.base.BaseVmActivity
+import com.wanandroid.kotlin.ui.base.BaseVmVbActivity
 import com.wanandroid.kotlin.utils.SpSettings
 
-class LoginActivity : BaseVmActivity<LoginViewModel, ActivityLoginBinding>(), View.OnClickListener {
+class LoginActivity : BaseVmVbActivity<LoginViewModel, ActivityLoginBinding>(), View.OnClickListener {
 
     private var isLogin: Boolean = true
     private var isPasswordEyeOff = true

@@ -14,10 +14,10 @@ import com.wanandroid.kotlin.data.bean.KnowledgeTree
 import com.wanandroid.kotlin.data.bean.KnowledgeTreeChildren
 import com.wanandroid.kotlin.data.repository.KnowledgeTreeRepository
 import com.wanandroid.kotlin.databinding.FragmentKnowledgeTreeBinding
-import com.wanandroid.kotlin.ui.base.BaseVmFragment
+import com.wanandroid.kotlin.ui.base.BaseVmVbFragment
 
 class KnowledgeTreeFragment :
-    BaseVmFragment<KnowledgeTreeViewModel, FragmentKnowledgeTreeBinding>() {
+    BaseVmVbFragment<KnowledgeTreeViewModel, FragmentKnowledgeTreeBinding>() {
 
     private var mKnowledgeTreeList: ArrayList<KnowledgeTree> = ArrayList()
 

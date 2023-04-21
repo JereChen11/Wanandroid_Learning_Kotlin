@@ -2,7 +2,6 @@ package com.wanandroid.kotlin.ui.me
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -17,17 +16,20 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.permissionx.guolindev.PermissionX
 import com.wanandroid.kotlin.R
-import com.wanandroid.kotlin.ui.base.BaseActivity
+import com.wanandroid.kotlin.databinding.ActivityPersonalInfoBinding
+import com.wanandroid.kotlin.ui.base.BaseVmVbActivity
 import com.wanandroid.kotlin.utils.SpSettings
-import kotlinx.android.synthetic.main.activity_personal_info.*
 import java.io.File
 import java.io.IOException
 
-class PersonalInfoActivity : BaseActivity(), View.OnClickListener {
+class PersonalInfoActivity : BaseVmVbActivity<MeViewModel, ActivityPersonalInfoBinding>(),
+    View.OnClickListener {
 
     companion object {
         private const val TAKE_PHOTO_REQUEST_CODE = 1
@@ -37,20 +39,21 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener {
     private var imageUri: Uri? = null
     private lateinit var selectedPictureDialog: AlertDialog
 
-    override fun bindLayout(): Int {
-        return R.layout.activity_personal_info
+
+    override fun setVmFactory(): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return MeViewModel() as T
+            }
+        }
     }
 
-    override fun initView(view: View?) {
+    override fun initView() {
 
         initSetAvatarDialog()
 
-        usernameContainerCl.setOnClickListener(this)
-        avatarContainerCl.setOnClickListener(this)
-    }
-
-    override fun doBusiness(mContext: Context?) {
-
+        binding.usernameContainerCl.setOnClickListener(this)
+        binding.avatarContainerCl.setOnClickListener(this)
     }
 
     override fun onResume() {
@@ -59,19 +62,19 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun initUsernameAndAvatar() {
-        usernameContentTv.text = SpSettings.getUsername() ?: "username"
+        binding.usernameContentTv.text = SpSettings.getUsername() ?: "username"
 
         val requestOptions = RequestOptions.circleCropTransform();
         if (SpSettings.getAvatarUriString().isNullOrBlank()) {
             Glide.with(this)
                 .load(R.drawable.default_profile)
                 .apply(requestOptions)
-                .into(avatarPictureIv)
+                .into(binding.avatarPictureIv)
         } else {
             Glide.with(this)
                 .load(SpSettings.getAvatarUriString())
                 .apply(requestOptions)
-                .into(avatarPictureIv)
+                .into(binding.avatarPictureIv)
         }
 
     }
@@ -124,7 +127,7 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener {
 
     private fun showSetUsernameDialog() {
         val setUserNameEt = EditText(this)
-        setUserNameEt.setText(usernameContentTv.text ?: "username")
+        setUserNameEt.setText(binding.usernameContentTv.text ?: "username")
         val lp = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -142,7 +145,7 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener {
                 if (!TextUtils.isEmpty(setUserNameEt.text.toString())) {
                     val newUsername = setUserNameEt.text.toString()
                     SpSettings.setUsername(newUsername)
-                    usernameContentTv.text = newUsername
+                    binding.usernameContentTv.text = newUsername
                     dialog.dismiss()
                 } else {
                     Toast.makeText(
@@ -238,6 +241,6 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener {
         Glide.with(this)
             .load(avatarUri)
             .apply(requestOptions)
-            .into(avatarPictureIv)
+            .into(binding.avatarPictureIv)
     }
 }

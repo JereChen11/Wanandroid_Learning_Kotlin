@@ -6,7 +6,7 @@ import com.wanandroid.kotlin.data.repository.KnowledgeTreeRepository
 
 @Suppress("UNCHECKED_CAST")
 class KnowledgeTreeVmFactory(private val repository: KnowledgeTreeRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return KnowledgeTreeViewModel(repository) as T
     }
 
